@@ -1,2 +1,18 @@
 rootProject.name = 'backend'
+
 include 'auth-service'
+include 'auth-service:auth-container'
+findProject(':auth-service:auth-container')?.name = 'auth-container'
+include 'auth-service:auth-application'
+findProject(':auth-service:auth-application')?.name = 'auth-application'
+include 'auth-service:auth-dataaccess'
+findProject(':auth-service:auth-dataaccess')?.name = 'auth-dataaccess'
+include 'auth-service:auth-domain'
+findProject(':auth-service:auth-domain')?.name = 'auth-domain'
+include 'auth-service:auth-domain:auth-application-service'
+findProject(':auth-service:auth-domain:auth-application-service')?.name = 'auth-application-service'
+include 'auth-service:auth-domain:auth-domain-core'
+findProject(':auth-service:auth-domain:auth-domain-core')?.name = 'auth-domain-core'
+include 'auth-service:auth-messaging'
+findProject(':auth-service:auth-messaging')?.name = 'auth-messaging'
+

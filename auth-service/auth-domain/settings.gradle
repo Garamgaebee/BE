@@ -1,4 +1,0 @@
-rootProject.name = 'auth-domain'
-
-include 'auth-application-service'
-include 'auth-domain-core'

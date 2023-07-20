@@ -1,7 +1,0 @@
-rootProject.name = 'auth-service'
-
-include 'auth-application'
-include 'auth-container'
-include 'auth-dataaccess'
-include 'auth-domain'
-include 'auth-messaging'

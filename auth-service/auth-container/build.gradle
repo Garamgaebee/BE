@@ -1,25 +1,9 @@
-plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.1.1'
-    id 'io.spring.dependency-management' version '1.1.0'
-}
-
-group = 'com.garamgaebee.auth'
-version = '0.0.1-SNAPSHOT'
-
-java {
-    sourceCompatibility = '17'
-}
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
+    // SpringBoot
     implementation 'org.springframework.boot:spring-boot-starter'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
+    // @ConfigurationProperties
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
-tasks.named('test') {
-    useJUnitPlatform()
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
