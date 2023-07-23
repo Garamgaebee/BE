@@ -5,3 +5,9 @@ bootJar {
 jar {
     enabled = true
 }
+
+dependencies {
+    implementation project(':auth-service:auth-domain:auth-domain-core')
+
+    implementation 'org.springframework.boot:spring-boot-starter:'
+}

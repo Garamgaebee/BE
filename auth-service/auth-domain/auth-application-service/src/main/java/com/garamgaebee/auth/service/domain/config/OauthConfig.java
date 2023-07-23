@@ -1,4 +1,4 @@
-package com.garamgaebee.auth.service.domain;
+package com.garamgaebee.auth.service.domain.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

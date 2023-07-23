@@ -1,4 +1,4 @@
-package com.garamgaebee.auth.service.domain;
+package com.garamgaebee.auth.service.domain.config;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
