@@ -1,5 +1,7 @@
 rootProject.name = 'backend'
 
+include 'common'
+
 // auth-service
 include 'auth-service'
 include 'auth-service:auth-container'
