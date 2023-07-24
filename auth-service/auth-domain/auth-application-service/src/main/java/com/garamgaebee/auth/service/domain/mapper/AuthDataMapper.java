@@ -15,11 +15,5 @@ public class AuthDataMapper {
                 .build();
     }
 
-    public SaveAuthenticationRequest authenticationToSaveAuthenticationRequest(Authentication authentication) {
-        return SaveAuthenticationRequest.builder()
-                .oauthId(authentication.getOauthId())
-                .memberId(authentication.getMemberId())
-                .roles(authentication.getRoles())
-                .build();
-    }
+
 }
