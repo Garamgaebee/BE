@@ -1,0 +1,11 @@
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    implementation project(':auth-service:auth-domain:auth-application-service')
+}

@@ -1,0 +1,14 @@
+oauth2:
+  user:
+    kakao:
+      client-id: temp
+      client-secret: temp
+      redirect-uri: temp
+  provider:
+    kakao:
+      token-uri: temp
+      user-info-uri: temp
+
+jwt:
+  token:
+    secret-key: secret_key

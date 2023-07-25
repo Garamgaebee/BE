@@ -1,0 +1,10 @@
+oauth2:
+  user:
+    kakao:
+      client-id: test-id
+      client-secret: test-secret
+      redirect-uri: test-redirect-uri
+  provider:
+    kakao:
+      token-uri: test-token-uri
+      user-info-uri: test-user-info-uri
