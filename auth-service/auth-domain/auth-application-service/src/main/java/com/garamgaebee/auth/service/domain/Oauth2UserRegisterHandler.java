@@ -1,7 +1,5 @@
 package com.garamgaebee.auth.service.domain;
 
-import com.garamgaebee.auth.service.domain.dto.create.CreateOauthMemberRequest;
-import com.garamgaebee.auth.service.domain.dto.create.CreateOauthMemberResponse;
 import com.garamgaebee.auth.service.domain.dto.oauth.OauthUserProfile;
 import com.garamgaebee.auth.service.domain.entity.Authentication;
 import com.garamgaebee.auth.service.domain.mapper.AuthDataMapper;
@@ -11,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,19 +24,18 @@ public class Oauth2UserRegisterHandler {
         // oauthId로 사용자 조회
         Optional<Authentication> authentication =  authenticationRepository.findAuthenticationByOauthId(userProfile.getOauthId());
 
-        // 존재하지 않는 사용자이면 저장하고 true 반환
+        // 존재하지 않는 사용자이면 생성 및 저장한 뒤 반환
         if(authentication.isEmpty()) {
             return registerMember(userProfile);
         }
 
+        // 존재하는 사용자이면 그대로 반환
         return authentication.get();
     }
 
     protected Authentication registerMember(OauthUserProfile userProfile) {
-        // openFeign으로 member service에 등록
-        CreateOauthMemberResponse createOauthMemberResponse = openFeignClient.registerMemberToMemberService(authDataMapper.oauthUserProfileToCreateOauthMemberRequest(userProfile));
         // Authentication 객체 생성
-        Authentication newAuthentication = new Authentication().createAuthentication(createOauthMemberResponse.getOauthId(), createOauthMemberResponse.getMemberId());
+        Authentication newAuthentication = new Authentication().init(userProfile.getOauthId(), UUID.randomUUID());
         // DB에 생성된 객체 저장
         return authenticationRepository.persistAuthentication(newAuthentication);
     }

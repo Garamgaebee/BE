@@ -1,4 +1,4 @@
-package com.garamgaebee.auth.service.domain.dto.oauth;
+package com.garamgaebee.auth.service.domain.dto.redis;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @Builder
-public class OauthLoginResponse {
+public class RegisterRefreshTokenRequest {
     private UUID memberId;
-    private JwtTokenInfo tokenInfo;
+    private String refreshToken;
 }

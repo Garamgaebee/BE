@@ -15,9 +15,9 @@ import java.util.Random;
 @Component
 public class JwtTokenProvider {
     // 만료시간 1시간
-    private final long accessTokenValidityInMilliseconds = Duration.ofMinutes(60).toMillis();
+    private static final long accessTokenValidityInMilliseconds = Duration.ofMinutes(60).toMillis();
     // 만료시간 2주
-    private final long refreshTokenValidityInMilliseconds = Duration.ofDays(14).toMillis();
+    private static final long refreshTokenValidityInMilliseconds = Duration.ofDays(14).toMillis();
     @Value("${jwt.token.secret-key}")
     private String secretKey;
 

@@ -8,3 +8,7 @@ oauth2:
     kakao:
       token-uri: test-token-uri
       user-info-uri: test-user-info-uri
+
+jwt:
+  token:
+    secret-key: test-secret-key

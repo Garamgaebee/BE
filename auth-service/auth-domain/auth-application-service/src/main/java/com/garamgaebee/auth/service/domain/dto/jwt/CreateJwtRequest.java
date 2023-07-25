@@ -6,11 +6,12 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
 @Builder
 public class CreateJwtRequest {
-    private Long memberId;
+    private UUID memberId;
     private List<Role> roles;
 }

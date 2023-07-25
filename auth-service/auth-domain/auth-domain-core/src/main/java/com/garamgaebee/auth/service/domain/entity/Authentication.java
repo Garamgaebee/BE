@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
@@ -16,17 +17,17 @@ public class Authentication {
 
     private Long id;
     private String oauthId;
-    private Long memberId;
+    private UUID memberId;
     private List<Role> roles;
 
     @Builder
-    private Authentication(String oauthId, Long memberId, List<Role> roles) {
+    private Authentication(String oauthId, UUID memberId, List<Role> roles) {
         this.oauthId = oauthId;
         this.memberId = memberId;
         this.roles = roles;
     }
 
-    public Authentication createAuthentication(String oauthId, Long memberId) {
+    public Authentication init(String oauthId, UUID memberId) {
         List<Role> initialRoles = new ArrayList<>();
         initialRoles.add(Role.ROLE_GUEST);
         return Authentication.builder()
