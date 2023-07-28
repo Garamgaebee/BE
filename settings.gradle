@@ -1,1 +1,6 @@
-rootProject.name = 'backend'rootProject.name = 'BE'include 'common'
+rootProject.name = 'BE'
+include 'common'
+include 'member-service', 'member-service:member-application', 'member-service:member-container', 'member-service:member-dataaccess' , 'member-service:member-domain', 'member-service:member-messaging'
+include 'member-service:member-domain:member-application-service'
+include 'member-service:member-domain:member-domain-core'
+
