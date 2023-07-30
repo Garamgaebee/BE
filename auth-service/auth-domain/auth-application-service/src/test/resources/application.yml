@@ -12,3 +12,7 @@ oauth2:
 jwt:
   token:
     secret-key: test-secret-key
+  access-token:
+    expired-time: 3600000
+  refresh-token:
+    expired-time: 1209600000

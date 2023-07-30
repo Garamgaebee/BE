@@ -7,12 +7,15 @@ import com.garamgaebee.auth.service.domain.dto.redis.RegisterRefreshTokenRequest
 import com.garamgaebee.auth.service.domain.entity.Authentication;
 import com.garamgaebee.auth.service.domain.port.output.redis.RedisRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class JwtProvideHandler {
 
+    @Value("${jwt.refresh-token.expired-time}")
+    private long refreshTokenExpiredTime;
     private final JwtTokenProvider jwtTokenProvider;
     private final RedisRepository redisRepository;
 
@@ -25,11 +28,12 @@ public class JwtProvideHandler {
         String refreshToken = jwtTokenProvider.createRefreshToken();
 
         // 레디스에 refresh token 저장
-        redisRepository.persistUserRefreshToken(
+        redisRepository.persistUserRefreshTokenWithExpiredTime(
                 RegisterRefreshTokenRequest.builder()
                         .memberId(authentication.getMemberId())
                         .refreshToken(refreshToken)
-                        .build()
+                        .build(),
+                refreshTokenExpiredTime
         );
 
         return JwtTokenInfo.builder()

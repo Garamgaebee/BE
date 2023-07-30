@@ -3,6 +3,7 @@ package com.garamgaebee.auth.service.domain.config;
 import com.garamgaebee.auth.service.domain.Oauth2UserRegisterHandler;
 import com.garamgaebee.auth.service.domain.dto.jwt.CreateJwtRequest;
 import com.garamgaebee.auth.service.domain.entity.Authentication;
+import com.garamgaebee.auth.service.domain.port.output.redis.RedisRepository;
 import com.garamgaebee.auth.service.domain.port.output.web.Oauth2RequestClient;
 import com.garamgaebee.auth.service.domain.vo.Role;
 import org.assertj.core.api.Assertions;
@@ -23,9 +24,10 @@ public class JwtTokenProviderTest {
 
     @MockBean
     private Oauth2RequestClient oauth2RequestClient;
-
     @MockBean
     private Oauth2UserRegisterHandler oauth2UserRegisterHandler;
+    @MockBean
+    private RedisRepository redisRepository;
 
     @Autowired
     JwtTokenProvider jwtTokenProvider;
