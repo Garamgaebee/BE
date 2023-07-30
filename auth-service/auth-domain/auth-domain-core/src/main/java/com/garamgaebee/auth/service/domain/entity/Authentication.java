@@ -13,6 +13,7 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Authentication {
 
     private Long id;
@@ -20,12 +21,6 @@ public class Authentication {
     private UUID memberId;
     private List<Role> roles;
 
-    @Builder
-    private Authentication(String oauthId, UUID memberId, List<Role> roles) {
-        this.oauthId = oauthId;
-        this.memberId = memberId;
-        this.roles = roles;
-    }
 
     public Authentication init(String oauthId, UUID memberId) {
         List<Role> initialRoles = new ArrayList<>();

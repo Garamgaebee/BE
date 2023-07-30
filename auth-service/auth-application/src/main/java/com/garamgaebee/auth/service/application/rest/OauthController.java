@@ -16,12 +16,10 @@ public class OauthController {
     // 인증 use-case 객체 선언
     private final AuthApplicationService authApplicationService;
 
-    //TODO Oauth2Login 컨트롤러 작성
+    // Oauth2Login 컨트롤러 작성
     @PostMapping("/login/{provider}")
     public ResponseEntity<OauthLoginResponse> oauth2Login(@PathVariable("provider") String provider,
                                                           @RequestParam("code") String code) {
-
-        //TODO 새로 생성한 유저일 경우 개별적으로 처리(status code 201 created)
 
         return ResponseEntity.ok().body(authApplicationService.oauth2Login(provider, code));
     }

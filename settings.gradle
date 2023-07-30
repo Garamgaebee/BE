@@ -25,3 +25,8 @@ findProject(':auth-service:auth-domain:auth-domain-core')?.name = 'auth-domain-c
 include 'auth-service:auth-messaging'
 findProject(':auth-service:auth-messaging')?.name = 'auth-messaging'
 //
+include 'auth-service:auth-dataaccess:auth-mysql-dataaccess'
+findProject(':auth-service:auth-dataaccess:auth-mysql-dataaccess')?.name = 'auth-mysql-dataaccess'
+include 'auth-service:auth-dataaccess:auth-redis-dataaccess'
+findProject(':auth-service:auth-dataaccess:auth-redis-dataaccess')?.name = 'auth-redis-dataaccess'
+
