@@ -7,5 +7,9 @@ jar {
 }
 
 dependencies {
+    implementation project(':auth-service:auth-domain')
+
+    implementation 'org.springframework.cloud:spring-cloud-zookeeper-dependencies:4.0.0'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.3'
 
 }
