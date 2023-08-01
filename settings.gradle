@@ -12,21 +12,23 @@ findProject(':auth-service:auth-application')?.name = 'auth-application'
 
 include 'auth-service:auth-dataaccess'
 findProject(':auth-service:auth-dataaccess')?.name = 'auth-dataaccess'
+include 'auth-service:auth-dataaccess:auth-mysql-dataaccess'
+findProject(':auth-service:auth-dataaccess:auth-mysql-dataaccess')?.name = 'auth-mysql-dataaccess'
+include 'auth-service:auth-dataaccess:auth-redis-dataaccess'
+findProject(':auth-service:auth-dataaccess:auth-redis-dataaccess')?.name = 'auth-redis-dataaccess'
 
 include 'auth-service:auth-domain'
 findProject(':auth-service:auth-domain')?.name = 'auth-domain'
-
 include 'auth-service:auth-domain:auth-application-service'
 findProject(':auth-service:auth-domain:auth-application-service')?.name = 'auth-application-service'
-
 include 'auth-service:auth-domain:auth-domain-core'
 findProject(':auth-service:auth-domain:auth-domain-core')?.name = 'auth-domain-core'
 
 include 'auth-service:auth-messaging'
 findProject(':auth-service:auth-messaging')?.name = 'auth-messaging'
+include 'auth-service:auth-messaging:auth-openfeign-messaging'
+findProject(':auth-service:auth-messaging:auth-openfeign-messaging')?.name = 'auth-openfeign-messaging'
+include 'auth-service:auth-messaging:auth-webclient-messaging'
+findProject(':auth-service:auth-messaging:auth-webclient-messaging')?.name = 'auth-webclient-messaging'
 //
-include 'auth-service:auth-dataaccess:auth-mysql-dataaccess'
-findProject(':auth-service:auth-dataaccess:auth-mysql-dataaccess')?.name = 'auth-mysql-dataaccess'
-include 'auth-service:auth-dataaccess:auth-redis-dataaccess'
-findProject(':auth-service:auth-dataaccess:auth-redis-dataaccess')?.name = 'auth-redis-dataaccess'
 

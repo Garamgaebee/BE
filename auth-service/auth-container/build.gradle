@@ -1,8 +1,7 @@
 dependencies {
     implementation project(':auth-service:auth-application')
     implementation project(':auth-service:auth-dataaccess')
-    implementation project(':auth-service:auth-domain:auth-application-service')
-    implementation project(':auth-service:auth-domain:auth-domain-core')
+    implementation project(':auth-service:auth-domain')
     implementation project(':auth-service:auth-messaging')
 
     // SpringBoot
