@@ -20,19 +20,23 @@ public class RefreshTokenRepository {
     }
 
     public void saveWithExpiredTime(final RefreshToken refreshToken, final long expiredTime) {
-        ValueOperations<UUID, String> valueOperations = redisTemplate.opsForValue();
-        valueOperations.set(refreshToken.getMemberId(), refreshToken.getRefreshToken());
-        redisTemplate.expire(refreshToken.getMemberId(), expiredTime, TimeUnit.MILLISECONDS);
+        ValueOperations<String, UUID> valueOperations = redisTemplate.opsForValue();
+        valueOperations.set(refreshToken.getRefreshToken(), refreshToken.getMemberId());
+        redisTemplate.expire(refreshToken.getRefreshToken(), expiredTime, TimeUnit.MILLISECONDS);
     }
 
-    public Optional<RefreshToken> findByMemberId(final UUID memberId) {
-        ValueOperations<UUID, String> valueOperations = redisTemplate.opsForValue();
-        String refreshToken = valueOperations.get(memberId);
+    public Optional<RefreshToken> findByRefreshToken(final String refreshToken) {
+        ValueOperations<String, UUID> valueOperations = redisTemplate.opsForValue();
+        UUID memberId = valueOperations.get(refreshToken);
 
-        if (Objects.isNull(refreshToken)) {
+        if (Objects.isNull(memberId)) {
             return Optional.empty();
         }
 
-        return Optional.of(new RefreshToken(memberId, refreshToken));
+        return Optional.of(new RefreshToken(refreshToken, memberId));
+    }
+
+    public void deleteByRefreshToken(final String refreshToken) {
+        redisTemplate.delete(refreshToken);
     }
 }

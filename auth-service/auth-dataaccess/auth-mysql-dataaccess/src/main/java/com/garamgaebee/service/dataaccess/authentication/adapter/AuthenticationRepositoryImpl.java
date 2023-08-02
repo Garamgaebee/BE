@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -36,5 +37,16 @@ public class AuthenticationRepositoryImpl implements AuthenticationRepository {
                         authenticationDataAccessMapper.authenticationToAuthenticationEntity(authentication
                         ))
                 );
+    }
+
+    @Override
+    public Optional<Authentication> findAuthenticationByMemberId(UUID memberId) {
+        Optional<AuthenticationEntity> authenticationEntity = authenticationJpaRepository.findByMemberId(memberId);
+
+        if(authenticationEntity.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(authenticationDataAccessMapper.authenticationEntityToAuthentication(authenticationEntity.get()));
     }
 }

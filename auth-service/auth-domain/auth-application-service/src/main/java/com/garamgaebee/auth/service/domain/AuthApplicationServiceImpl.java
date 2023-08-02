@@ -1,9 +1,11 @@
 package com.garamgaebee.auth.service.domain;
 
+import com.garamgaebee.auth.service.domain.dto.jwt.ReissueTokenCommand;
+import com.garamgaebee.auth.service.domain.dto.jwt.ReissueTokenResponse;
 import com.garamgaebee.auth.service.domain.dto.oauth.JwtTokenInfo;
 import com.garamgaebee.auth.service.domain.dto.oauth.OauthLoginResponse;
-import com.garamgaebee.auth.service.domain.dto.oauth.OauthToken;
 import com.garamgaebee.auth.service.domain.dto.oauth.OauthUserProfile;
+import com.garamgaebee.auth.service.domain.dto.redis.FindRefreshTokenResponse;
 import com.garamgaebee.auth.service.domain.entity.Authentication;
 import com.garamgaebee.auth.service.domain.port.input.service.AuthApplicationService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,28 @@ public class AuthApplicationServiceImpl implements AuthApplicationService {
         return OauthLoginResponse.builder()
                 .memberId(authentication.getMemberId())
                 .tokenInfo(jwtTokenInfo)
+                .build();
+    }
+
+    @Override
+    public ReissueTokenResponse issueTokenByRefreshToken(ReissueTokenCommand reissueTokenCommand) {
+
+        String refreshToken = reissueTokenCommand.getRefreshToken();
+
+        // refreshToken이 저장되어있는지 확인, 저장 안돼있으면 예외
+        FindRefreshTokenResponse refreshTokenResponse = jwtProvideHandler.findSavedRefreshTokenValue(refreshToken);
+
+        // 받은 memberId로 멤버 정보 가져오기, 없는 멤버이면 예외
+        Authentication authentication = userRegisterHandler.findMemberByMemberId(refreshTokenResponse.getMemberId());
+
+        // refreshToken 삭제
+        jwtProvideHandler.deleteRefreshToken(refreshToken);
+
+        // accessToken + refreshToken 새로 발급
+        JwtTokenInfo jwtTokenInfo = jwtProvideHandler.issueJwtToken(authentication);
+
+        return ReissueTokenResponse.builder()
+                .jwtTokenInfo(jwtTokenInfo)
                 .build();
     }
 }

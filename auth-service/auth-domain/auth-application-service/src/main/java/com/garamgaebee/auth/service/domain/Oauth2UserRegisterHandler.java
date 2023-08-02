@@ -17,7 +17,6 @@ public class Oauth2UserRegisterHandler {
 
     private final AuthenticationRepository authenticationRepository;
     private final OpenFeignClient openFeignClient;
-    private final AuthDataMapper authDataMapper;
 
     protected Authentication persistOauth2User(OauthUserProfile userProfile) {
 
@@ -42,5 +41,10 @@ public class Oauth2UserRegisterHandler {
 
     protected void updateMember(OauthUserProfile userProfile) {
         // TODO 필요한 경우 멤버 정보(최종 로그인 시간 등) 업데이트
+    }
+
+    public Authentication findMemberByMemberId(UUID memberId) {
+        //TODO 반환 에러 정의
+        return authenticationRepository.findAuthenticationByMemberId(memberId).orElseThrow(() -> new RuntimeException());
     }
 }

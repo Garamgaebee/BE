@@ -7,12 +7,12 @@ import java.util.UUID;
 
 @Getter
 public class RefreshToken {
-    private UUID memberId;
     private String refreshToken;
+    private UUID memberId;
 
     @Builder
-    public RefreshToken(final UUID memberId, final String refreshToken) {
-        this.memberId = memberId;
+    public RefreshToken(final String refreshToken, final UUID memberId) {
         this.refreshToken = refreshToken;
+        this.memberId = memberId;
     }
 }

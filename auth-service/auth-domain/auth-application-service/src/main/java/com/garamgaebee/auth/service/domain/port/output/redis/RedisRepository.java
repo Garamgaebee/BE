@@ -9,5 +9,6 @@ import java.util.UUID;
 public interface RedisRepository {
 
     public void persistUserRefreshTokenWithExpiredTime(RegisterRefreshTokenRequest registerRefreshTokenRequest, long expiredTime);
-    // public Optional<FindRefreshTokenResponse> findUserRefreshToken(UUID memberId);
+    public Optional<FindRefreshTokenResponse> findUserRefreshToken(String refreshToken);
+    public void deleteRefreshToken(String refreshToken);
 }
