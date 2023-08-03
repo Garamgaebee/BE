@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity @Getter
@@ -51,6 +52,15 @@ public class MemberEntity {
     @ColumnDefault("true")
     private Boolean status;
 
+    @OneToMany(mappedBy = "memberIdx")
+    private List<CareerEntity> careers;
+
+    @OneToMany(mappedBy = "memberIdx")
+    private List<EmailEntity> emails;
+
+    @OneToMany(mappedBy = "memberIdx")
+    private List<SnsEntity> snses;
+
     @Builder
     public MemberEntity(UUID memberIdx, String memberName, String nickname, String company, String duty, String level, String profileImgUrl, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean status) {
         this.memberIdx = memberIdx;
@@ -65,8 +75,8 @@ public class MemberEntity {
         this.status = status;
     }
 
-    public void deleteMember(){
-        this.status = false;
+    public void deleteMember(boolean status){
+        this.status = status;
     }
 
     public void changeImageUrl(String profileImgUrl){

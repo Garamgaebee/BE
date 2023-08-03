@@ -1,6 +1,7 @@
 package com.garamgaebee.member.application.rest;
 
 
+import com.garamgaebee.common.exception.BaseException;
 import com.garamgeabee.member.domain.dto.DeleteMemberResponse;
 import com.garamgeabee.member.domain.dto.GetMemberResponse;
 import com.garamgeabee.member.domain.ports.in.MemberService;
@@ -22,14 +23,14 @@ public class MemberController {
     }
 
     @GetMapping("/{memberIdx}")
-    public ResponseEntity<?> getMember(@PathVariable String memberIdx){
+    public ResponseEntity<GetMemberResponse> getMember(@PathVariable String memberIdx) throws BaseException {
         GetMemberResponse getMemberResponse = memberService.getMember(UUID.fromString(memberIdx));
 
         return ResponseEntity.ok(getMemberResponse);
     }
 
-    @PostMapping("/{memberIdx}")
-    public ResponseEntity<?> deleteMember(@PathVariable String memberIdx){
+    @DeleteMapping("/{memberIdx}")
+    public ResponseEntity<DeleteMemberResponse> deleteMember(@PathVariable String memberIdx) throws BaseException{
         DeleteMemberResponse deleteMemberResponse = memberService.deleteMember(UUID.fromString(memberIdx));
 
         return ResponseEntity.ok(deleteMemberResponse);

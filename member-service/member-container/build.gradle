@@ -14,7 +14,6 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.3'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.0.2'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation project(path: ':member-service:member-application')
     implementation project(path: ':member-service:member-dataaccess')
     implementation project(path: ':member-service:member-messaging')

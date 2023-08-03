@@ -1,6 +1,8 @@
 package com.garamgaebee.member.dataaccess.member.adapter;
 
 
+import com.garamgaebee.common.exception.BaseErrorCode;
+import com.garamgaebee.common.exception.BaseException;
 import com.garamgaebee.member.dataaccess.member.entity.CareerEntity;
 import com.garamgaebee.member.dataaccess.member.entity.EmailEntity;
 import com.garamgaebee.member.dataaccess.member.entity.MemberEntity;
@@ -10,13 +12,13 @@ import com.garamgaebee.member.dataaccess.member.repository.CareerJpaRepository;
 import com.garamgaebee.member.dataaccess.member.repository.EmailJpaRepository;
 import com.garamgaebee.member.dataaccess.member.repository.MemberJpaRepository;
 import com.garamgaebee.member.dataaccess.member.repository.SnsJpaRepository;
-import com.garamgeabee.member.domain.dto.GetMemberResponse;
+import com.garamgeabee.member.domain.entity.Member;
 import com.garamgeabee.member.domain.ports.out.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -40,31 +42,34 @@ public class MemberRepositoryImpl implements MemberRepository {
 
 
     @Override
-    public Optional<GetMemberResponse> findMember(UUID memberIdx) {
-        Optional<MemberEntity> member = memberJpaRepository.findById(memberIdx);
-        Optional<List<EmailEntity>> email = emailJpaRepository.findEmailEntitiesByMemberIdx(memberIdx);
-        Optional<List<CareerEntity>> career = careerJpaRepository.findCareerEntitiesByMemberIdx(memberIdx);
-        Optional<List<SnsEntity>> sns = snsJpaRepository.findSnsEntitiesByMemberIdx(memberIdx);
+    public Member findMember(UUID memberIdx) throws BaseException{
+        //멤버 엔티티와 연관관계 엔티티 가져오기
+        MemberEntity member = memberJpaRepository.findById(memberIdx).orElseThrow(() -> new BaseException(BaseErrorCode.MEMBER_NOT_EXIST));
+        List<EmailEntity> email = emailJpaRepository.findEmailEntitiesByMemberIdx(member).orElse(new ArrayList<>());
+        List<CareerEntity> career = careerJpaRepository.findCareerEntitiesByMemberIdx(member).orElse(new ArrayList<>());
+        List<SnsEntity> sns = snsJpaRepository.findSnsEntitiesByMemberIdx(member).orElse(new ArrayList<>());
 
-        return Optional.ofNullable(memberAccessMapper.getMemberMapper(member.get(), email.get(), career.get(), sns.get()));
+        //JPA엔티티를 연산 엔티티로 변환 후 리턴
+        return memberAccessMapper.getMemberMapper(member, email, career, sns);
     }
 
     @Override
-    public Boolean deleteMember(UUID memberIdx) {
-        Optional<MemberEntity> member = memberJpaRepository.findById(memberIdx);
-        if(!member.isPresent()) return false;
+    public Boolean deleteMember(Member member) throws BaseException{
+        //멤버 찾기 -> Service단에서 Transactional을 걸어놨기 때문에 select SQL 안나감
+        MemberEntity memberEntity = memberJpaRepository.findById(member.getMemberIdx()).orElseThrow(() -> new BaseException(BaseErrorCode.MEMBER_NOT_EXIST));
 
-        member.get().deleteMember();
+        //JPA 엔티티에 update
+        memberEntity.deleteMember(member.getStatus());
 
+        //성공
         return true;
     }
 
     @Override
-    public Boolean patchMemberImage(String memberIdx, String imgUrl) {
-        Optional<MemberEntity> member = memberJpaRepository.findById(UUID.fromString(memberIdx));
-        if(!member.isPresent()) return false;
+    public Boolean patchMemberImage(Member member) throws BaseException{
+        MemberEntity memberEntity = memberJpaRepository.findById(member.getMemberIdx()).orElseThrow(() -> new BaseException(BaseErrorCode.MEMBER_NOT_EXIST));
 
-        member.get().changeImageUrl(imgUrl);
+        memberEntity.changeImageUrl(member.getProfileImgUrl());
 
         return true;
     }

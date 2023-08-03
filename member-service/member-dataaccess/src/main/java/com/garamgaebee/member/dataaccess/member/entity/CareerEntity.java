@@ -20,7 +20,7 @@ public class CareerEntity {
 
     @Id @Column(name = "carrer_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID careerId;
+    private UUID careerIdx;
 
     @ManyToOne
     @JoinColumn(name = "member_idx")
@@ -52,8 +52,8 @@ public class CareerEntity {
     private Boolean status;
 
     @Builder
-    public CareerEntity(UUID careerId, MemberEntity memberIdx, String careerName, Boolean isProgress, LocalDate sinceDate, LocalDate endDate, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean status) {
-        this.careerId = careerId;
+    public CareerEntity(UUID careerIdx, MemberEntity memberIdx, String careerName, Boolean isProgress, LocalDate sinceDate, LocalDate endDate, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean status) {
+        this.careerIdx = careerIdx;
         this.memberIdx = memberIdx;
         this.careerName = careerName;
         this.isProgress = isProgress;

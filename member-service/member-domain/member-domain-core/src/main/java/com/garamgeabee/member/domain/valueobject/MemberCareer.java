@@ -1,11 +1,12 @@
 package com.garamgeabee.member.domain.valueobject;
 
 import jakarta.annotation.Nullable;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDate;
 
-@AllArgsConstructor
+@Getter
 public class MemberCareer {
 
     private String careername;
@@ -13,4 +14,12 @@ public class MemberCareer {
     private LocalDate since;
     @Nullable
     private LocalDate end;
+
+    @Builder
+    public MemberCareer(String careername, boolean progress, LocalDate since, @Nullable LocalDate end) {
+        this.careername = careername;
+        this.progress = progress;
+        this.since = since;
+        this.end = end;
+    }
 }
