@@ -30,5 +30,8 @@ include 'auth-service:auth-messaging:auth-openfeign-messaging'
 findProject(':auth-service:auth-messaging:auth-openfeign-messaging')?.name = 'auth-openfeign-messaging'
 include 'auth-service:auth-messaging:auth-webclient-messaging'
 findProject(':auth-service:auth-messaging:auth-webclient-messaging')?.name = 'auth-webclient-messaging'
+include 'auth-service:auth-messaging:auth-mail-messaging'
+findProject(':auth-service:auth-messaging:auth-mail-messaging')?.name = 'auth-mail-messaging'
 //
+
 

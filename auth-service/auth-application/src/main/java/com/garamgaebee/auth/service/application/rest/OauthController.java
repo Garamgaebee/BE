@@ -19,12 +19,19 @@ public class OauthController {
     private final AuthApplicationService authApplicationService;
 
     // Oauth2Login 컨트롤러
-    @PostMapping("/login/{provider}")
+    @PostMapping("/login/oauth/{provider}")
     public ResponseEntity<OauthLoginResponse> oauth2Login(@PathVariable("provider") String provider,
                                                           @RequestParam("code") String code) {
 
         return ResponseEntity.ok().body(authApplicationService.oauth2Login(provider, code));
     }
+
+    //TODO 자체로그인 컨트롤러
+    @PostMapping("/login")
+    public ResponseEntity<?> login() {
+        return null;
+    }
+
 
     // refresh token으로 토큰 재발급 컨트롤러
     @PostMapping("/refresh")
@@ -33,6 +40,20 @@ public class OauthController {
     }
 
     //TODO 로그아웃
+    @PostMapping("/login")
+    public ResponseEntity<?> logout() {
+        return null;
+    }
 
-    //TODO 메일 인증
+    //TODO 메일 전송
+    @PostMapping("/mail")
+    public ResponseEntity<?> sendAuthorizationCodeMail() {
+        return null;
+    }
+
+    //TODO 메일 인증코드 검사
+    @PostMapping("/mail/check")
+    public ResponseEntity<?> validateMailCode() {
+        return null;
+    }
 }

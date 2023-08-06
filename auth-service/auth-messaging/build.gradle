@@ -9,4 +9,5 @@ jar {
 dependencies {
     api project(':auth-service:auth-messaging:auth-openfeign-messaging')
     api project(':auth-service:auth-messaging:auth-webclient-messaging')
+    api project(':auth-service:auth-messaging:auth-mail-messaging')
 }
