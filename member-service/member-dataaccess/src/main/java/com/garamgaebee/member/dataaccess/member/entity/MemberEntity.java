@@ -1,7 +1,7 @@
 package com.garamgaebee.member.dataaccess.member.entity;
 
-import com.garamgeabee.member.domain.valueobject.MemberStatus;
-import com.garamgeabee.member.domain.valueobject.MemberType;
+import com.garamgaebee.member.domain.valueobject.MemberStatus;
+import com.garamgaebee.member.domain.valueobject.MemberType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

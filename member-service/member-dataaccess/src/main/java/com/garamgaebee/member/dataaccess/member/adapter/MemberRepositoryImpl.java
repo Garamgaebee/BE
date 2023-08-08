@@ -9,8 +9,8 @@ import com.garamgaebee.member.dataaccess.member.repository.CareerJpaRepository;
 import com.garamgaebee.member.dataaccess.member.repository.EmailJpaRepository;
 import com.garamgaebee.member.dataaccess.member.repository.MemberJpaRepository;
 import com.garamgaebee.member.dataaccess.member.repository.SnsJpaRepository;
-import com.garamgeabee.member.domain.entity.Member;
-import com.garamgeabee.member.domain.ports.out.MemberRepository;
+import com.garamgaebee.member.domain.entity.Member;
+import com.garamgaebee.member.domain.ports.out.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,8 @@
 package com.garamgaebee.member.messaging.listener;
 
-import com.garamgeabee.member.domain.dto.CreateMemberCommand;
-import com.garamgeabee.member.domain.dto.GetFeignMemberResponse;
-import com.garamgeabee.member.domain.ports.in.MemberService;
+import com.garamgaebee.member.domain.dto.CreateMemberCommand;
+import com.garamgaebee.member.domain.dto.GetFeignMemberResponse;
+import com.garamgaebee.member.domain.ports.in.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -2,10 +2,10 @@ package com.garamgaebee.member.application.rest;
 
 
 import com.garamgaebee.common.exception.BaseException;
-import com.garamgeabee.member.domain.dto.DeleteMemberResponse;
-import com.garamgeabee.member.domain.dto.GetMemberResponse;
-import com.garamgeabee.member.domain.dto.ProfileImgResponse;
-import com.garamgeabee.member.domain.ports.in.MemberService;
+import com.garamgaebee.member.domain.dto.DeleteMemberResponse;
+import com.garamgaebee.member.domain.dto.GetMemberResponse;
+import com.garamgaebee.member.domain.dto.ProfileImgResponse;
+import com.garamgaebee.member.domain.ports.in.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

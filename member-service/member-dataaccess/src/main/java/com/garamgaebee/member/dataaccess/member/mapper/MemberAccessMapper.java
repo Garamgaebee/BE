@@ -4,11 +4,11 @@ import com.garamgaebee.member.dataaccess.member.entity.CareerEntity;
 import com.garamgaebee.member.dataaccess.member.entity.EmailEntity;
 import com.garamgaebee.member.dataaccess.member.entity.MemberEntity;
 import com.garamgaebee.member.dataaccess.member.entity.SnsEntity;
-import com.garamgeabee.member.domain.entity.Career;
-import com.garamgeabee.member.domain.entity.Email;
-import com.garamgeabee.member.domain.entity.Member;
-import com.garamgeabee.member.domain.entity.Sns;
-import com.garamgeabee.member.domain.valueobject.MemberStatus;
+import com.garamgaebee.member.domain.entity.Career;
+import com.garamgaebee.member.domain.entity.Email;
+import com.garamgaebee.member.domain.entity.Member;
+import com.garamgaebee.member.domain.entity.Sns;
+import com.garamgaebee.member.domain.valueobject.MemberStatus;
 import jakarta.annotation.Nullable;
 import org.springframework.stereotype.Component;
 

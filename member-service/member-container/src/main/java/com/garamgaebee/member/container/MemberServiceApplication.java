@@ -12,8 +12,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @EnableFeignClients
 @EnableDiscoveryClient
-@EnableJpaRepositories(basePackages = { "com.garamgaebee", "com.garamgeabee"})
-@SpringBootApplication(scanBasePackages = { "com.garamgaebee", "com.garamgeabee"})
+@EnableJpaRepositories(basePackages = { "com.garamgaebee"})
+@SpringBootApplication(scanBasePackages = { "com.garamgaebee"})
 @EntityScan(basePackages = { "com.garamgaebee"})
 @EnableJpaAuditing
 public class MemberServiceApplication {
