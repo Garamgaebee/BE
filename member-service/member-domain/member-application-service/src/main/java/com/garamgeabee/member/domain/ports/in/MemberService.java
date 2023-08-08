@@ -1,10 +1,10 @@
 package com.garamgeabee.member.domain.ports.in;
 
 
-import com.garamgeabee.member.domain.dto.DeleteMemberResponse;
-import com.garamgeabee.member.domain.dto.GetMemberResponse;
-import com.garamgeabee.member.domain.dto.PatchMemberImgCommand;
+import com.garamgeabee.member.domain.dto.*;
+
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -14,7 +14,13 @@ public interface MemberService {
 
     DeleteMemberResponse deleteMember(UUID memberIdx);
 
-    boolean insertMemberImage(PatchMemberImgCommand req);
+    UUID createMember(CreateMemberCommand req);
 
-    UUID createMember(UUID memberIdx);
+    ProfileImgResponse postProfileImg(String memberIdx, MultipartFile file);
+
+    ProfileImgResponse patchProfileImg(String memberIdx, MultipartFile file);
+
+    boolean checkDuplicateNickname(String nickname);
+
+    GetFeignMemberResponse getFeignMember(String userIdx);
 }

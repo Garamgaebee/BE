@@ -22,7 +22,7 @@ public class CareerEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID careerIdx;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_idx")
     private MemberEntity memberIdx;
 

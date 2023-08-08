@@ -21,7 +21,7 @@ public class SnsEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID snsIdx;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_idx")
     private MemberEntity memberIdx;
 

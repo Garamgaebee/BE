@@ -8,6 +8,7 @@ import com.garamgeabee.member.domain.entity.Career;
 import com.garamgeabee.member.domain.entity.Email;
 import com.garamgeabee.member.domain.entity.Member;
 import com.garamgeabee.member.domain.entity.Sns;
+import com.garamgeabee.member.domain.valueobject.MemberStatus;
 import jakarta.annotation.Nullable;
 import org.springframework.stereotype.Component;
 
@@ -74,5 +75,17 @@ public class MemberAccessMapper {
                         .status(sns.getStatus()).build())
                 .collect(Collectors.toList());
     }
+
+    public MemberEntity memberToEntity(Member member){
+        return MemberEntity.builder()
+                .memberIdx(member.getMemberIdx())
+                .memberName(member.getMemberName())
+                .nickname(member.getNickname())
+                .dept(member.getDept())
+                .type(member.getType())
+                .status(MemberStatus.ACTIVE)
+                .build();
+    }
+
 }
 

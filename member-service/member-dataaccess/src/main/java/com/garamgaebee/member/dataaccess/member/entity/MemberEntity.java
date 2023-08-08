@@ -1,11 +1,12 @@
 package com.garamgaebee.member.dataaccess.member.entity;
 
+import com.garamgeabee.member.domain.valueobject.MemberStatus;
+import com.garamgeabee.member.domain.valueobject.MemberType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -22,10 +23,18 @@ public class MemberEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID memberIdx;
 
-    @Column(name = "member_name")
+    @Column(name = "member_name", nullable = false)
     private String memberName;
-    @Column(name = "nickname")
+
+    @Column(name = "nickname", nullable = false, length = 10)
     private String nickname;
+
+    @Column(name = "dept", nullable = false)
+    private String dept;
+
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private MemberType type;
 
     @Column(name = "company")
     private String company;
@@ -49,23 +58,25 @@ public class MemberEntity {
     private LocalDateTime updatedAt;
 
     @Column(name = "status", nullable = false)
-    @ColumnDefault("true")
-    private Boolean status;
+    @Enumerated(EnumType.STRING)
+    private MemberStatus status;
 
-    @OneToMany(mappedBy = "memberIdx")
+    @OneToMany(mappedBy = "memberIdx", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<CareerEntity> careers;
 
-    @OneToMany(mappedBy = "memberIdx")
+    @OneToMany(mappedBy = "memberIdx", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<EmailEntity> emails;
 
-    @OneToMany(mappedBy = "memberIdx")
+    @OneToMany(mappedBy = "memberIdx", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<SnsEntity> snses;
 
     @Builder
-    public MemberEntity(UUID memberIdx, String memberName, String nickname, String company, String duty, String level, String profileImgUrl, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean status) {
+    public MemberEntity(UUID memberIdx, String memberName, String nickname, String dept, MemberType type, String company, String duty, String level, String profileImgUrl, LocalDateTime createdAt, LocalDateTime updatedAt, MemberStatus status, List<CareerEntity> careers, List<EmailEntity> emails, List<SnsEntity> snses) {
         this.memberIdx = memberIdx;
         this.memberName = memberName;
         this.nickname = nickname;
+        this.dept = dept;
+        this.type = type;
         this.company = company;
         this.duty = duty;
         this.level = level;
@@ -73,9 +84,12 @@ public class MemberEntity {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.status = status;
+        this.careers = careers;
+        this.emails = emails;
+        this.snses = snses;
     }
 
-    public void deleteMember(boolean status){
+    public void deleteMember(MemberStatus status){
         this.status = status;
     }
 

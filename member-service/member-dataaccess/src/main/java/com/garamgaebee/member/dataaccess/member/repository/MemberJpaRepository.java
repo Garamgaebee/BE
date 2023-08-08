@@ -8,4 +8,5 @@ import java.util.UUID;
 
 @Repository
 public interface MemberJpaRepository extends JpaRepository<MemberEntity, UUID> {
+    boolean existsByNicknameIgnoreCase(String nickname);
 }

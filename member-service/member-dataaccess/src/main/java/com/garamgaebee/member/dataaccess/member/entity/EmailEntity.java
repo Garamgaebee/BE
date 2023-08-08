@@ -22,7 +22,7 @@ public class EmailEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID emailIdx;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_idx")
     private MemberEntity memberIdx;
 

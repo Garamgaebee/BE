@@ -3,10 +3,7 @@ package com.garamgaebee.member.dataaccess.member.adapter;
 
 import com.garamgaebee.common.exception.BaseErrorCode;
 import com.garamgaebee.common.exception.BaseException;
-import com.garamgaebee.member.dataaccess.member.entity.CareerEntity;
-import com.garamgaebee.member.dataaccess.member.entity.EmailEntity;
 import com.garamgaebee.member.dataaccess.member.entity.MemberEntity;
-import com.garamgaebee.member.dataaccess.member.entity.SnsEntity;
 import com.garamgaebee.member.dataaccess.member.mapper.MemberAccessMapper;
 import com.garamgaebee.member.dataaccess.member.repository.CareerJpaRepository;
 import com.garamgaebee.member.dataaccess.member.repository.EmailJpaRepository;
@@ -17,8 +14,6 @@ import com.garamgeabee.member.domain.ports.out.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -45,12 +40,9 @@ public class MemberRepositoryImpl implements MemberRepository {
     public Member findMember(UUID memberIdx) throws BaseException{
         //멤버 엔티티와 연관관계 엔티티 가져오기
         MemberEntity member = memberJpaRepository.findById(memberIdx).orElseThrow(() -> new BaseException(BaseErrorCode.MEMBER_NOT_EXIST));
-        List<EmailEntity> email = emailJpaRepository.findEmailEntitiesByMemberIdx(member).orElse(new ArrayList<>());
-        List<CareerEntity> career = careerJpaRepository.findCareerEntitiesByMemberIdx(member).orElse(new ArrayList<>());
-        List<SnsEntity> sns = snsJpaRepository.findSnsEntitiesByMemberIdx(member).orElse(new ArrayList<>());
 
         //JPA엔티티를 연산 엔티티로 변환 후 리턴
-        return memberAccessMapper.getMemberMapper(member, email, career, sns);
+        return memberAccessMapper.getMemberMapper(member, member.getEmails(), member.getCareers(), member.getSnses());
     }
 
     @Override
@@ -74,12 +66,21 @@ public class MemberRepositoryImpl implements MemberRepository {
         return true;
     }
 
+    /**
+     * 닉네임 중복 체크
+     * */
     @Override
-    public UUID createMember(UUID memberIdx) {
-        MemberEntity member = MemberEntity.builder().memberIdx(memberIdx).build();
+    public boolean checkNicknameExist(String nickname) {
+        return memberJpaRepository.existsByNicknameIgnoreCase(nickname);
+    }
 
-        memberJpaRepository.save(member);
+    /**
+     * 멤버 생성
+     * */
+    @Override
+    public UUID persistMember(Member member) {
+        MemberEntity memberEntity = memberAccessMapper.memberToEntity(member);
 
-        return member.getMemberIdx();
+        return memberJpaRepository.save(memberEntity).getMemberIdx();
     }
 }

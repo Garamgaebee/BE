@@ -15,6 +15,7 @@ public interface MemberRepository {
 
     Boolean patchMemberImage(Member member);
 
-    UUID createMember(UUID memberIdx);
+    boolean checkNicknameExist(String nickname);
 
+    UUID persistMember(Member member);
 }

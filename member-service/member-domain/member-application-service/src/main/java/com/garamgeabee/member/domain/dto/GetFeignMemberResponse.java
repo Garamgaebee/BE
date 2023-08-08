@@ -1,15 +1,15 @@
 package com.garamgeabee.member.domain.dto;
 
 import com.garamgeabee.member.domain.valueobject.MemberCareer;
-import jakarta.annotation.Nullable;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Getter
-public class GetMemberResponse {
+public class GetFeignMemberResponse {
     private UUID memberIdx;
 
     private String memberName;
@@ -24,15 +24,22 @@ public class GetMemberResponse {
 
     private String profileImgUrl;
 
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
+    private String status;
+
+    private List<MemberCareer> career;
+
     private List<String> email;
 
     private List<String> sns;
 
-    private List<MemberCareer> career;
-
     @Builder
-    public GetMemberResponse(UUID memberIdx, String memberName, String nickname, String company, String duty,
-                             String level, String profileImgUrl, List<String> email, List<String> sns, List<MemberCareer> career) {
+    public GetFeignMemberResponse(UUID memberIdx, String memberName, String nickname, String company, String duty,
+                                  String level, String profileImgUrl, LocalDateTime createdAt, LocalDateTime updatedAt,
+                                  String status, List<MemberCareer> career, List<String> email, List<String> sns) {
         this.memberIdx = memberIdx;
         this.memberName = memberName;
         this.nickname = nickname;
@@ -40,8 +47,11 @@ public class GetMemberResponse {
         this.duty = duty;
         this.level = level;
         this.profileImgUrl = profileImgUrl;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.status = status;
+        this.career = career;
         this.email = email;
         this.sns = sns;
-        this.career = career;
     }
 }

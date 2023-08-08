@@ -1,5 +1,7 @@
 package com.garamgeabee.member.domain.entity;
 
+import com.garamgeabee.member.domain.valueobject.MemberStatus;
+import com.garamgeabee.member.domain.valueobject.MemberType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,6 +18,10 @@ public class Member {
 
     private String nickname;
 
+    private String dept;
+
+    private MemberType type;
+
     private String company;
 
     private String duty;
@@ -28,7 +34,7 @@ public class Member {
 
     private LocalDateTime updatedAt;
 
-    private Boolean status;
+    private MemberStatus status;
 
     private List<Career> careers;
 
@@ -37,13 +43,15 @@ public class Member {
     private List<Sns> snses;
 
     @Builder
-    public Member(UUID memberIdx, String memberName, String nickname, String company, String duty, String level,
-                  String profileImgUrl, LocalDateTime createdAt, LocalDateTime updatedAt, Boolean status,
+    public Member(UUID memberIdx, String memberName, String nickname, String dept, MemberType type, String company, String duty, String level,
+                  String profileImgUrl, LocalDateTime createdAt, LocalDateTime updatedAt, MemberStatus status,
                   List<Career> careers, List<Email> emails, List<Sns> snses)
     {
         this.memberIdx = memberIdx;
         this.memberName = memberName;
         this.nickname = nickname;
+        this.dept = dept;
+        this.type = type;
         this.company = company;
         this.duty = duty;
         this.level = level;
@@ -57,10 +65,10 @@ public class Member {
     }
 
     public void deleteMember() {
-        this.status = false;
+        this.status = MemberStatus.DELETE;
     }
 
-    public void changeProfileImage(String imgUrl) {
-        this.profileImgUrl = imgUrl;
+    public void updateProfileImg(String profileImgUrl) {
+        this.profileImgUrl = profileImgUrl;
     }
 }
