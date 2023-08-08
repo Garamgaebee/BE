@@ -29,29 +29,23 @@ public class ImageController {
     private final ImageApplicationService imageApplicationService;
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<SaveImageResponse> createImage(@RequestPart(value = "image") List<MultipartFile> images) {
+    public SaveImageResponse createImage(@RequestPart(value = "image") List<MultipartFile> images) {
         if(images.isEmpty()) {
             log.error("Image File request is empty");
             throw new BaseException(BaseErrorCode.EMPTY_IMAGES);
         }
         SaveImageResponse saveImageResponse = imageApplicationService.saveImage(new SaveImageCommand(images));
-        return ResponseEntity.ok(saveImageResponse);
+        return saveImageResponse;
     }
 
     @DeleteMapping("")
-    public ResponseEntity<DeleteImageResponse> deleteImage(@RequestBody DeleteImageRequest imageRequest) {
+    public DeleteImageResponse deleteImage(@RequestBody DeleteImageRequest imageRequest) {
         if(imageRequest.getUrlList().isEmpty()) {
             log.error("url request is empty");
             throw new BaseException(BaseErrorCode.EMPTY_IMAGES_URL);
         }
         DeleteImageResponse deleteImageResponse = imageApplicationService.deleteImage(new DeleteImageCommand(imageRequest.getUrlList()));
-        return ResponseEntity.ok(deleteImageResponse);
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        log.info("ddd");
-        return ResponseEntity.ok("good");
+        return deleteImageResponse;
     }
 
 }
