@@ -1,4 +1,4 @@
-package com.garamgaebee.auth.service.domain.dto.oauth;
+package com.garamgaebee.auth.service.domain.dto.jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

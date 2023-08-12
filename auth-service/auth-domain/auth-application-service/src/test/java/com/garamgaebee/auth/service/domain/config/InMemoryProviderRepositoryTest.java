@@ -1,6 +1,6 @@
 package com.garamgaebee.auth.service.domain.config;
 
-import com.garamgaebee.auth.service.domain.Oauth2UserRegisterHandler;
+import com.garamgaebee.auth.service.domain.UserRegisterHandler;
 import com.garamgaebee.auth.service.domain.port.output.web.Oauth2RequestClient;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +16,7 @@ public class InMemoryProviderRepositoryTest {
     private Oauth2RequestClient oauth2RequestClient;
 
     @MockBean
-    private Oauth2UserRegisterHandler oauth2UserRegisterHandler;
+    private UserRegisterHandler oauth2UserRegisterHandler;
 
     @Autowired
     private InMemoryProviderRepository repository;

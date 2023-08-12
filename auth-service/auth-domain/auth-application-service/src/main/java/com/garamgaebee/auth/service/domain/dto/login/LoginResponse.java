@@ -1,4 +1,4 @@
-package com.garamgaebee.auth.service.domain.dto.oauth;
+package com.garamgaebee.auth.service.domain.dto.login;
 
 import com.garamgaebee.auth.service.domain.dto.jwt.JwtTokenInfo;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @Builder
-public class OauthLoginResponse {
+public class LoginResponse {
     private UUID memberId;
     private JwtTokenInfo tokenInfo;
 }

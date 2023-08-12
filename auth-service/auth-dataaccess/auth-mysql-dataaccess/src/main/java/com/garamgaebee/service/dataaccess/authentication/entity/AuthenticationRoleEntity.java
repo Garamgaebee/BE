@@ -6,10 +6,8 @@ import lombok.*;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
-@AllArgsConstructor
-@Table(name = "role")
+@Table(name = "authentication_role")
 @Entity
 public class AuthenticationRoleEntity {
     @Id
@@ -18,7 +16,14 @@ public class AuthenticationRoleEntity {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "authentication_id")
     private AuthenticationEntity authentication;
-
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Builder
+    public AuthenticationRoleEntity(Long id, AuthenticationEntity authentication, Role role) {
+        this.id = id;
+        this.authentication = authentication;
+        this.role = role;
+    }
+
 }

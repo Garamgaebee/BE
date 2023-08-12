@@ -5,17 +5,24 @@ import com.garamgaebee.auth.service.domain.config.OauthAttributes;
 import com.garamgaebee.auth.service.domain.config.OauthProvider;
 import com.garamgaebee.auth.service.domain.dto.oauth.OauthToken;
 import com.garamgaebee.auth.service.domain.dto.oauth.OauthUserProfile;
+import com.garamgaebee.auth.service.domain.entity.Authentication;
+import com.garamgaebee.auth.service.domain.entity.Oauth2Authentication;
+import com.garamgaebee.auth.service.domain.port.output.repository.AuthenticationRepository;
 import com.garamgaebee.auth.service.domain.port.output.web.Oauth2RequestClient;
+import com.garamgaebee.common.exception.BaseErrorCode;
+import com.garamgaebee.common.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class Oauth2AuthenticationHandler {
 
     private final InMemoryProviderRepository inMemoryProviderRepository;
+    private final AuthenticationRepository authenticationRepository;
     private final Oauth2RequestClient oauth2RequestClient;
 
     protected OauthUserProfile authenticate(String oauth2Provider, String code) {
@@ -34,5 +41,11 @@ public class Oauth2AuthenticationHandler {
         Map<String, Object> userAttributes = oauth2RequestClient.getUserAttributes(provider, oauthToken);
         // 유저 정보로 OauthUserProfile 생성
         return OauthAttributes.extract(oauth2Provider, userAttributes);
+    }
+
+    protected Optional<Oauth2Authentication> findByOauthId(String oauthId) {
+
+        // oauthId로 사용자 조회
+        return authenticationRepository.findOauth2AuthenticationByOauthId(oauthId);
     }
 }

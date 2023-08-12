@@ -1,7 +1,5 @@
 package com.garamgaebee.service.dataaccess.authentication.config;
 
-import com.garamgaebee.auth.service.domain.port.output.redis.RedisRepository;
-import com.garamgaebee.service.dataaccess.authentication.adapter.RedisRepositoryImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

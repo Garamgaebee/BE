@@ -2,7 +2,7 @@ package com.garamgaebee.service.dataaccess.authentication.adapter;
 
 import com.garamgaebee.auth.service.domain.dto.redis.FindRefreshTokenResponse;
 import com.garamgaebee.auth.service.domain.dto.redis.RegisterRefreshTokenRequest;
-import com.garamgaebee.auth.service.domain.port.output.redis.RedisRepository;
+import com.garamgaebee.auth.service.domain.port.output.redis.RefreshTokenRedisRepository;
 import com.garamgaebee.service.dataaccess.authentication.entity.RefreshToken;
 import com.garamgaebee.service.dataaccess.authentication.mapper.RedisDataMapper;
 import com.garamgaebee.service.dataaccess.authentication.repository.RefreshTokenRepository;
@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class RedisRepositoryImpl implements RedisRepository {
+public class RefreshTokenRedisRefreshTokenRepositoryImpl implements RefreshTokenRedisRepository {
 
     private final RefreshTokenRepository refreshTokenRepository;
     private final RedisDataMapper mapper;
@@ -46,4 +46,6 @@ public class RedisRepositoryImpl implements RedisRepository {
     public void deleteRefreshToken(String refreshToken) {
         refreshTokenRepository.deleteByRefreshToken(refreshToken);
     }
+
+
 }

@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
         log.error(exception.getMessage(), exception);
         return ErrorDTO.builder()
                 .code(exception.getBaseErrorCode().getCode())
-                .message(exception.getMessage())
+                .message(exception.getBaseErrorCode().getMessage())
                 .build();
     }
 
