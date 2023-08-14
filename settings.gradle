@@ -1,1 +1,3 @@
-rootProject.name = 'backend'rootProject.name = 'BE'include 'common'
+rootProject.name = 'BE'
+include 'image-service', 'image-service:image-application', 'image-service:image-dataaccess', 'image-service:image-container','image-service:image-domain', 'image-service:image-domain:image-application-service','image-service:image-domain:image-domain-core', 'image-service:image-dataaccess:image-s3'
+include 'common'
