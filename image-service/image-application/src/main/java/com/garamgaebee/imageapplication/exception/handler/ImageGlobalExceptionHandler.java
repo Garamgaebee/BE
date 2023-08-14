@@ -1,30 +1,28 @@
-package com.garamgaebee.common.exception;
+package com.garamgaebee.imageapplication.exception.handler;
 
+import com.garamgaebee.common.exception.BaseException;
+import com.garamgaebee.common.exception.ErrorDTO;
+import com.garamgaebee.common.exception.GlobalExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
-@Slf4j
 @ControllerAdvice
-public class GlobalExceptionHandler {
-
-    @ResponseBody
-    @ExceptionHandler(value = {Exception.class})
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+@Slf4j
+public class ImageGlobalExceptionHandler extends GlobalExceptionHandler {
+    @ExceptionHandler(Exception.class)
+    @Override
     public ErrorDTO handleException(Exception exception) {
         log.error(exception.getMessage(), exception);
         return ErrorDTO.builder()
-                .code(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
+                .code(Integer.toString(HttpStatus.INTERNAL_SERVER_ERROR.value()))
                 .message("Unexpected error!")
                 .build();
     }
 
-    @ResponseBody
-    @ExceptionHandler(value = {BaseException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BaseException.class)
+    @Override
     public ErrorDTO handleException(BaseException exception) {
         log.error(exception.getMessage(), exception);
         return ErrorDTO.builder()
@@ -32,5 +30,4 @@ public class GlobalExceptionHandler {
                 .message(exception.getBaseErrorCode().getMessage())
                 .build();
     }
-
 }
