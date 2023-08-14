@@ -2,7 +2,11 @@ package com.garamgaebee.thread.dataaccess.thread.entity;
 
 import com.garamgaebee.thread.domain.entity.ThreadStatus;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,6 +15,8 @@ import java.util.List;
 
 @Getter
 @MappedSuperclass
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ThreadBaseEntity {
 
     @Column(name = "created_at")
@@ -23,5 +29,5 @@ public class ThreadBaseEntity {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private ThreadStatus status;
+    private ThreadStatus status = ThreadStatus.ACTIVE;
 }

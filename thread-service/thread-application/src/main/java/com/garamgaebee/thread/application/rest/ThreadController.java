@@ -1,16 +1,44 @@
 package com.garamgaebee.thread.application.rest;
 
+import com.garamgaebee.common.exception.BaseErrorCode;
+import com.garamgaebee.common.exception.BaseException;
+import com.garamgaebee.thread.domain.dto.CreateThreadCommand;
+import com.garamgaebee.thread.domain.entity.Thread;
+import com.garamgaebee.thread.domain.ports.in.ThreadService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/threads")
 public class ThreadController {
+
+    private final ThreadService threadService;
+
+    @Autowired
+    public ThreadController(ThreadService threadService) {
+        this.threadService = threadService;
+    }
+
     /**
      * 스레드 생성 API
      * [POST] ~/api/threads
      * */
+    @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Thread> createThread(@RequestPart("file") List<MultipartFile> fileList, @RequestPart("meta") CreateThreadCommand req) throws BaseException {
+        if(req.getContent().getBytes().length > 500) throw new BaseException(BaseErrorCode.CONTENT_TOO_LONG);
 
+        Thread createdThread = threadService.createThread(fileList, req);
+
+        return ResponseEntity.ok(createdThread);
+    }
     /**
      * 스레드 수정 API
      * [PATCH] ~/api/threads
