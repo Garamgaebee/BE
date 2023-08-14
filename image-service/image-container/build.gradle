@@ -1,0 +1,15 @@
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+    implementation project(':image-service:image-application')
+    implementation project(':image-service:image-dataaccess:image-s3')
+    implementation project(':image-service:image-domain:image-domain-core')
+    implementation project(':image-service:image-domain:image-application-service')
+}
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
