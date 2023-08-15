@@ -20,4 +20,9 @@ public class AuthenticationHandler {
     public Optional<Authentication> findAuthenticationByMemberId(UUID memberId) {
         return authenticationRepository.findAuthenticationByMemberId(memberId);
     }
+
+    public void deleteAuthenticationByMemberId(UUID memberId) {
+        authenticationRepository.deleteAuthenticationByMemberId(memberId);
+        //TODO open feign 회원 탈퇴 api call
+    }
 }

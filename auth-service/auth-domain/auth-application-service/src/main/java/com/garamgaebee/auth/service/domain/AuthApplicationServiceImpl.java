@@ -1,10 +1,14 @@
 package com.garamgaebee.auth.service.domain;
 
+import com.garamgaebee.auth.service.domain.dto.create.ValidateNicknameCommand;
+import com.garamgaebee.auth.service.domain.dto.create.ValidateNicknameResponse;
+import com.garamgaebee.auth.service.domain.dto.delete.DeleteMemberCommand;
 import com.garamgaebee.auth.service.domain.dto.jwt.ReissueTokenCommand;
 import com.garamgaebee.auth.service.domain.dto.jwt.ReissueTokenResponse;
-import com.garamgaebee.auth.service.domain.dto.login.CommonAuthenticationPostCommand;
+import com.garamgaebee.auth.service.domain.dto.create.CommonAuthenticationPostCommand;
 import com.garamgaebee.auth.service.domain.dto.login.LoginCommand;
 import com.garamgaebee.auth.service.domain.dto.login.LoginResponse;
+import com.garamgaebee.auth.service.domain.dto.logout.LogoutCommand;
 import com.garamgaebee.auth.service.domain.dto.mail.CheckAuthorizationCodeCommand;
 import com.garamgaebee.auth.service.domain.dto.mail.UserSendMailCommand;
 import com.garamgaebee.auth.service.domain.dto.jwt.JwtTokenInfo;
@@ -148,6 +152,39 @@ public class AuthApplicationServiceImpl implements AuthApplicationService {
                 .tokenInfo(jwtTokenInfo)
                 .memberId(commonAuthentication.getMemberId())
                 .build();
+    }
+
+    // 로그아웃
+    @Override
+    public void logout(LogoutCommand logoutCommand) {
+
+        // redis에서 refreshToken 삭제
+        jwtProvideHandler.deleteRefreshToken(logoutCommand.getRefreshToken());
+
+    }
+
+    // 닉네임 유효성 검사
+    @Override
+    public ValidateNicknameResponse validateMemberNickname(ValidateNicknameCommand validateNicknameCommand) {
+
+        ValidateNicknameResponse response = ValidateNicknameResponse.builder()
+                .isExist(userRegisterHandler.checkNicknameExist(validateNicknameCommand.getNickname()))
+                .build();
+        if(response.getIsExist() == null) {
+            // 있어선 안되는 에러
+            throw new RuntimeException();
+        }
+        return response;
+    }
+
+    @Override
+    public void deleteMember(DeleteMemberCommand deleteMemberCommand) {
+        Authentication authentication = authenticationHandler.findAuthenticationByMemberId(deleteMemberCommand.getMemberId())
+                .orElseThrow(() -> new BaseException(BaseErrorCode.NOT_REGISTERED_MEMBER));
+        // DB에서 멤버 삭제
+        authenticationHandler.deleteAuthenticationByMemberId(authentication.getMemberId());
+        // refresh token 삭제
+        jwtProvideHandler.deleteRefreshToken(deleteMemberCommand.getRefreshToken());
     }
 
 }

@@ -1,10 +1,14 @@
 package com.garamgaebee.auth.service.domain.port.input.service;
 
+import com.garamgaebee.auth.service.domain.dto.create.ValidateNicknameCommand;
+import com.garamgaebee.auth.service.domain.dto.create.ValidateNicknameResponse;
+import com.garamgaebee.auth.service.domain.dto.delete.DeleteMemberCommand;
 import com.garamgaebee.auth.service.domain.dto.jwt.ReissueTokenCommand;
 import com.garamgaebee.auth.service.domain.dto.jwt.ReissueTokenResponse;
-import com.garamgaebee.auth.service.domain.dto.login.CommonAuthenticationPostCommand;
+import com.garamgaebee.auth.service.domain.dto.create.CommonAuthenticationPostCommand;
 import com.garamgaebee.auth.service.domain.dto.login.LoginCommand;
 import com.garamgaebee.auth.service.domain.dto.login.LoginResponse;
+import com.garamgaebee.auth.service.domain.dto.logout.LogoutCommand;
 import com.garamgaebee.auth.service.domain.dto.mail.CheckAuthorizationCodeCommand;
 import com.garamgaebee.auth.service.domain.dto.mail.UserSendMailCommand;
 import com.garamgaebee.auth.service.domain.dto.oauth.OauthLoginResponse;
@@ -28,4 +32,13 @@ public interface AuthApplicationService {
 
     // 회원가입
     public LoginResponse createNewCommonAuthentication(CommonAuthenticationPostCommand commonAuthenticationPostCommand);
+
+    // 로그아웃
+    public void logout(LogoutCommand logoutCommand);
+
+    // 닉네임 유효성 검사
+    public ValidateNicknameResponse validateMemberNickname(ValidateNicknameCommand validateNicknameCommand);
+
+    // 회원 탈퇴
+    public void deleteMember(DeleteMemberCommand deleteMemberCommand);
 }

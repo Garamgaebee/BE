@@ -1,18 +1,12 @@
 package com.garamgaebee.auth.service.domain;
 
-import com.garamgaebee.auth.service.domain.dto.login.CommonAuthenticationPostCommand;
+import com.garamgaebee.auth.service.domain.dto.create.CommonAuthenticationPostCommand;
 import com.garamgaebee.auth.service.domain.dto.oauth.OauthUserProfile;
-import com.garamgaebee.auth.service.domain.entity.Authentication;
 import com.garamgaebee.auth.service.domain.entity.CommonAuthentication;
-import com.garamgaebee.auth.service.domain.entity.Oauth2Authentication;
 import com.garamgaebee.auth.service.domain.port.output.repository.AuthenticationRepository;
 import com.garamgaebee.auth.service.domain.port.output.web.OpenFeignClient;
-import com.garamgaebee.common.exception.BaseErrorCode;
-import com.garamgaebee.common.exception.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

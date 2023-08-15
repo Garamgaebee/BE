@@ -1,4 +1,4 @@
-package com.garamgaebee.auth.service.domain.dto.login;
+package com.garamgaebee.auth.service.domain.dto.create;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -13,6 +13,7 @@ import com.garamgaebee.service.dataaccess.authentication.repository.CommonAuthen
 import com.garamgaebee.service.dataaccess.authentication.repository.Oauth2AuthenticationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -81,5 +82,11 @@ public class AuthenticationRepositoryImpl implements AuthenticationRepository {
     @Override
     public Boolean checkEmailExist(String email) {
         return authenticationJpaRepository.existsByEmail(email);
+    }
+
+    @Transactional
+    @Override
+    public void deleteAuthenticationByMemberId(UUID memberId) {
+        authenticationJpaRepository.deleteByMemberId(memberId);
     }
 }

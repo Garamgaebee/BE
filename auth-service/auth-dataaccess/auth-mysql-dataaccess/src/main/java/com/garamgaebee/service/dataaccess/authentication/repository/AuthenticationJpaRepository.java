@@ -12,4 +12,5 @@ public interface AuthenticationJpaRepository<T extends AuthenticationEntity> ext
     public Optional<T> findByMemberId(UUID memberId);
     public Optional<T> findByEmail(String email);
     public Boolean existsByEmail(String email);
+    public void deleteByMemberId(UUID memberId);
 }

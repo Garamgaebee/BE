@@ -20,4 +20,6 @@ public interface AuthenticationRepository {
     public CommonAuthentication persistCommonAuthentication(CommonAuthentication commonAuthentication);
 
     public Boolean checkEmailExist(String email);
+
+    public void deleteAuthenticationByMemberId(UUID memberId);
 }
