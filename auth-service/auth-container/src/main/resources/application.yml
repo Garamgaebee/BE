@@ -5,8 +5,11 @@ logging.level:
   org.hibernate.SQL: debug
 
 spring:
+  application:
+    name: auth-service
+
   datasource:
-    url: jdbc:h2:tcp://localhost/~/test
+    url: 'jdbc:h2:tcp://localhost/~/test'
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -57,3 +60,15 @@ jwt:
     expired-time: 3600000
   refresh-token:
     expired-time: 1209600000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:9000/eureka/}
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+management:
+  endpoint:
+    shutdown:
+      enabled: true
