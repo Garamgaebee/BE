@@ -1,0 +1,15 @@
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    api project(':auth-service:auth-dataaccess:auth-mysql-dataaccess')
+    api project(':auth-service:auth-dataaccess:auth-redis-dataaccess')
+
+    implementation project(":auth-service:auth-domain")
+
+}

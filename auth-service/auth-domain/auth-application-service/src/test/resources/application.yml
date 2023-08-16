@@ -1,0 +1,18 @@
+oauth2:
+  user:
+    kakao:
+      client-id: test-id
+      client-secret: test-secret
+      redirect-uri: test-redirect-uri
+  provider:
+    kakao:
+      token-uri: test-token-uri
+      user-info-uri: test-user-info-uri
+
+jwt:
+  token:
+    secret-key: test-secret-key
+  access-token:
+    expired-time: 3600000
+  refresh-token:
+    expired-time: 1209600000

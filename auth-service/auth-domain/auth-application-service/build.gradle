@@ -1,0 +1,17 @@
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    implementation project(':auth-service:auth-domain:auth-domain-core')
+    implementation project(':common')
+
+    implementation 'org.springframework.boot:spring-boot-starter:'
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+}
