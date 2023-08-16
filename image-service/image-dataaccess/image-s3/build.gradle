@@ -1,0 +1,15 @@
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.468'
+    implementation project (':image-service:image-domain:image-application-service')
+    implementation project (':image-service:image-domain:image-domain-core')
+    implementation project(':common')
+}
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

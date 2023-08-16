@@ -1,4 +1,13 @@
-rootProject.name = 'backend'
+rootProject.name = 'BE'
+
+include 'common'
+include 'member-service', 'member-service:member-application', 'member-service:member-container', 'member-service:member-dataaccess' , 'member-service:member-domain', 'member-service:member-messaging'
+include 'member-service:member-domain:member-application-service'
+include 'member-service:member-domain:member-domain-core'
+include 'thread-service','thread-service:thread-container', 'thread-service:thread-application', 'thread-service:thread-dataaccess', 'thread-service:thread-domain', 'thread-service:thread-messaging'
+include 'thread-service:thread-domain:thread-application-service', 'thread-service:thread-domain:thread-domain-core'
+
+include 'image-service', 'image-service:image-application', 'image-service:image-dataaccess', 'image-service:image-container','image-service:image-domain', 'image-service:image-domain:image-application-service','image-service:image-domain:image-domain-core', 'image-service:image-dataaccess:image-s3'
 
 include 'common'
 
@@ -33,5 +42,4 @@ findProject(':auth-service:auth-messaging:auth-webclient-messaging')?.name = 'au
 include 'auth-service:auth-messaging:auth-mail-messaging'
 findProject(':auth-service:auth-messaging:auth-mail-messaging')?.name = 'auth-mail-messaging'
 //
-
 

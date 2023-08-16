@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.garamgaebee'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.3'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.0.2'
+    implementation project(path: ':thread-service:thread-application')
+    implementation project(path: ':thread-service:thread-dataaccess')
+    implementation project(path: ':thread-service:thread-messaging')
+    implementation project(path: ':thread-service:thread-domain:thread-application-service')
+    implementation project(path: ':thread-service:thread-domain:thread-domain-core')
+}
+
+test {
+    useJUnitPlatform()
+}
