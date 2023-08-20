@@ -5,6 +5,15 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: auth-service-delete
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/auth/member
+            - Method=DELETE
+          filters:
+            - RewritePath=/api/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
         - id: auth-service
           uri: http://localhost:8081
           predicates:
@@ -18,6 +27,7 @@ spring:
             - Path=/api/members/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
 
         - id: team-service
           uri: http://localhost:8083
@@ -25,6 +35,7 @@ spring:
             - Path=/api/teams/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
 
         - id: thread-service
           uri: http://localhost:8084
@@ -32,6 +43,7 @@ spring:
             - Path=/api/threads/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
 
         - id: search-service
           uri: http://localhost:8085
@@ -39,3 +51,4 @@ spring:
             - Path=/api/search/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
