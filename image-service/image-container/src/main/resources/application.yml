@@ -1,11 +1,12 @@
 server:
-  port: 9000
+  port: 9001
 spring:
   application:
-    name: gachongo
+    name: image-service
   mvc:
     path-match:
       matching-strategy: ant_path_matcher
   profiles:
     include:
       - s3
+      - eureka
