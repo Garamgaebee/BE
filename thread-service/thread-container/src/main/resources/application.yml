@@ -12,7 +12,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       naming:
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl

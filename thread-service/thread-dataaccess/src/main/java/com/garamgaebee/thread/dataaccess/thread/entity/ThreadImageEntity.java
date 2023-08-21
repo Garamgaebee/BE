@@ -18,13 +18,13 @@ public class ThreadImageEntity extends ThreadBaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "image_idx", unique = true, nullable = false)
+    @Column(name = "image_idx", unique = true)
     private UUID imageIdx;
 
     @Column(name = "thread_idx", nullable = false)
     private UUID threadIdx;
 
-    @Column(name = "image_url", nullable = false)
+    @Column(name = "image_url", nullable = false, columnDefinition = "TEXT")
     private String url;
 
     @Builder

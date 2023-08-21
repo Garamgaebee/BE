@@ -15,7 +15,7 @@ import java.util.UUID;
 public class LikeEntity extends ThreadBaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "like_idx", unique = true, nullable = false)
+    @Column(name = "like_idx", unique = true)
     private UUID likeIdx;
 
     @Column(name = "target_thread_idx", nullable = false)
