@@ -1,7 +1,16 @@
 server:
   port: 8080
 
+jwt:
+  token:
+    secret-key: secret_key
+
+
 spring:
+
+  main:
+    web-application-type: reactive
+
   cloud:
     gateway:
       routes:

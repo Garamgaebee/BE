@@ -23,6 +23,8 @@ public enum BaseErrorCode {
     WRONG_AUTHORIZATION_CODE(false, String.valueOf(HttpStatus.BAD_REQUEST), "인증 코드가 일치하지 않습니다."),
     WRONG_ID_PASSWORD(false, String.valueOf(HttpStatus.BAD_REQUEST), "아이디 또는 비밀번호가 일치하지 않습니다."),
     INVALID_REFRESH_TOKEN(false, String.valueOf(HttpStatus.BAD_REQUEST), "유효하지 않은 Refresh Token입니다."),
+    INVALID_ACCESS_TOKEN(false, String.valueOf(HttpStatus.UNAUTHORIZED), "유효하지 않은 Access Token입니다."),
+    EMPTY_ACCESS_TOKEN(false, String.valueOf(HttpStatus.UNAUTHORIZED), "Access Token이 포함되지 않은 요청입니다.")
     ;
 
     private final boolean isSuccess;
