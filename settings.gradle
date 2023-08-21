@@ -43,3 +43,5 @@ include 'auth-service:auth-messaging:auth-mail-messaging'
 findProject(':auth-service:auth-messaging:auth-mail-messaging')?.name = 'auth-mail-messaging'
 //
 
+include 'eureka-server'
+
