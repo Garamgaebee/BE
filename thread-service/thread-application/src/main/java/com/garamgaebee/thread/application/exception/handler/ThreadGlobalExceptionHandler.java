@@ -13,6 +13,7 @@ public class ThreadGlobalExceptionHandler extends GlobalExceptionHandler {
     @Override
     public ErrorDTO handleException(Exception exception) {
         log.error(exception.getMessage(), exception);
+        exception.printStackTrace();
         return ErrorDTO.builder()
                 .code(Integer.toString(HttpStatus.INTERNAL_SERVER_ERROR.value()))
                 .message("Unexpected error!")
