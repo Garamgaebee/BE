@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class JwtUtil {
@@ -16,11 +18,12 @@ public class JwtUtil {
     /**
      * token payload 추출
      */
-    public String getPayload(String token) {
+    public TokenUser decode(String token) {
         try {
-            return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
-        } catch (ExpiredJwtException e) {
-            return e.getClaims().getSubject();
+            return TokenUser.builder()
+                    .id(Jwts.parser().setSigningKey(secretKey.getBytes(Charset.forName("UTF-8"))).parseClaimsJws(token).getBody().getSubject())
+                    .role((List<String>)Jwts.parser().setSigningKey(secretKey.getBytes(Charset.forName("UTF-8"))).parseClaimsJws(token).getBody().get("roles"))
+                    .build();
         } catch (JwtException e) {
             throw new RuntimeException("유효하지 않은 토큰입니다.");
         }

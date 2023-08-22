@@ -21,7 +21,7 @@ spring:
             - Method=DELETE
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
-            - AuthorizationHeaderFilter
+            - JwtAuthentication=ROLE_USER
 
         - id: auth-service
           uri: http://localhost:8081
@@ -36,7 +36,7 @@ spring:
             - Path=/api/members/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
-            - AuthorizationHeaderFilter
+            - JwtAuthentication=ROLE_USER
 
         - id: team-service
           uri: http://localhost:8083
@@ -44,7 +44,7 @@ spring:
             - Path=/api/teams/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
-            - AuthorizationHeaderFilter
+            - JwtAuthentication=ROLE_USER
 
         - id: thread-service
           uri: http://localhost:8084
@@ -52,7 +52,7 @@ spring:
             - Path=/api/threads/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
-            - AuthorizationHeaderFilter
+            - JwtAuthentication=ROLE_USER
 
         - id: search-service
           uri: http://localhost:8085
@@ -60,4 +60,4 @@ spring:
             - Path=/api/search/**
           filters:
             - RewritePath=/api/(?<segment>.*), /$\{segment}
-            - AuthorizationHeaderFilter
+            - JwtAuthentication=ROLE_USER
