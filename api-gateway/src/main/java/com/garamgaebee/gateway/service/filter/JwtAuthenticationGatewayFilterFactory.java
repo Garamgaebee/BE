@@ -49,15 +49,18 @@ public class JwtAuthenticationGatewayFilterFactory extends
             ServerHttpRequest request = exchange.getRequest();
             ServerHttpResponse response = exchange.getResponse();
 
+            // jwt token 존재 여부 확인
             if (!containsAuthorization(request)) {
                 return onError(response, BaseErrorCode.EMPTY_ACCESS_TOKEN);
             }
 
+            // jwt token 유효성 확인
             String token = extractToken(request);
             if (!jwtUtil.validateToken(token)) {
                 return onError(response, BaseErrorCode.INVALID_ACCESS_TOKEN);
             }
 
+            // jwt token 유저 권한 확인
             TokenUser tokenUser = jwtUtil.decode(token);
             if (!hasRole(tokenUser, config.role)) {
                 return onError(response, BaseErrorCode.FORBIDDEN_ACCESS);
