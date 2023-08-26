@@ -98,6 +98,15 @@ public class ThreadRepositoryImpl implements ThreadRepository {
         return mapper.entitiesToThreads(entities);
     }
 
+    @Override
+    public Thread getThread(String threadIdx) {
+        ThreadEntity entity = threadJpaRepository.findById(UUID.fromString(threadIdx))
+                .orElseThrow(() -> new BaseException(BaseErrorCode.THREAD_NOT_EXIST));
+
+        return mapper.entityToThread(entity);
+
+    }
+
     /**
      * 댓글 리스트 조회
      * */

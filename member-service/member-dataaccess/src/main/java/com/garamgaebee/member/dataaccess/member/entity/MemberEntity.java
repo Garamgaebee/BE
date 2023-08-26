@@ -29,10 +29,10 @@ public class MemberEntity {
     @Column(name = "nickname", nullable = false, length = 10)
     private String nickname;
 
-    @Column(name = "dept", nullable = false)
+    @Column(name = "dept")
     private String dept;
 
-    @Column(name = "type", nullable = false)
+    @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private MemberType type;
 
