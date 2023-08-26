@@ -30,6 +30,10 @@ public enum BaseErrorCode {
     INVALID_REFRESH_TOKEN(false, String.valueOf(HttpStatus.BAD_REQUEST), "유효하지 않은 Refresh Token입니다."),
 
     FAIL_TO_DELETE_PROFILE_IMAGE(false, Integer.toString(HttpStatus.INTERNAL_SERVER_ERROR.value()), "기존 이미지 삭제에 실패하였습니다. 서버에 문의해주세요")
+    INVALID_ACCESS_TOKEN(false, String.valueOf(HttpStatus.UNAUTHORIZED), "유효하지 않은 Access Token입니다."),
+    EMPTY_ACCESS_TOKEN(false, String.valueOf(HttpStatus.UNAUTHORIZED), "Access Token이 포함되지 않은 요청입니다."),
+    FORBIDDEN_ACCESS(false, String.valueOf(HttpStatus.FORBIDDEN), "권한이 없는 접근입니다.")
+
     ;
 
     private final boolean isSuccess;
