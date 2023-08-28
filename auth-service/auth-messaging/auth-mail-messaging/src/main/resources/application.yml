@@ -1,0 +1,15 @@
+# mail setting
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: tjrcjs0705@gmail.com # 수정
+    password: xacekpcwamofxujq # 수정
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true
+          auth: true
+

@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.garamgaebee'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation project(':common')
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation project(path: ':thread-service:thread-domain:thread-application-service')
+    implementation project(path: ':thread-service:thread-domain:thread-domain-core')
+}
+
+test {
+    useJUnitPlatform()
+}

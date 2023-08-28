@@ -1,0 +1,14 @@
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    implementation project(':auth-service:auth-domain:auth-application-service')
+
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+}

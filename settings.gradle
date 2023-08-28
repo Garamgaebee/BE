@@ -1,4 +1,50 @@
 rootProject.name = 'BE'
+
 include 'common'
-include 'image-service', 'image-service:image-application', 'image-service:image-dataaccess', 'image-service:image-container','image-service:image-domain', 'image-service:image-domain:image-application-service','image-service:image-domain:image-domain-core', 'image-service:image-dataaccess:image-s3'
 include 'team-service', 'team-service:team-container', 'team-service:team-application', 'team-service:team-dataaccess','team-service:team-dataaccess:team-mysql' ,'team-service:team-domain', 'team-service:team-domain:team-application-service', 'team-service:team-domain:team-domain-core', 'team-service:team-messaging'
+
+include 'member-service', 'member-service:member-application', 'member-service:member-container', 'member-service:member-dataaccess' , 'member-service:member-domain', 'member-service:member-messaging'
+include 'member-service:member-domain:member-application-service'
+include 'member-service:member-domain:member-domain-core'
+include 'thread-service','thread-service:thread-container', 'thread-service:thread-application', 'thread-service:thread-dataaccess', 'thread-service:thread-domain', 'thread-service:thread-messaging'
+include 'thread-service:thread-domain:thread-application-service', 'thread-service:thread-domain:thread-domain-core'
+
+include 'image-service', 'image-service:image-application', 'image-service:image-dataaccess', 'image-service:image-container','image-service:image-domain', 'image-service:image-domain:image-application-service','image-service:image-domain:image-domain-core', 'image-service:image-dataaccess:image-s3'
+
+
+// auth-service
+include 'auth-service'
+include 'auth-service:auth-container'
+findProject(':auth-service:auth-container')?.name = 'auth-container'
+
+include 'auth-service:auth-application'
+findProject(':auth-service:auth-application')?.name = 'auth-application'
+
+include 'auth-service:auth-dataaccess'
+findProject(':auth-service:auth-dataaccess')?.name = 'auth-dataaccess'
+include 'auth-service:auth-dataaccess:auth-mysql-dataaccess'
+findProject(':auth-service:auth-dataaccess:auth-mysql-dataaccess')?.name = 'auth-mysql-dataaccess'
+include 'auth-service:auth-dataaccess:auth-redis-dataaccess'
+findProject(':auth-service:auth-dataaccess:auth-redis-dataaccess')?.name = 'auth-redis-dataaccess'
+
+include 'auth-service:auth-domain'
+findProject(':auth-service:auth-domain')?.name = 'auth-domain'
+include 'auth-service:auth-domain:auth-application-service'
+findProject(':auth-service:auth-domain:auth-application-service')?.name = 'auth-application-service'
+include 'auth-service:auth-domain:auth-domain-core'
+findProject(':auth-service:auth-domain:auth-domain-core')?.name = 'auth-domain-core'
+
+include 'auth-service:auth-messaging'
+findProject(':auth-service:auth-messaging')?.name = 'auth-messaging'
+include 'auth-service:auth-messaging:auth-openfeign-messaging'
+findProject(':auth-service:auth-messaging:auth-openfeign-messaging')?.name = 'auth-openfeign-messaging'
+include 'auth-service:auth-messaging:auth-webclient-messaging'
+findProject(':auth-service:auth-messaging:auth-webclient-messaging')?.name = 'auth-webclient-messaging'
+include 'auth-service:auth-messaging:auth-mail-messaging'
+findProject(':auth-service:auth-messaging:auth-mail-messaging')?.name = 'auth-mail-messaging'
+//
+include 'api-gateway'
+
+include 'eureka-server'
+
+

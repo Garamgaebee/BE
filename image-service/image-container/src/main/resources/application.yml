@@ -1,0 +1,12 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: image-service
+  mvc:
+    path-match:
+      matching-strategy: ant_path_matcher
+  profiles:
+    include:
+      - s3
+      - eureka

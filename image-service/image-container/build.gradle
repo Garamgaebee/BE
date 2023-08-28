@@ -1,0 +1,15 @@
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.0.2'
+    implementation project(':image-service:image-application')
+    implementation project(':image-service:image-dataaccess:image-s3')
+    implementation project(':image-service:image-domain:image-domain-core')
+    implementation project(':image-service:image-domain:image-application-service')
+}
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

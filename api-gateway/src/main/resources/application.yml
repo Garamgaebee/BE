@@ -1,0 +1,102 @@
+server:
+  servlet:
+    context-path: /
+  port: 8080
+
+jwt:
+  token:
+    secret-key: secret_key
+
+spring:
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service-delete
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/auth/member
+            - Method=DELETE
+          filters:
+            - JwtAuthentication=ROLE_USER
+
+        - id: auth-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/auth/**
+
+        - id: member-service-docs
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/members/swagger-ui.html, /api/members/v3/api-docs
+
+        - id: member-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/members/**
+          filters:
+            - JwtAuthentication=ROLE_USER
+
+        - id: team-service-docs
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/teams/swagger-ui.html, /api/teams/v3/api-docs
+
+        - id: team-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/teams/**
+          filters:
+            - JwtAuthentication=ROLE_USER
+
+        - id: thread-service-docs
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/threads/swagger-ui.html, /api/threads/v3/api-docs
+
+        - id: thread-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/threads/**
+          filters:
+            - JwtAuthentication=ROLE_USER
+
+        - id: search-service-docs
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/search/swagger-ui.html, /api/search/v3/api-docs
+
+        - id: search-service
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/search/**
+          filters:
+            - JwtAuthentication=ROLE_USER
+
+springdoc:
+  enable-native-support: true
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - url: /v3/api-docs
+        name: API Gateway Service
+
+      - url: /api/auth/v3/api-docs
+        name: Auth Service
+
+      - url: /api/members/v3/api-docs
+        name: Member Service
+
+      - url: /api/teams/v3/api-docs
+        name: Team Service
+
+      - url: /api/threads/v3/api-docs
+        name: Thread Service
+
+      - url: /api/search/v3/api-docs
+        name: Search Service
