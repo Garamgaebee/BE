@@ -31,6 +31,7 @@ public class MemberAccessMapper {
                 .emails(emailListMapper(emails))
                 .careers(careerListMapper(careers))
                 .snses(snsListMapper(snses))
+                .status(member.getStatus())
                 .build();
     }
 

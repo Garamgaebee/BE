@@ -1,11 +1,15 @@
 package com.garamgaebee.member.domain;
 
+import com.garamgaebee.common.exception.BaseErrorCode;
 import com.garamgaebee.common.exception.BaseException;
 import com.garamgaebee.member.domain.dto.*;
 import com.garamgaebee.member.domain.entity.Member;
 import com.garamgaebee.member.domain.mapper.MemberDataMapper;
 import com.garamgaebee.member.domain.ports.in.MemberService;
+import com.garamgaebee.member.domain.ports.out.ImageFeignPublisher;
 import com.garamgaebee.member.domain.ports.out.MemberRepository;
+import com.garamgaebee.member.domain.valueobject.ImageDeleteVO;
+import com.garamgaebee.member.domain.valueobject.ImageVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -25,14 +29,15 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberDataMapper memberDataMapper;
-
     private final CreateMemberHelper createMemberHelper;
+    private final ImageFeignPublisher imageFeignPublisher;
 
     @Autowired
-    public MemberServiceImpl(MemberRepository memberRepository, MemberDataMapper memberDataMapper, CreateMemberHelper createMemberHelper) {
+    public MemberServiceImpl(MemberRepository memberRepository, MemberDataMapper memberDataMapper, CreateMemberHelper createMemberHelper, ImageFeignPublisher imageFeignPublisher) {
         this.memberRepository = memberRepository;
         this.memberDataMapper = memberDataMapper;
         this.createMemberHelper = createMemberHelper;
+        this.imageFeignPublisher = imageFeignPublisher;
     }
 
     @Override
@@ -68,15 +73,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public ProfileImgResponse postProfileImg(String memberIdx, MultipartFile file) {
-        List<MultipartFile> fileList = new ArrayList<>();
-        fileList.add(file);
-
-        List<String> urls = new ArrayList<>();
+        String url = uploadImage(file);
 
         Member member = memberRepository.findMember(UUID.fromString(memberIdx));
 
-        //TODO 이미지 등록 요청하기
-        member.updateProfileImg(urls.get(0));
+        member.updateProfileImg(url);
 
         memberRepository.patchMemberImage(member);
 
@@ -87,17 +88,19 @@ public class MemberServiceImpl implements MemberService {
      * 이미지 변경 요청
      * */
     @Override
-    @Transactional
-    public ProfileImgResponse patchProfileImg(String memberIdx, MultipartFile file) {
-        List<MultipartFile> fileList = new ArrayList<>();
-        fileList.add(file);
-
-        List<String> urls = new ArrayList<>();
+    @Transactional(rollbackFor = BaseException.class)
+    public ProfileImgResponse patchProfileImg(String memberIdx, MultipartFile file) throws BaseException{
+        String url = uploadImage(file);
 
         Member member = memberRepository.findMember(UUID.fromString(memberIdx));
-        //TODO 이미지 삭제 요청하기
-        //TODO 이미지 등록 요청하기
-        member.updateProfileImg(urls.get(0));
+
+        boolean isDeleted = deleteImage(member.getProfileImgUrl());
+
+        if(!isDeleted) {
+            throw new BaseException(BaseErrorCode.FAIL_TO_DELETE_PROFILE_IMAGE);
+        }
+
+        member.updateProfileImg(url);
 
         memberRepository.patchMemberImage(member);
 
@@ -123,5 +126,29 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findMember(UUID.fromString(userIdx));
 
         return memberDataMapper.getFeignMemberMapper(member);
+    }
+
+    /**
+     * Feign 이미지 등록 요청
+     * */
+    public String uploadImage(MultipartFile file) {
+        List<MultipartFile> fileList = new ArrayList<>();
+        fileList.add(file);
+
+        //Image Service에 이미지 등록 요청
+        ImageVO vo = imageFeignPublisher.getFeignImageUrls(fileList);
+
+        return vo.getUrl().get(0);
+    }
+
+    public Boolean deleteImage(String url) {
+        List<String> urlList = new ArrayList<>();
+        urlList.add(url);
+
+        DeleteImageCommand command = new DeleteImageCommand(urlList);
+
+        ImageDeleteVO vo = imageFeignPublisher.deleteFeignImages(command);
+
+        return vo.getIsDeleted().get(0);
     }
 }

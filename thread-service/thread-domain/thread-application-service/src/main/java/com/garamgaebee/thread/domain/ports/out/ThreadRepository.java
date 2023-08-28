@@ -25,4 +25,6 @@ public interface ThreadRepository {
     List<Thread> getThreadListOrderByLike();
 
     List<Thread> getThreadTeamList(Long teamIdx);
+
+    Thread getThread(String threadIdx);
 }

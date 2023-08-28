@@ -49,7 +49,7 @@ public class MemberController {
      * 프로필 이미지 등록
      * */
     @PostMapping(value = "/{member-idx}/image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<ProfileImgResponse> postProfileImg(@PathVariable("member-idx") String memberIdx, @RequestPart(value = "file") MultipartFile file){
+    public ResponseEntity<ProfileImgResponse> postProfileImg(@PathVariable("member-idx") String memberIdx, @RequestPart(value = "file") MultipartFile file) {
         ProfileImgResponse profileImgResponse = memberService.postProfileImg(memberIdx, file);
 
         return ResponseEntity.ok(profileImgResponse);
@@ -59,7 +59,7 @@ public class MemberController {
      * 프로필 이미지 수정
      * */
     @PostMapping(value = "/{member-idx}/image/modify", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<ProfileImgResponse> patchProfileImg(@PathVariable("member-idx") String memberIdx, @RequestPart(value = "file") MultipartFile file){
+    public ResponseEntity<ProfileImgResponse> patchProfileImg(@PathVariable("member-idx") String memberIdx, @RequestPart(value = "file") MultipartFile file) throws BaseException{
         ProfileImgResponse profileImgResponse = memberService.patchProfileImg(memberIdx, file);
 
         return ResponseEntity.ok(profileImgResponse);

@@ -5,7 +5,9 @@ import com.garamgaebee.common.exception.BaseException;
 import com.garamgaebee.thread.domain.dto.*;
 import com.garamgaebee.thread.domain.entity.Thread;
 import com.garamgaebee.thread.domain.ports.in.ThreadService;
+import com.garamgaebee.thread.domain.valueobject.MemberVO;
 import jakarta.annotation.Nullable;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/threads")
 public class ThreadController {
@@ -31,6 +34,7 @@ public class ThreadController {
      * */
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreateThreadRes> createThread(@RequestPart("file") List<MultipartFile> fileList, @RequestPart("meta") CreateThreadCommand req) throws BaseException {
+        log.info("debug");
         if(req.getContent().getBytes().length > 500) throw new BaseException(BaseErrorCode.CONTENT_TOO_LONG);
 
         CreateThreadRes createdThread = threadService.createThread(fileList, req);
@@ -73,11 +77,6 @@ public class ThreadController {
 
         return ResponseEntity.ok(res);
     }
-    /**
-     * 스레드 상세 조회 API
-     * [GET] ~/api/threads/detail
-     * 이게 필요할까...?
-     * */
 
     /**
      * 스레드 팀 리스트 조회
@@ -89,6 +88,7 @@ public class ThreadController {
 
         return ResponseEntity.ok(res);
     }
+
     /**
      * 댓글 생성 (개인)
      * [POST] ~/api/threads/reply
@@ -101,6 +101,7 @@ public class ThreadController {
 
         return ResponseEntity.ok(createdThread);
     }
+
     /**
      * 댓글 생성 (팀)
      * [POST] ~/api/threads/reply/{team-idx}
@@ -125,13 +126,14 @@ public class ThreadController {
 
         return ResponseEntity.ok(resList);
     }
+
     /**
      * 스레드, 댓글 좋아요 생성
      * [POST] ~/api/threads/like
      * */
     @PostMapping("/like")
-    public ResponseEntity<CreateLikeRes> createLike(@RequestParam("thread-id") String threadIdx) {
-        CreateLikeRes createdLike = threadService.createLike(threadIdx);
+    public ResponseEntity<CreateLikeRes> createLike(@RequestBody CreateLikeCommand req) {
+        CreateLikeRes createdLike = threadService.createLike(req);
 
         return ResponseEntity.ok(createdLike);
     }
@@ -141,8 +143,8 @@ public class ThreadController {
      * [DELETE] ~/api/threads/like
      * */
     @DeleteMapping("/like")
-    public ResponseEntity<DeleteLikeRes> deleteLike(@RequestParam("thread-id") String threadIdx) {
-        DeleteLikeRes deleteLike = threadService.deleteLike(threadIdx);
+    public ResponseEntity<DeleteLikeRes> deleteLike(@RequestBody DeleteLikeCommand req) {
+        DeleteLikeRes deleteLike = threadService.deleteLike(req);
 
         return ResponseEntity.ok(deleteLike);
     }
