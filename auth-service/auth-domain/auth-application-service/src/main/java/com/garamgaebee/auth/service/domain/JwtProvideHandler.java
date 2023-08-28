@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,9 +48,9 @@ public class JwtProvideHandler {
                 .build();
     }
 
-    public FindRefreshTokenResponse findSavedRefreshTokenValue(String refreshToken) {
+    public Optional<FindRefreshTokenResponse> findSavedRefreshTokenValue(String refreshToken) {
         //refreshToken이 저장되어있는 지 확인, 저장되지 않은 refreshToken이면 에러 반환
-        return refreshTokenRedisRepository.findUserRefreshToken(refreshToken).orElseThrow(() -> new BaseException(BaseErrorCode.INVALID_REFRESH_TOKEN));
+        return refreshTokenRedisRepository.findUserRefreshToken(refreshToken);
     }
 
     public void deleteRefreshToken(String refreshToken) {
