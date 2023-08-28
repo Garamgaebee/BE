@@ -43,9 +43,9 @@ spring:
   application:
     name: threadservice
   datasource:
-    url: jdbc:h2:tcp://localhost/~/h2/thread
-    username: sa
-    password:
+    url: jdbc:mysql://garamgaebee-rds.cmvufjnyvp1f.ap-northeast-2.rds.amazonaws.com:3306/thread
+    username: admin
+    password: garamgaebeebackend!!
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
