@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
-public class OauthController {
+public class AuthController {
 
     // 인증 use-case 객체
     private final AuthApplicationService authApplicationService;
