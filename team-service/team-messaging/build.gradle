@@ -1,0 +1,15 @@
+dependencies {
+    implementation project(':common')
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.3'
+    implementation project(':team-service:team-domain:team-application-service')
+    implementation project (':team-service:team-domain:team-domain-core')
+
+}
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

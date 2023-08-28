@@ -1,0 +1,11 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: team-service
+  mvc:
+    path-match:
+      matching-strategy: ant_path_matcher
+  profiles:
+    include:
+      - mysql

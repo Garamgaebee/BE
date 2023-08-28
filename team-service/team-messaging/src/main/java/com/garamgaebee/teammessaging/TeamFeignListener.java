@@ -1,0 +1,9 @@
+package com.garamgaebee.teammessaging;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/feign/team")
+public class TeamFeignListener {
+}
