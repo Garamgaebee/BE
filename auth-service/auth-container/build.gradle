@@ -1,4 +1,6 @@
 dependencies {
+    implementation project(':common')
+
     implementation project(':auth-service:auth-application')
     implementation project(':auth-service:auth-dataaccess')
     implementation project(':auth-service:auth-domain')
