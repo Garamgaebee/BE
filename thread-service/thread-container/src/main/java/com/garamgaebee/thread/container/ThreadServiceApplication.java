@@ -8,11 +8,11 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"com.garamgaebee.*"})
 @EnableDiscoveryClient
-@EnableJpaRepositories(basePackages = { "com.garamgaebee"})
-@SpringBootApplication(scanBasePackages = { "com.garamgaebee"})
-@EntityScan(basePackages = { "com.garamgaebee"})
+@EnableJpaRepositories(basePackages = { "com.garamgaebee.*"})
+@SpringBootApplication(scanBasePackages = { "com.garamgaebee.*"})
+@EntityScan(basePackages = { "com.garamgaebee.*"})
 @EnableJpaAuditing
 public class ThreadServiceApplication {
 

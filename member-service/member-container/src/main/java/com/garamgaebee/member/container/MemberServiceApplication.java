@@ -10,7 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"com.garamgaebee.*"})
 @EnableDiscoveryClient
 @EnableJpaRepositories(basePackages = { "com.garamgaebee"})
 @SpringBootApplication(scanBasePackages = { "com.garamgaebee"})

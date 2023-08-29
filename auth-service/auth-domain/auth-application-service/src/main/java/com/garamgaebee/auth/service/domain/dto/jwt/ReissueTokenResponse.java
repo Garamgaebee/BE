@@ -8,5 +8,5 @@ import lombok.Getter;
 @AllArgsConstructor
 @Builder
 public class ReissueTokenResponse {
-    private JwtTokenInfo jwtTokenInfo;
+    private JwtTokenInfo tokenInfo;
 }

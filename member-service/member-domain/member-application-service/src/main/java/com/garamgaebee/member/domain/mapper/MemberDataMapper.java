@@ -7,6 +7,7 @@ import com.garamgaebee.member.domain.entity.Email;
 import com.garamgaebee.member.domain.entity.Member;
 import com.garamgaebee.member.domain.entity.Sns;
 import com.garamgaebee.member.domain.valueobject.MemberCareer;
+import com.garamgaebee.member.domain.valueobject.MemberStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -34,6 +35,8 @@ public class MemberDataMapper {
     }
 
     public GetFeignMemberResponse getFeignMemberMapper(Member member) {
+        System.out.println(member.getMemberName());
+
         return GetFeignMemberResponse.builder()
                 .memberIdx(member.getMemberIdx())
                 .memberName(member.getMemberName())

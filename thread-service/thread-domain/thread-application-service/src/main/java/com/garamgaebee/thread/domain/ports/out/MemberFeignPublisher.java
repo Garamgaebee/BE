@@ -1,4 +1,4 @@
-package com.garamgaebee.thread.messaging.publisher;
+package com.garamgaebee.thread.domain.ports.out;
 
 import com.garamgaebee.thread.domain.valueobject.MemberVO;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "memberservice")
-public interface ThreadFeignPublisher {
+public interface MemberFeignPublisher {
 
     /**
      * MemberService에서 Member 통째로 가져오기

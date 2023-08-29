@@ -85,7 +85,8 @@ public class AuthApplicationServiceImpl implements AuthApplicationService {
         String refreshToken = reissueTokenCommand.getRefreshToken();
 
         // refreshToken이 저장되어있는지 확인, 저장 안돼있으면 예외
-        FindRefreshTokenResponse refreshTokenResponse = jwtProvideHandler.findSavedRefreshTokenValue(refreshToken);
+        FindRefreshTokenResponse refreshTokenResponse = jwtProvideHandler.findSavedRefreshTokenValue(refreshToken)
+                .orElseThrow(() -> new BaseException(BaseErrorCode.INVALID_REFRESH_TOKEN));
 
         // 받은 memberId로 멤버 정보 가져오기, 없는 멤버이면 예외
         Authentication authentication = authenticationHandler.findAuthenticationByMemberId(refreshTokenResponse.getMemberId())
@@ -98,7 +99,7 @@ public class AuthApplicationServiceImpl implements AuthApplicationService {
         JwtTokenInfo jwtTokenInfo = jwtProvideHandler.issueJwtToken(authentication);
 
         return ReissueTokenResponse.builder()
-                .jwtTokenInfo(jwtTokenInfo)
+                .tokenInfo(jwtTokenInfo)
                 .build();
     }
 

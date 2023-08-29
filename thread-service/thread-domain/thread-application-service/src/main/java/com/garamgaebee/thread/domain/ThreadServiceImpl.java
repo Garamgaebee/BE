@@ -7,10 +7,13 @@ import com.garamgaebee.thread.domain.entity.Thread;
 import com.garamgaebee.thread.domain.entity.ThreadType;
 import com.garamgaebee.thread.domain.mapper.ThreadDomainMapper;
 import com.garamgaebee.thread.domain.ports.in.ThreadService;
+import com.garamgaebee.thread.domain.ports.out.ImageFeignPublisher;
+import com.garamgaebee.thread.domain.ports.out.MemberFeignPublisher;
+import com.garamgaebee.thread.domain.ports.out.TeamFeignPublisher;
 import com.garamgaebee.thread.domain.ports.out.ThreadRepository;
+import com.garamgaebee.thread.domain.valueobject.MemberVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,18 +23,26 @@ import java.util.List;
 
 @Slf4j
 @Service
-@ComponentScan
 public class ThreadServiceImpl implements ThreadService {
 
     private final ThreadRepository threadRepository;
     private final CreateThreadHelper createThreadHelper;
     private final ThreadDomainMapper mapper;
 
+    private final MemberFeignPublisher memberFeignPublisher;
+
+    private final ImageFeignPublisher imageFeignPublisher;
+
+    private final TeamFeignPublisher teamFeign;
+
     @Autowired
-    public ThreadServiceImpl(ThreadRepository threadRepository, CreateThreadHelper createThreadHelper, ThreadDomainMapper mapper) {
+    public ThreadServiceImpl(ThreadRepository threadRepository, CreateThreadHelper createThreadHelper, ThreadDomainMapper mapper, MemberFeignPublisher memberFeignPublisher, ImageFeignPublisher imageFeignPublisher, TeamFeignPublisher teamFeign) {
         this.threadRepository = threadRepository;
         this.createThreadHelper = createThreadHelper;
         this.mapper = mapper;
+        this.memberFeignPublisher = memberFeignPublisher;
+        this.imageFeignPublisher = imageFeignPublisher;
+        this.teamFeign = teamFeign;
     }
 
     /**
@@ -42,16 +53,18 @@ public class ThreadServiceImpl implements ThreadService {
     //영속성 컨텍스트를 이용하기 위하여 트랜잭션으로 묶었습니다.
     @Transactional
     public CreateThreadRes createThread(List<MultipartFile> fileList, CreateThreadCommand req) throws BaseException{
-        //TODO 이미지 url로 바꾸기
-        List<String> imgUrls = new ArrayList<>();
-        imgUrls.add("test");
+
+        List<String> imgUrls = createThreadHelper.getImageList(fileList);
+
         //TODO jwt에서 userIdx 가져오기
-        //TODO memberIdx 가지고 memberImgUrl 가져오기
-        String memberProfileUrl = "test";
-        String authorName = "test";
+        String authorIdx = req.getAuthorIdx();
+
+        MemberVO member = memberFeignPublisher.getFeignMember(authorIdx);
+        String memberProfileUrl = member.getProfileImgUrl();
+        String authorName = member.getMemberName();
 
         Thread createTarget = Thread.builder()
-                .authorIdx(req.getAuthorIdx())
+                .authorIdx(authorIdx)
                 .authorName(authorName)
                 .content(req.getContent())
                 .isComment(req.isComment())
@@ -91,20 +104,20 @@ public class ThreadServiceImpl implements ThreadService {
     //영속성 컨텍스트를 이용하기 위하여 트랜잭션으로 묶었습니다.
     @Transactional
     public CreateThreadRes createTeamThread(List<MultipartFile> fileList, CreateThreadCommand req, Long teamId) throws BaseException {
-        //TODO 이미지 url로 바꾸기
-        List<String> imgUrls = new ArrayList<>();
-        imgUrls.add("test");
+        List<String> imgUrls = createThreadHelper.getImageList(fileList);
+
         //TODO jwt에서 userIdx 가져오기
-        //TODO memberIdx 가지고 memberImgUrl과 memberName 가져오기
-        String memberProfileUrl = "test";
-        String authorName = "memberName";
+        String authorIdx = req.getAuthorIdx();
+
+        MemberVO member = memberFeignPublisher.getFeignMember(authorIdx);
+        String memberProfileUrl = member.getProfileImgUrl();
+        String authorName = member.getMemberName();
         //TODO teamIdx 가지고 Team 객체 가져오기
         String teamProfileUrl = "test";
         String teamName = "teamName";
 
-        //대상 엔티티 만들기
         Thread createTarget = Thread.builder()
-                .authorIdx(req.getAuthorIdx())
+                .authorIdx(authorIdx)
                 .content(req.getContent())
                 .isComment(req.isComment())
                 .parentIdx("NONE")
@@ -139,10 +152,16 @@ public class ThreadServiceImpl implements ThreadService {
      * 스레드 삭제 API - Service
      * */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = BaseException.class)
     public DeleteThreadRes deleteThread(String threadIdx) throws BaseException{
-        return threadRepository.deleteThread(threadIdx);
+        //이미지도 삭제하기
+        Thread thread = threadRepository.getThread(threadIdx);
 
+        if(!thread.getImgUrls().isEmpty()){
+            deleteImages(thread.getImgUrls());
+        }
+
+        return threadRepository.deleteThread(threadIdx);
     }
 
     /**
@@ -191,17 +210,17 @@ public class ThreadServiceImpl implements ThreadService {
     @Override
     @Transactional
     public CreateCommentRes createComment(List<MultipartFile> fileList, CreateCommentCommand req) throws BaseException{
-        //TODO 이미지 url로 바꾸기
-        List<String> imgUrls = new ArrayList<>();
-        imgUrls.add("test");
-        //TODO jwt에서 userIdx 가져오기
-        //TODO memberIdx 가지고 memberImgUrl 가져오기
-        String memberProfileUrl = "test";
-        String authorName = "test";
+        List<String> imgUrls = createThreadHelper.getImageList(fileList);
 
-        //대상 엔티티 만들기
+        //TODO jwt에서 memberIdx 가져오기
+        String authorIdx = req.getAuthorIdx();
+
+        MemberVO member = memberFeignPublisher.getFeignMember(authorIdx);
+        String memberProfileUrl = member.getProfileImgUrl();
+        String authorName = member.getMemberName();
+
         Thread thread = Thread.builder()
-                .authorIdx(req.getAuthorIdx())
+                .authorIdx(authorIdx)
                 .authorName(authorName)
                 .content(req.getContent())
                 .likeNumber(0)
@@ -241,20 +260,20 @@ public class ThreadServiceImpl implements ThreadService {
     @Override
     @Transactional
     public CreateCommentRes createTeamComment(List<MultipartFile> fileList, CreateCommentCommand req, Long teamId) {
-        //TODO 이미지 url로 바꾸기
-        List<String> imgUrls = new ArrayList<>();
-        imgUrls.add("test");
+        List<String> imgUrls = createThreadHelper.getImageList(fileList);
+
         //TODO jwt에서 userIdx 가져오기
-        //TODO memberIdx 가지고 memberImgUrl 가져오기
-        String memberProfileUrl = "test";
-        String authorName = "test";
-        //TODO teamIdx 가지고 Team 객체 가져오기
+        String authorIdx = req.getAuthorIdx();
+
+        MemberVO member = memberFeignPublisher.getFeignMember(authorIdx);
+        String memberProfileUrl = member.getProfileImgUrl();
+        String authorName = member.getMemberName();
+        //TODO teamIdx 가지고 TeamVO 객체 가져오기
         String teamProfileUrl = "test";
         String teamName = "teamName";
 
-        //대상 엔티티 만들기
         Thread thread = Thread.builder()
-                .authorIdx(req.getAuthorIdx())
+                .authorIdx(authorIdx)
                 .authorName(authorName)
                 .content(req.getContent())
                 .likeNumber(0)
@@ -270,13 +289,11 @@ public class ThreadServiceImpl implements ThreadService {
 
         Thread created = createThreadHelper.createThread(thread);
 
-
         return CreateCommentRes.builder()
                 .threadId(created.getThreadIdx())
                 .isComment(Boolean.TRUE)
                 .rootThreadIdx(created.getParentIdx())
                 .authorName(created.getAuthorName())
-                //TODO 팀 객체에서 프로필 이미지 가져오기
                 .teamName(created.getTeamName())
                 .authorImgUrl(memberProfileUrl)
                 .teamImgUrl(teamProfileUrl)
@@ -305,12 +322,12 @@ public class ThreadServiceImpl implements ThreadService {
      * */
     @Override
     @Transactional
-    public CreateLikeRes createLike(String threadIdx) {
+    public CreateLikeRes createLike(CreateLikeCommand req) {
         //TODO jwt에서 userIdx 가져오기
-        String memberIdx = "test";
+        String memberIdx = req.getMemberIdx();
 
         Like like = Like.builder()
-                .targetThreadIdx(threadIdx)
+                .targetThreadIdx(req.getTheradIdx())
                 .memberIdx(memberIdx)
                 .build();
 
@@ -318,7 +335,7 @@ public class ThreadServiceImpl implements ThreadService {
 
         return CreateLikeRes.builder()
                 .likeSuccess(Boolean.TRUE)
-                .targetThreadIdx(threadIdx)
+                .targetThreadIdx(req.getTheradIdx())
                 .build();
 
     }
@@ -328,12 +345,12 @@ public class ThreadServiceImpl implements ThreadService {
      * */
     @Override
     @Transactional
-    public DeleteLikeRes deleteLike(String threadIdx) {
+    public DeleteLikeRes deleteLike(DeleteLikeCommand req) {
         //TODO jwt에서 userIdx 가져오기
-        String memberIdx = "test";
+        String memberIdx = req.getMemberIdx();
 
         Like like = Like.builder()
-                .targetThreadIdx(threadIdx)
+                .targetThreadIdx(req.getThreadIdx())
                 .memberIdx(memberIdx)
                 .build();
 
@@ -341,9 +358,13 @@ public class ThreadServiceImpl implements ThreadService {
 
         return DeleteLikeRes.builder()
                 .deleteSuccess(Boolean.TRUE)
-                .targetThreadId(threadIdx)
+                .targetThreadId(req.getThreadIdx())
                 .build();
     }
 
+    private void deleteImages(List<String> urls){
+        DeleteImageCommand deleteImageCommand = new DeleteImageCommand(urls);
 
+        imageFeignPublisher.deleteFeignImages(deleteImageCommand);
+    }
 }

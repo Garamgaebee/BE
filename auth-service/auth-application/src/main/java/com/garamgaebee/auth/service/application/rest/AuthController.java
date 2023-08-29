@@ -13,15 +13,21 @@ import com.garamgaebee.auth.service.domain.dto.mail.CheckAuthorizationCodeComman
 import com.garamgaebee.auth.service.domain.dto.mail.UserSendMailCommand;
 import com.garamgaebee.auth.service.domain.dto.oauth.OauthLoginResponse;
 import com.garamgaebee.auth.service.domain.port.input.service.AuthApplicationService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     // 인증 use-case 객체
@@ -36,12 +42,81 @@ public class AuthController {
     }
 
     // 자체로그인 컨트롤러
+    @Operation(summary = "로그인 API", description = "아이디/비밀번호로 로그인 요청", responses = {
+            @ApiResponse(responseCode = "200", description = "로그인 성공", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    examples = {
+                            @ExampleObject(
+                                    name = "로그인 성공",
+                                    summary = "로그인에 성공합니다.",
+                                    value =
+                                            "{\"memberId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\","
+                                            + "\"tokenInfo\": {"
+                                            + "\"accessToken\": \"eaoijtho332jfoij_r32jfaejfoie_3afifjajaifjeiellghnaognkvAZaoiEAF\","
+                                            + "\"refreshToken\": \"eaoijtho332jfoij_r32jfaejfoie_3afifjajaifjeiellghnaognkvAZaoiEAF\""
+                                            + "}"
+                                            + "}")})),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청(일치하지 않는 아이디/비밀번호 등)", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    examples = {
+                            @ExampleObject(
+                                    name = "로그인 실패",
+                                    summary = "로그인에 실패합니다.",
+                                    value =
+                                            "{\"code\": \"400 BAD_REQUEST\",\n"
+                                                    + "\"message\": \"아이디 또는 비밀번호가 일치하지 않습니다.\""
+                                                    + "}")})),
+            @ApiResponse(responseCode = "500", description = "서버 에러", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    examples = {
+                            @ExampleObject(
+                                    name = "서버 에러",
+                                    summary = "서버에서 예기치 못한 에러가 발생합니다.",
+                                    value =
+                                            "{\"code\": \"500 INTERNAL_SERVER_ERROR\",\n"
+                                                    + "\"message\": \"Unexpected error!\""
+                                                    + "}")}))
+    })
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginCommand loginCommand) {
         return ResponseEntity.ok().body(authApplicationService.login(loginCommand));
     }
 
     // refresh token으로 토큰 재발급 컨트롤러
+    @Operation(summary = "토큰재발급 API", description = "refresh token으로 access token을 재발급 받습니다.", responses = {
+            @ApiResponse(responseCode = "200", description = "token 재발급 성공", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    examples = {
+                            @ExampleObject(
+                                    name = "token 재발급 성공",
+                                    summary = "token 재발급에 성공합니다.",
+                                    value =
+                                            "{\"tokenInfo\": {"
+                                                    + "\"accessToken\": \"eaoijtho332jfoij_r32jfaejfoie_3afifjajaifjeiellghnaognkvAZaoiEAF\","
+                                                    + "\"refreshToken\": \"eaoijtho332jfoij_r32jfaejfoie_3afifjajaifjeiellghnaognkvAZaoiEAF\""
+                                                    + "}"
+                            +"}")})),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    examples = {
+                            @ExampleObject(
+                                    name = "token 재발급 실패",
+                                    summary = "token 재발급에 실패합니다.",
+                                    value =
+                                            "{\"code\": \"400 BAD_REQUEST\",\n"
+                                                    + "\"message\": \"유효하지 않은 Refresh Token입니다.\""
+                                                    + "}")})),
+            @ApiResponse(responseCode = "500", description = "서버 에러", content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    examples = {
+                            @ExampleObject(
+                                    name = "서버 에러",
+                                    summary = "서버에서 예기치 못한 에러가 발생합니다.",
+                                    value =
+                                            "{\"code\": \"500 INTERNAL_SERVER_ERROR\",\n"
+                                                    + "\"message\": \"Unexpected error!\""
+                                                    + "}")}))
+    })
     @PostMapping("/refresh")
     public ResponseEntity<ReissueTokenResponse> reissueJwtTokenByRefreshToken(@RequestBody ReissueTokenCommand reissueTokenCommand) {
         return ResponseEntity.ok().body(authApplicationService.issueTokenByRefreshToken(reissueTokenCommand));

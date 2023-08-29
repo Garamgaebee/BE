@@ -28,7 +28,6 @@ public class CreateMemberCommand {
         this.memberName = memberName;
         this.nickname = nickname;
         this.dept = dept;
-
         this.memberType = memberType;
     }
 }

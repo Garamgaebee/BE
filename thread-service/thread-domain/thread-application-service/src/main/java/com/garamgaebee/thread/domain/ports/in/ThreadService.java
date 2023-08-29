@@ -2,6 +2,7 @@ package com.garamgaebee.thread.domain.ports.in;
 
 import com.garamgaebee.thread.domain.dto.*;
 import com.garamgaebee.thread.domain.entity.Thread;
+import com.garamgaebee.thread.domain.valueobject.MemberVO;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,10 +26,10 @@ public interface ThreadService {
     CreateCommentRes createTeamComment(List<MultipartFile> fileList, CreateCommentCommand req, Long teamId);
 
     //스레드, 댓글 좋아요 생성
-    CreateLikeRes createLike(String threadIdx);
+    CreateLikeRes createLike(CreateLikeCommand req);
 
     //스레드, 댓글 좋아요 삭제
-    DeleteLikeRes deleteLike(String threadIdx);
+    DeleteLikeRes deleteLike(DeleteLikeCommand req);
 
     // 댓글 리스트 조회
     List<GetCommentRes> getCommentList(String threadIdx);
