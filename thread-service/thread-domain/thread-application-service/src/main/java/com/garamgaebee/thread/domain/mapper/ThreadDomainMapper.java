@@ -63,19 +63,10 @@ public class ThreadDomainMapper {
 
     public GetFeignTeamThreadsRes ThreadsToFeignList(Thread thread) {
         return GetFeignTeamThreadsRes.builder()
-                .isComment(thread.isComment())
-                .authorIdx(thread.getAuthorIdx())
-                .threadIdx(thread.getThreadIdx())
-                .parentIdx(thread.getParentIdx())
-                .memberProfileUrl(thread.getMemberProfileImg())
-                .teamProfileUrl(thread.getTeamProfileImg())
-                .authorIdx(thread.getAuthorName())
-                .teamName(thread.getTeamName())
-                .imgUrls(thread.getImgUrls())
                 .content(thread.getContent())
-                .likeNumber(thread.getLikeNumber())
-                .commentNumber(thread.getCommentNumber())
-                .createdAt(thread.getCreatedAt().toString())
+                .likeCount(thread.getLikeNumber())
+                .commentCount(thread.getCommentNumber())
+                .date(thread.getCreatedAt())
                 .build();
     }
 }

@@ -18,7 +18,6 @@ public class ThreadFeignListener {
         this.threadService = threadService;
     }
 
-    //TODO thread 전체 엔티티 리스트 리턴 API by team idx
     @GetMapping("/team-list")
     public List<GetFeignTeamThreadsRes> getTeamThreads(@RequestParam("team-idx") Long teamIdx) {
         return threadService.getTeamThreads(teamIdx);
