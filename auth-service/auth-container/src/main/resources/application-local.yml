@@ -1,0 +1,42 @@
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: 'jdbc:h2:tcp://localhost/~/test'
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        fotmat_sql: true
+  h2:
+    console:
+      enabled: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+logging.level:
+  org.hibernate.SQL: debug
+
+# open api setting
+openapi:
+  service:
+    title: auth-service doc #title that you will want to display in the swagger ui
+    version: 1.0.0
+    url: http://localhost:8080 #api gateway url
+springdoc:
+  api-docs:
+    path: /api/auth/v3/api-docs #these urls will used to load the swagger ui of this service by the api gateway
+  swagger-ui:
+    path: /api/auth/swagger-ui.html
