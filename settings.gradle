@@ -1,6 +1,8 @@
 rootProject.name = 'BE'
 
 include 'common'
+include 'team-service', 'team-service:team-container', 'team-service:team-application', 'team-service:team-dataaccess','team-service:team-dataaccess:team-mysql' ,'team-service:team-domain', 'team-service:team-domain:team-application-service', 'team-service:team-domain:team-domain-core', 'team-service:team-messaging'
+
 include 'member-service', 'member-service:member-application', 'member-service:member-container', 'member-service:member-dataaccess' , 'member-service:member-domain', 'member-service:member-messaging'
 include 'member-service:member-domain:member-application-service'
 include 'member-service:member-domain:member-domain-core'
@@ -9,7 +11,6 @@ include 'thread-service:thread-domain:thread-application-service', 'thread-servi
 
 include 'image-service', 'image-service:image-application', 'image-service:image-dataaccess', 'image-service:image-container','image-service:image-domain', 'image-service:image-domain:image-application-service','image-service:image-domain:image-domain-core', 'image-service:image-dataaccess:image-s3'
 
-include 'common'
 
 // auth-service
 include 'auth-service'
@@ -45,4 +46,5 @@ findProject(':auth-service:auth-messaging:auth-mail-messaging')?.name = 'auth-ma
 include 'api-gateway'
 
 include 'eureka-server'
+
 
