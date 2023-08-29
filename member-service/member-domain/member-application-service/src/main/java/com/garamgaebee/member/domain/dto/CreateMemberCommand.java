@@ -12,8 +12,6 @@ public class CreateMemberCommand {
 
     private UUID memberIdx;
 
-    private String memberName;
-
     private String nickname;
 
     private String dept;
@@ -23,9 +21,8 @@ public class CreateMemberCommand {
 
     ;
 
-    public CreateMemberCommand(UUID memberIdx, String memberName, String nickname, String dept, int memberType) {
+    public CreateMemberCommand(UUID memberIdx, String nickname, String dept, int memberType) {
         this.memberIdx = memberIdx;
-        this.memberName = memberName;
         this.nickname = nickname;
         this.dept = dept;
         this.memberType = memberType;

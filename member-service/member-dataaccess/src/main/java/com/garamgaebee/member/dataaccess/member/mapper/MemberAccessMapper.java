@@ -22,7 +22,6 @@ public class MemberAccessMapper {
     public Member getMemberMapper(MemberEntity member, @Nullable List<EmailEntity> emails, @Nullable List<CareerEntity> careers, @Nullable List<SnsEntity> snses){
         return Member.builder()
                 .memberIdx(member.getMemberIdx())
-                .memberName(member.getMemberName())
                 .nickname(member.getNickname())
                 .company(member.getCompany())
                 .duty(member.getDuty())
@@ -80,7 +79,6 @@ public class MemberAccessMapper {
     public MemberEntity memberToEntity(Member member){
         return MemberEntity.builder()
                 .memberIdx(member.getMemberIdx())
-                .memberName(member.getMemberName())
                 .nickname(member.getNickname())
                 .dept(member.getDept())
                 .type(member.getType())
@@ -88,5 +86,14 @@ public class MemberAccessMapper {
                 .build();
     }
 
+    public List<Member> entitiesToMembers(List<MemberEntity> entities) {
+        List<Member> res = new ArrayList<>();
+
+        for (MemberEntity entity : entities) {
+            res.add(getMemberMapper(entity, entity.getEmails(), entity.getCareers(), entity.getSnses()));
+        }
+
+        return res;
+    }
 }
 

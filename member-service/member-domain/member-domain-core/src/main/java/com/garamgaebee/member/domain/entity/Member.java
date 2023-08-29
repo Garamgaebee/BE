@@ -14,8 +14,6 @@ public class Member {
 
     private UUID memberIdx;
 
-    private String memberName;
-
     private String nickname;
 
     private String dept;
@@ -43,12 +41,11 @@ public class Member {
     private List<Sns> snses;
 
     @Builder
-    public Member(UUID memberIdx, String memberName, String nickname, String dept, MemberType type, String company, String duty, String level,
+    public Member(UUID memberIdx, String nickname, String dept, MemberType type, String company, String duty, String level,
                   String profileImgUrl, LocalDateTime createdAt, LocalDateTime updatedAt, MemberStatus status,
                   List<Career> careers, List<Email> emails, List<Sns> snses)
     {
         this.memberIdx = memberIdx;
-        this.memberName = memberName;
         this.nickname = nickname;
         this.dept = dept;
         this.type = type;

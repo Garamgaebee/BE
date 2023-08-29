@@ -1,11 +1,15 @@
 package com.garamgaebee.member.messaging.listener;
 
+import com.garamgaebee.common.exception.BaseException;
 import com.garamgaebee.member.domain.dto.CreateMemberCommand;
+import com.garamgaebee.member.domain.dto.DeleteMemberResponse;
 import com.garamgaebee.member.domain.dto.GetFeignMemberResponse;
 import com.garamgaebee.member.domain.ports.in.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -40,5 +44,23 @@ public class MemberFeignListener {
     @GetMapping
     public GetFeignMemberResponse getFeignMember(@RequestParam("user-idx") String userIdx){
         return memberService.getFeignMember(userIdx);
+    }
+
+    /**
+     * 멤버 삭제 (회원 탈퇴)
+     * */
+    @DeleteMapping("/{member-idx}")
+    public DeleteMemberResponse deleteMember(@PathVariable("member-idx") String memberIdx) throws BaseException {
+        return memberService.deleteMember(UUID.fromString(memberIdx));
+
+
+    }
+
+    /**
+     * 팀에 속한 회원 리스트
+     * */
+    @GetMapping("/team-list")
+    public List<GetFeignMemberResponse> getTeamMembers(@RequestParam("members") List<String> members) {
+        return memberService.getTeamMembers(members);
     }
 }
