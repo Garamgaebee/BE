@@ -35,7 +35,7 @@ public class AuthorizationCodeHandler {
             }
             code =  builder.toString();
         } catch (NoSuchAlgorithmException e) {
-            //TODO custom 예외 throw
+            throw new RuntimeException("Fail to generate authorization mail code.");
         }
 
         // redis에 저장

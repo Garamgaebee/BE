@@ -2,6 +2,7 @@ package com.garamgaebee.auth.service.domain;
 
 import com.garamgaebee.auth.service.domain.entity.Authentication;
 import com.garamgaebee.auth.service.domain.port.output.repository.AuthenticationRepository;
+import com.garamgaebee.auth.service.domain.port.output.web.OpenFeignClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthenticationHandler {
     private final AuthenticationRepository authenticationRepository;
+    private final OpenFeignClient openFeignClient;
 
     public Boolean checkEmailExist(String email) {
         return authenticationRepository.checkEmailExist(email);
@@ -23,6 +25,7 @@ public class AuthenticationHandler {
 
     public void deleteAuthenticationByMemberId(UUID memberId) {
         authenticationRepository.deleteAuthenticationByMemberId(memberId);
-        //TODO open feign 회원 탈퇴 api call
+        // open feign 회원 탈퇴 api call
+        openFeignClient.exitMember(memberId);
     }
 }
