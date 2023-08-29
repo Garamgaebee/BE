@@ -1,65 +1,15 @@
 server:
   port: 8081
 
-logging.level:
-  org.hibernate.SQL: debug
-
 spring:
+  profiles:
+    group:
+      "local" : "local,secret"
+      "dev" : "dev,rds,secret"
+    default: dev
+
   application:
     name: auth-service
-
-  datasource:
-    url: 'jdbc:h2:tcp://localhost/~/test'
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        #        show_sql: true
-        fotmat_sql: true
-  h2:
-    console:
-      enabled: true
-  data:
-    redis:
-      host: localhost
-      port: 6379
-  # mail setting
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: tjrcjs0705@gmail.com # 수정
-    password: xacekpcwamofxujq # 수정
-    properties:
-      mail:
-        smtp:
-          starttls:
-            enable: true
-            required: true
-          auth: true
-
-oauth2:
-  user:
-    kakao:
-      client-id: cd3d57b0d96c1ddde8ccbfdb7d8cab2e
-      client-secret: I6QLvFVJstrs48clLlOpGavIT0DOsLe7
-      redirect-uri: http://localhost:8080/redirect/auth
-  provider:
-    kakao:
-      token-uri: https://kauth.kakao.com/oauth/token
-      user-info-uri: https://kapi.kakao.com/v2/user/me
-
-jwt:
-  token:
-    secret-key: secret_key
-  access-token:
-    expired-time: 3600000
-  refresh-token:
-    expired-time: 1209600000
 
 eureka:
   client:
@@ -72,15 +22,3 @@ management:
   endpoint:
     shutdown:
       enabled: true
-
-# open api setting
-openapi:
-  service:
-    title: auth-service doc #title that you will want to display in the swagger ui
-    version: 1.0.0
-    url: http://localhost:8080 #api gateway url
-springdoc:
-  api-docs:
-    path: /api/auth/v3/api-docs #these urls will used to load the swagger ui of this service by the api gateway
-  swagger-ui:
-    path: /api/auth/swagger-ui.html
