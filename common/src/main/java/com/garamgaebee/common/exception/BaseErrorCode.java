@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum BaseErrorCode {
+    NOT_FOUND_TEAM(false, String.valueOf(HttpStatus.BAD_REQUEST.value()), "팀을 찾을 수 없습니다."),
 
     CONTENT_TOO_LONG(false, Integer.toString(HttpStatus.BAD_REQUEST.value()), "내용 길이 초과"),
 

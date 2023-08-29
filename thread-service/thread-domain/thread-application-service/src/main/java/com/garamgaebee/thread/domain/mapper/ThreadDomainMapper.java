@@ -1,6 +1,7 @@
 package com.garamgaebee.thread.domain.mapper;
 
 import com.garamgaebee.thread.domain.dto.GetCommentRes;
+import com.garamgaebee.thread.domain.dto.GetFeignTeamThreadsRes;
 import com.garamgaebee.thread.domain.dto.GetThreadListRes;
 import com.garamgaebee.thread.domain.entity.Thread;
 import lombok.AccessLevel;
@@ -59,6 +60,15 @@ public class ThreadDomainMapper {
                 .commentNumber(thread.getCommentNumber())
                 .createdAt(thread.getCreatedAt().toString())
                 .type(thread.getType().toString())
+                .build();
+    }
+
+    public GetFeignTeamThreadsRes ThreadsToFeignList(Thread thread) {
+        return GetFeignTeamThreadsRes.builder()
+                .content(thread.getContent())
+                .likeCount(thread.getLikeNumber())
+                .commentCount(thread.getCommentNumber())
+                .date(thread.getCreatedAt())
                 .build();
     }
 }

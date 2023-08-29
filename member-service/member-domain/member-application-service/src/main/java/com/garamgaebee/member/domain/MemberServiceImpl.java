@@ -128,6 +128,19 @@ public class MemberServiceImpl implements MemberService {
         return memberDataMapper.getFeignMemberMapper(member);
     }
 
+    @Override
+    public List<GetFeignMemberResponse> getTeamMembers(List<String> members) {
+        List<UUID> memberIdxList = new ArrayList<>();
+
+        for (String member : members) {
+            memberIdxList.add(UUID.fromString(member));
+        }
+
+        List<Member> memberList = memberRepository.findMemberList(memberIdxList);
+
+        return memberDataMapper.getTeamMemberList(memberList);
+    }
+
     /**
      * Feign 이미지 등록 요청
      * */

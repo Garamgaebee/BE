@@ -12,8 +12,6 @@ import java.util.UUID;
 public class GetFeignMemberResponse {
     private UUID memberIdx;
 
-    private String memberName;
-
     private String nickname;
 
     private String dept;
@@ -39,11 +37,10 @@ public class GetFeignMemberResponse {
     private List<String> sns;
 
     @Builder
-    public GetFeignMemberResponse(UUID memberIdx, String memberName, String nickname, String dept, String company, String duty,
+    public GetFeignMemberResponse(UUID memberIdx, String nickname, String dept, String company, String duty,
                                   String level, String profileImgUrl, LocalDateTime createdAt, LocalDateTime updatedAt,
                                   String status, List<MemberCareer> career, List<String> email, List<String> sns) {
         this.memberIdx = memberIdx;
-        this.memberName = memberName;
         this.nickname = nickname;
         this.dept = dept;
         this.company = company;

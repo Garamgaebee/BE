@@ -1,0 +1,13 @@
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation project(':team-service:team-domain:team-domain-core')
+    implementation project(':common')
+}
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}

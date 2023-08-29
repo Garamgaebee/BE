@@ -1,0 +1,31 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/team
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform:
+    show-sql: true
+logging:
+  level:
+    org.hibernate.sql: debug
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: jdbc:mysql://garamgaebee-rds.cmvufjnyvp1f.ap-northeast-2.rds.amazonaws.com:3306/team
+    username: admin
+    password: garamgaebeebackend!!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform:
+    show-sql: true
+logging:
+  level:
+    org.hibernate.sql: debug

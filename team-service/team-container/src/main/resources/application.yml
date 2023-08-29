@@ -1,0 +1,14 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: team-service
+  mvc:
+    path-match:
+      matching-strategy: ant_path_matcher
+  profiles:
+    include:
+      - mysql
+      - eureka
+      - openapi
+    active: dev

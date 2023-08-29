@@ -6,6 +6,7 @@ import com.garamgaebee.member.domain.dto.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -23,4 +24,6 @@ public interface MemberService {
     boolean checkDuplicateNickname(String nickname);
 
     GetFeignMemberResponse getFeignMember(String userIdx);
+
+    List<GetFeignMemberResponse> getTeamMembers(List<String> members);
 }

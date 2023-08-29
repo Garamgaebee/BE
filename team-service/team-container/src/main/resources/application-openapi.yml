@@ -1,0 +1,10 @@
+openapi:
+  service:
+    title: team-service doc #title that you will want to display in the swagger ui
+    version: 1.0.0
+    url: http://localhost:8080 #api gateway url
+springdoc:
+  api-docs:
+    path: /api/teams/v3/api-docs #these urls will used to load the swagger ui of this service by the api gateway
+  swagger-ui:
+    path: /api/teams/swagger-ui.html
