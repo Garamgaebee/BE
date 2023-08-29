@@ -35,15 +35,7 @@ public class MemberController {
         return ResponseEntity.ok(getMemberResponse);
     }
 
-    /**
-     * 멤버 삭제 (회원 탈퇴)
-     * */
-    @DeleteMapping("/{member-idx}")
-    public ResponseEntity<DeleteMemberResponse> deleteMember(@PathVariable("member-idx") String memberIdx) throws BaseException{
-        DeleteMemberResponse deleteMemberResponse = memberService.deleteMember(UUID.fromString(memberIdx));
 
-        return ResponseEntity.ok(deleteMemberResponse);
-    }
 
     /**
      * 프로필 이미지 등록

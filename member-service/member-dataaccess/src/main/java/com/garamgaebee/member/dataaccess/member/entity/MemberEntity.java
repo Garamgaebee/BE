@@ -23,9 +23,6 @@ public class MemberEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID memberIdx;
 
-    @Column(name = "member_name", nullable = false)
-    private String memberName;
-
     @Column(name = "nickname", nullable = false, length = 10)
     private String nickname;
 
@@ -71,9 +68,8 @@ public class MemberEntity {
     private List<SnsEntity> snses;
 
     @Builder
-    public MemberEntity(UUID memberIdx, String memberName, String nickname, String dept, MemberType type, String company, String duty, String level, String profileImgUrl, LocalDateTime createdAt, LocalDateTime updatedAt, MemberStatus status, List<CareerEntity> careers, List<EmailEntity> emails, List<SnsEntity> snses) {
+    public MemberEntity(UUID memberIdx, String nickname, String dept, MemberType type, String company, String duty, String level, String profileImgUrl, LocalDateTime createdAt, LocalDateTime updatedAt, MemberStatus status, List<CareerEntity> careers, List<EmailEntity> emails, List<SnsEntity> snses) {
         this.memberIdx = memberIdx;
-        this.memberName = memberName;
         this.nickname = nickname;
         this.dept = dept;
         this.type = type;

@@ -26,7 +26,6 @@ public class CreateMemberHelper {
     public Member createMember(CreateMemberCommand req){
         return Member.builder()
                 .memberIdx(req.getMemberIdx())
-                .memberName(req.getMemberName())
                 .nickname(req.getNickname())
                 .dept(req.getDept())
                 .type(MemberType.values()[req.getMemberType()]).build();

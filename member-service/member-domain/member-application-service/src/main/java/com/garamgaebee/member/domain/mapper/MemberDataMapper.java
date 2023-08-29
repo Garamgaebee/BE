@@ -10,15 +10,19 @@ import com.garamgaebee.member.domain.valueobject.MemberCareer;
 import com.garamgaebee.member.domain.valueobject.MemberStatus;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 public class MemberDataMapper {
+    /**
+     * api용 mapper
+     * */
     public GetMemberResponse getMemberMapper(Member member) {
 
         return GetMemberResponse.builder()
                 .memberIdx(member.getMemberIdx())
-                .memberName(member.getMemberName())
                 .nickname(member.getNickname())
                 .company(member.getCompany())
                 .duty(member.getDuty())
@@ -34,12 +38,13 @@ public class MemberDataMapper {
                                 career.getEndDate())).collect(Collectors.toList())).build();
     }
 
+    /**
+     * Feign 용 mapper
+     * */
     public GetFeignMemberResponse getFeignMemberMapper(Member member) {
-        System.out.println(member.getMemberName());
 
         return GetFeignMemberResponse.builder()
                 .memberIdx(member.getMemberIdx())
-                .memberName(member.getMemberName())
                 .nickname(member.getNickname())
                 .company(member.getCompany())
                 .duty(member.getDuty())
@@ -58,4 +63,19 @@ public class MemberDataMapper {
                                 career.getEndDate())).collect(Collectors.toList())).build();
     }
 
+    /**
+     * Team Member Feign용 mapper
+     * */
+    public List<GetFeignMemberResponse> getTeamMemberList(List<Member> memberList) {
+
+        List<GetFeignMemberResponse> resList = new ArrayList<>();
+
+        if(memberList.isEmpty()) return resList;
+
+        for (Member member : memberList) {
+            resList.add(getFeignMemberMapper(member));
+        }
+
+        return resList;
+    }
 }
