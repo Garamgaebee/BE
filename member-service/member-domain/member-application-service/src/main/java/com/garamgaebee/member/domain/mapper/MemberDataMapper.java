@@ -41,6 +41,7 @@ public class MemberDataMapper {
                 .memberIdx(member.getMemberIdx())
                 .memberName(member.getMemberName())
                 .nickname(member.getNickname())
+                .dept(member.getDept())
                 .company(member.getCompany())
                 .duty(member.getDuty())
                 .level(member.getLevel())

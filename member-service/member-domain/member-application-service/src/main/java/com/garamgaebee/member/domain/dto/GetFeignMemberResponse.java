@@ -16,6 +16,8 @@ public class GetFeignMemberResponse {
 
     private String nickname;
 
+    private String dept;
+
     private String company;
 
     private String duty;
@@ -37,12 +39,13 @@ public class GetFeignMemberResponse {
     private List<String> sns;
 
     @Builder
-    public GetFeignMemberResponse(UUID memberIdx, String memberName, String nickname, String company, String duty,
+    public GetFeignMemberResponse(UUID memberIdx, String memberName, String nickname, String dept, String company, String duty,
                                   String level, String profileImgUrl, LocalDateTime createdAt, LocalDateTime updatedAt,
                                   String status, List<MemberCareer> career, List<String> email, List<String> sns) {
         this.memberIdx = memberIdx;
         this.memberName = memberName;
         this.nickname = nickname;
+        this.dept = dept;
         this.company = company;
         this.duty = duty;
         this.level = level;

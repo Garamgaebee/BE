@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -82,8 +83,10 @@ public class ThreadServiceImpl implements ThreadService {
 
         return CreateThreadRes.builder()
                 .threadId(created.getThreadIdx())
+                .authorIdx(created.getAuthorIdx())
                 .isComment(Boolean.FALSE)
                 .authorName(created.getAuthorName())
+                .department(member.getDept())
                 .teamName("NONE")
                 .authorImgUrl(memberProfileUrl)
                 .teamImgUrl("NONE")
@@ -134,8 +137,10 @@ public class ThreadServiceImpl implements ThreadService {
 
         return CreateThreadRes.builder()
                 .threadId(created.getThreadIdx())
+                .authorIdx(created.getAuthorIdx())
                 .isComment(Boolean.FALSE)
                 .authorName(created.getAuthorName())
+                .department(member.getDept())
                 .teamName(created.getTeamName())
                 .authorImgUrl(memberProfileUrl)
                 .teamImgUrl(teamProfileUrl)
@@ -184,6 +189,16 @@ public class ThreadServiceImpl implements ThreadService {
             res.add(mapper.ThreadListToDtoList(thread));
         }
 
+        for(GetThreadListRes thread : res) {
+            if(!thread.getIsComment()) {
+                int commentNumber = threadRepository.findCommentNumber(UUID.fromString(thread.getThreadId()));
+                thread.setCommentNumber(commentNumber);
+            }
+            else{
+                thread.setCommentNumber(-1);
+            }
+        }
+
         return res;
     }
 
@@ -199,6 +214,16 @@ public class ThreadServiceImpl implements ThreadService {
 
         for (Thread thread : threads) {
             res.add(mapper.ThreadListToDtoList(thread));
+        }
+
+        for(GetThreadListRes thread : res) {
+            if(!thread.getIsComment()) {
+                int commentNumber = threadRepository.findCommentNumber(UUID.fromString(thread.getThreadId()));
+                thread.setCommentNumber(commentNumber);
+            }
+            else{
+                thread.setCommentNumber(-1);
+            }
         }
 
         return res;
@@ -238,9 +263,11 @@ public class ThreadServiceImpl implements ThreadService {
 
         return CreateCommentRes.builder()
                 .threadId(created.getThreadIdx())
+                .authorIdx(created.getAuthorIdx())
                 .isComment(Boolean.TRUE)
                 .rootThreadIdx(created.getParentIdx())
                 .authorName(authorName)
+                .department(member.getDept())
                 .teamName("NONE")
                 .authorImgUrl(memberProfileUrl)
                 .teamImgUrl("NONE")
@@ -291,9 +318,11 @@ public class ThreadServiceImpl implements ThreadService {
 
         return CreateCommentRes.builder()
                 .threadId(created.getThreadIdx())
+                .authorIdx(created.getAuthorIdx())
                 .isComment(Boolean.TRUE)
                 .rootThreadIdx(created.getParentIdx())
                 .authorName(created.getAuthorName())
+                .department(member.getDept())
                 .teamName(created.getTeamName())
                 .authorImgUrl(memberProfileUrl)
                 .teamImgUrl(teamProfileUrl)
@@ -327,7 +356,7 @@ public class ThreadServiceImpl implements ThreadService {
         String memberIdx = req.getMemberIdx();
 
         Like like = Like.builder()
-                .targetThreadIdx(req.getTheradIdx())
+                .targetThreadIdx(req.getThreadIdx())
                 .memberIdx(memberIdx)
                 .build();
 
@@ -335,7 +364,7 @@ public class ThreadServiceImpl implements ThreadService {
 
         return CreateLikeRes.builder()
                 .likeSuccess(Boolean.TRUE)
-                .targetThreadIdx(req.getTheradIdx())
+                .targetThreadIdx(req.getThreadIdx())
                 .build();
 
     }

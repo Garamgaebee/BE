@@ -19,6 +19,8 @@ public class MemberVO {
 
     private String nickname;
 
+    private String dept;
+
     private String company;
 
     private String duty;

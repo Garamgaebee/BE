@@ -15,7 +15,6 @@ dependencies {
     implementation project(':common')
     implementation project(path: ':thread-service:thread-domain:thread-application-service')
     implementation project(path: ':thread-service:thread-domain:thread-domain-core')
-
     implementation 'org.springframework.boot:spring-boot-starter-web'
 }
 

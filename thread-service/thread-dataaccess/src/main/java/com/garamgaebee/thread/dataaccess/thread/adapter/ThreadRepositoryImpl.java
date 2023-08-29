@@ -107,6 +107,11 @@ public class ThreadRepositoryImpl implements ThreadRepository {
 
     }
 
+    @Override
+    public int findCommentNumber(UUID uuid) {
+        return threadJpaRepository.findCommentNumber(uuid);
+    }
+
     /**
      * 댓글 리스트 조회
      * */
