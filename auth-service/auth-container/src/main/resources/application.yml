@@ -5,8 +5,8 @@ spring:
   profiles:
     group:
       "local" : "local,secret"
-      "dev" : "dev,secret"
-    default: local
+      "dev" : "dev,rds,secret"
+    default: dev
 
   application:
     name: auth-service
@@ -22,15 +22,3 @@ management:
   endpoint:
     shutdown:
       enabled: true
-
-# open api setting
-openapi:
-  service:
-    title: auth-service doc #title that you will want to display in the swagger ui
-    version: 1.0.0
-    url: http://localhost:8080 #api gateway url
-springdoc:
-  api-docs:
-    path: /api/auth/v3/api-docs #these urls will used to load the swagger ui of this service by the api gateway
-  swagger-ui:
-    path: /api/auth/swagger-ui.html

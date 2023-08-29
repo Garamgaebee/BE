@@ -3,13 +3,16 @@ server:
     context-path: /
   port: 8080
 
-jwt:
-  token:
-    secret-key: secret_key
-
 spring:
   main:
     web-application-type: reactive
+
+  profiles:
+    group:
+      "local": "local,secret"
+      "dev": "dev,secret"
+    default: dev
+
   cloud:
     gateway:
       routes:
@@ -73,30 +76,3 @@ spring:
             - Path=/api/search/**
           filters:
             - JwtAuthentication=ROLE_USER
-
-springdoc:
-  enable-native-support: true
-  api-docs:
-    enabled: true
-  swagger-ui:
-    enabled: true
-    path: /swagger-ui.html
-    config-url: /v3/api-docs/swagger-config
-    urls:
-      - url: /v3/api-docs
-        name: API Gateway Service
-
-      - url: /api/auth/v3/api-docs
-        name: Auth Service
-
-      - url: /api/members/v3/api-docs
-        name: Member Service
-
-      - url: /api/teams/v3/api-docs
-        name: Team Service
-
-      - url: /api/threads/v3/api-docs
-        name: Thread Service
-
-      - url: /api/search/v3/api-docs
-        name: Search Service
