@@ -8,11 +8,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter
 public class Notification extends AggregateRoot<NotificationId> {
     String content;
-    Image image;
+    List<Image> image;
 }

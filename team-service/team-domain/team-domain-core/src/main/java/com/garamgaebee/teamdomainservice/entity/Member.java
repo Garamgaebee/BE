@@ -10,6 +10,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -20,4 +22,15 @@ public class Member extends AggregateRoot<MemberId> {
     Image image;
     String name;
     Team team;
+
+    public Member(MemberId memberId) {
+        super();
+        setId(memberId);
+    }
+
+    public Member(MemberId memberId, Position position) {
+        super();
+        setId(memberId);
+        this.position = position;
+    }
 }

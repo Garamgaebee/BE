@@ -9,9 +9,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface TeamRepository {
-    Optional<Team> findByTeamId(TeamId teamId);
+    Team findByTeamId(TeamId teamId);
 
     List<UUID> findMemberIdListByTeamId(TeamId teamId);
 
     void saveNotification(Notification notification);
+
+    Team findAllByTeamId(TeamId teamId);
 }

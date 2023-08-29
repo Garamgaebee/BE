@@ -24,13 +24,9 @@ public class CreateNotificationHandler {
     private final TeamDomainService teamDomainService;
     private final TeamDataMapper teamDataMapper;
     public CreateNotificationResponse createNotification(CreateNotificationCommand createNotificationCommand) {
-        Optional<Team> teamOptional1 = teamRepository.findByTeamId(new TeamId(createNotificationCommand.getTeamId()));
-        if(teamOptional1.isEmpty()){
-            log.warn("Could not find team with team id:{}",createNotificationCommand.getTeamId());
-            throw new TeamNotFoundException(BaseErrorCode.NOT_FOUND_TEAM);
-        }
+        Team team = teamRepository.findByTeamId(new TeamId(createNotificationCommand.getTeamId()));
         Notification notification = new Notification();
-        teamDomainService.initNotification(notification, teamOptional1.get());
+        teamDomainService.initNotification(notification, team);
         teamRepository.saveNotification(notification);
         return null;
     }

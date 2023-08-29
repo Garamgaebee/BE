@@ -31,18 +31,13 @@ public class GetMainPageHandler {
     private final TeamFeign teamFeign;
     private final TeamDomainService teamDomainService;
     public GetMainPageResponse getMainPage(GetMainPageCommand getMainPageCommand) {
-        Optional<Team> teamOptional = teamRepository.findByTeamId(new TeamId(getMainPageCommand.getTeamId()));
-        if(teamOptional.isEmpty()){
-            log.warn("Could not find team with team id:{}",getMainPageCommand.getTeamId());
-            throw new TeamNotFoundException(BaseErrorCode.NOT_FOUND_TEAM);
-        }
+        Team team = teamRepository.findByTeamId(new TeamId(getMainPageCommand.getTeamId()));
 //        List<UUID> memberIdList = teamRepository.findMemberIdListByTeamId(new TeamId(getMainPageCommand.getTeamId()));
 //        List<Member> member = teamFeign.mainPageMemberFindById(memberIdList);
 //        List<Thread> threadList = teamFeign.mainPageThreadFindByIdOrderByDateDesc(teamOptional.get().getId().getValue());
 //        List<Member> threadMemberList = teamFeign.mainPageMemberFindById(teamDomainService.getThreadMemberListbyThreadList(threadList));
 //        teamDomainService.setTeam(teamOptional.get(),member,threadList,threadMemberList);
-        teamOptional.get().setSize(new Size(0,0,0,0));
-        log.info(teamOptional.get().toString());
-        return teamDataMapper.teamToTeamMainPage(teamOptional.get());
+        team.setSize(new Size(0,0,0,0));
+        return teamDataMapper.teamToTeamMainPage(team);
     }
 }

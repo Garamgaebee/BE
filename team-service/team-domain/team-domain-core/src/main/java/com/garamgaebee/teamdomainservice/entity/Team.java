@@ -19,16 +19,14 @@ public class Team extends AggregateRoot<TeamId> {
     List<Member> teamMember = new ArrayList<>();
     @Builder.Default
     List<Thread> teamThread = new ArrayList<>();
-    ExternalLink externalLink;
+    @Builder.Default
+    List<ExternalLink> externalLink = new ArrayList<>();;
     Introduce introduce;
     @Builder.Default
     List<Notification> notificationList = new ArrayList<>();
     Image image;
     String teamName;
-    String teamImage;
     Size size;
-    LocalDate startDate;
-    LocalDate endDate;
 
     public void setMember(List<Member> memberList) {
         this.teamMember = memberList;

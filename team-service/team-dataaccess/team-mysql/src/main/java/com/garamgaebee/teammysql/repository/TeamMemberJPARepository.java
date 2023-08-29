@@ -10,4 +10,6 @@ import java.util.UUID;
 @Repository
 public interface TeamMemberJPARepository extends JpaRepository<TeamMemberEntity,Long> {
     List<TeamMemberEntity> findTop2ByTeamEntityIdAndStateOrderByIdDesc(UUID teamId, State state);
+
+    List<TeamMemberEntity> findAllByTeamEntityIdAndState(UUID value, State state);
 }

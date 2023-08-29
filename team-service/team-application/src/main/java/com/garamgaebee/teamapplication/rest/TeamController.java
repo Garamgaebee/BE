@@ -18,7 +18,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping(value = "/api/team")
+@RequestMapping(value = "/api/teams")
 public class TeamController {
     private final TeamApplicationService teamApplicationService;
 

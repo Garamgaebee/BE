@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.UUID;
 @Repository
-public interface TeamNotificationJPARepository extends JpaRepository<TeamNotificationEntity,Long> {
+public interface TeamNotificationJPARepository extends JpaRepository<TeamNotificationEntity,UUID> {
+    List<TeamNotificationEntity> findAllByTeamEntityIdAndState(UUID value, State state);
 }

@@ -23,8 +23,9 @@ import static lombok.AccessLevel.PROTECTED;
 @Table(name = "team_external_link")
 public class TeamExternalLinkEntity extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
