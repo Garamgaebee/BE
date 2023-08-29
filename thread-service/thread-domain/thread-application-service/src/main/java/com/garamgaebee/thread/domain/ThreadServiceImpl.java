@@ -205,6 +205,22 @@ public class ThreadServiceImpl implements ThreadService {
     }
 
     /**
+     * Feign Team Thread List 조회
+     * */
+    @Override
+    public List<GetFeignTeamThreadsRes> getTeamThreads(Long teamIdx) {
+        List<Thread> threads = threadRepository.getThreadTeamList(teamIdx);
+
+        List<GetFeignTeamThreadsRes> res = new ArrayList<>();
+
+        for (Thread thread : threads) {
+            res.add(mapper.ThreadsToFeignList(thread));
+        }
+
+        return res;
+    }
+
+    /**
      * 댓글 생성 (개인) - Service
      * */
     @Override

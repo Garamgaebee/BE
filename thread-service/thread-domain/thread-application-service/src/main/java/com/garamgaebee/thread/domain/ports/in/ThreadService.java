@@ -38,4 +38,6 @@ public interface ThreadService {
     List<GetThreadListRes> getThreadList(Integer orderType);
 
     List<GetThreadListRes> getThreadTeamList(Long teamIdx);
+
+    List<GetFeignTeamThreadsRes> getTeamThreads(Long teamIdx);
 }

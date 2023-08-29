@@ -11,8 +11,6 @@ import java.util.UUID;
 public class GetMemberResponse {
     private UUID memberIdx;
 
-    private String memberName;
-
     private String nickname;
 
     private String company;
@@ -30,10 +28,9 @@ public class GetMemberResponse {
     private List<MemberCareer> career;
 
     @Builder
-    public GetMemberResponse(UUID memberIdx, String memberName, String nickname, String company, String duty,
+    public GetMemberResponse(UUID memberIdx, String nickname, String company, String duty,
                              String level, String profileImgUrl, List<String> email, List<String> sns, List<MemberCareer> career) {
         this.memberIdx = memberIdx;
-        this.memberName = memberName;
         this.nickname = nickname;
         this.company = company;
         this.duty = duty;

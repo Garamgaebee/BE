@@ -3,6 +3,7 @@ package com.garamgaebee.member.domain.ports.out;
 
 import com.garamgaebee.member.domain.entity.Member;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface MemberRepository {
@@ -16,4 +17,6 @@ public interface MemberRepository {
     boolean checkNicknameExist(String nickname);
 
     UUID persistMember(Member member);
+
+    List<Member> findMemberList(List<UUID> memberIdxList);
 }

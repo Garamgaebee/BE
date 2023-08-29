@@ -14,6 +14,8 @@ import com.garamgaebee.member.domain.ports.out.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -82,5 +84,16 @@ public class MemberRepositoryImpl implements MemberRepository {
         MemberEntity memberEntity = memberAccessMapper.memberToEntity(member);
 
         return memberJpaRepository.save(memberEntity).getMemberIdx();
+    }
+
+    @Override
+    public List<Member> findMemberList(List<UUID> memberIdxList) {
+        List<MemberEntity> entities = new ArrayList<>();
+
+        for (UUID uuid : memberIdxList) {
+            entities.add(memberJpaRepository.findById(uuid).get());
+        }
+
+        return memberAccessMapper.entitiesToMembers(entities);
     }
 }
