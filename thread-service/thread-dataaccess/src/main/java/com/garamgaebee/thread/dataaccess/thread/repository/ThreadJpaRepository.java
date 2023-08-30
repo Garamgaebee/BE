@@ -22,4 +22,7 @@ public interface ThreadJpaRepository extends JpaRepository<ThreadEntity, UUID> {
 
     @Query("select t from ThreadEntity t where t.status = 'ACTIVE' and t.teamIdx = :teamIdx order by t.createdAt desc")
     Optional<List<ThreadEntity>> findAllByTeamIdx(Long teamIdx);
+
+    @Query("select count(t) from ThreadEntity t where t.status = 'ACTIVE' and t.parentIdx = :uuid")
+    int findCommentNumber(UUID uuid);
 }

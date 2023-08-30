@@ -4,11 +4,13 @@ import com.garamgaebee.member.domain.valueobject.MemberStatus;
 import com.garamgaebee.member.domain.valueobject.MemberType;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@ToString
 @Getter
 public class Member {
 

@@ -1,0 +1,17 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:mysql://garamgaebee-rds.cmvufjnyvp1f.ap-northeast-2.rds.amazonaws.com:3306/memberdev
+    username: admin
+    password: garamgaebeebackend!!
+  jpa:
+    database-platform: MySQL8Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database: mysql
+    properties:
+      hibernate:
+        format_sql: true

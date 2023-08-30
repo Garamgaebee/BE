@@ -3,16 +3,20 @@ package com.garamgaebee.member.domain.dto;
 import com.garamgaebee.member.domain.valueobject.MemberCareer;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Getter
+@ToString
 public class GetFeignMemberResponse {
     private UUID memberIdx;
 
     private String nickname;
+
+    private String dept;
 
     private String company;
 
@@ -35,11 +39,12 @@ public class GetFeignMemberResponse {
     private List<String> sns;
 
     @Builder
-    public GetFeignMemberResponse(UUID memberIdx, String nickname, String company, String duty,
+    public GetFeignMemberResponse(UUID memberIdx, String nickname, String dept, String company, String duty,
                                   String level, String profileImgUrl, LocalDateTime createdAt, LocalDateTime updatedAt,
                                   String status, List<MemberCareer> career, List<String> email, List<String> sns) {
         this.memberIdx = memberIdx;
         this.nickname = nickname;
+        this.dept = dept;
         this.company = company;
         this.duty = duty;
         this.level = level;

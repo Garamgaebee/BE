@@ -1,0 +1,20 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+  application:
+    name: member-service
+  datasource:
+    url: jdbc:mysql://garamgaebee-rds.cmvufjnyvp1f.ap-northeast-2.rds.amazonaws.com:3306/member
+    username: admin
+    password: garamgaebeebackend!!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: MySQL8Dialect
+    show-sql: false
+    database: mysql
+    properties:
+      hibernate:
+        format_sql: true

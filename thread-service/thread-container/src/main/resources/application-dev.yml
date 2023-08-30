@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  application:
+    name: thread-service
+  datasource:
+    url: jdbc:mysql://garamgaebee-rds.cmvufjnyvp1f.ap-northeast-2.rds.amazonaws.com:3306/threaddev
+    username: admin
+    password: garamgaebeebackend!!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform:
+    show-sql: true

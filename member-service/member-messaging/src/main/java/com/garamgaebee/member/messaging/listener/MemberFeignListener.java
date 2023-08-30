@@ -5,6 +5,7 @@ import com.garamgaebee.member.domain.dto.CreateMemberCommand;
 import com.garamgaebee.member.domain.dto.DeleteMemberResponse;
 import com.garamgaebee.member.domain.dto.GetFeignMemberResponse;
 import com.garamgaebee.member.domain.ports.in.MemberService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/feign/member")
 public class MemberFeignListener {
@@ -43,7 +45,10 @@ public class MemberFeignListener {
      * */
     @GetMapping
     public GetFeignMemberResponse getFeignMember(@RequestParam("user-idx") String userIdx){
-        return memberService.getFeignMember(userIdx);
+        GetFeignMemberResponse res = memberService.getFeignMember(userIdx);
+
+        log.info(res.toString());
+        return res;
     }
 
     /**

@@ -31,15 +31,16 @@ public class ThreadDomainMapper {
                 .authorIdx(comment.getAuthorIdx())
                 .commentId(comment.getThreadIdx())
                 .rootThreadId(comment.getParentIdx())
-                .memberProfileUrl(comment.getMemberProfileImg())
-                .teamProfileUrl(comment.getTeamProfileImg())
-                .memberName(comment.getAuthorName())
+                .authorImgUrl(comment.getMemberProfileImg())
+                .teamImgUrl(comment.getTeamProfileImg())
+                .authorName(comment.getAuthorName())
                 .teamName(comment.getTeamName())
-                .imgUrls(comment.getImgUrls())
+                .imgs(comment.getImgUrls())
                 .content(comment.getContent())
                 .likeNumber(comment.getLikeNumber())
                 .createdAt(comment.getCreatedAt().toString())
                 .isComment(Boolean.TRUE)
+                .type(comment.getType().toString())
                 .build();
     }
 
@@ -49,15 +50,16 @@ public class ThreadDomainMapper {
                 .authorIdx(thread.getAuthorIdx())
                 .threadId(thread.getThreadIdx())
                 .rootThreadId(thread.getParentIdx())
-                .memberProfileUrl(thread.getMemberProfileImg())
-                .teamProfileUrl(thread.getTeamProfileImg())
-                .memberName(thread.getAuthorName())
+                .authorImgUrl(thread.getMemberProfileImg())
+                .teamImgUrl(thread.getTeamProfileImg())
+                .authorName(thread.getAuthorName())
                 .teamName(thread.getTeamName())
-                .imgUrls(thread.getImgUrls())
+                .imgs(thread.getImgUrls())
                 .content(thread.getContent())
                 .likeNumber(thread.getLikeNumber())
                 .commentNumber(thread.getCommentNumber())
                 .createdAt(thread.getCreatedAt().toString())
+                .type(thread.getType().toString())
                 .build();
     }
 

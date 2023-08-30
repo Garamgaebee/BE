@@ -61,7 +61,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public UUID createMember(CreateMemberCommand req) {
-
         Member member = createMemberHelper.createMember(req);
 
         return createMemberHelper.persistMember(member);

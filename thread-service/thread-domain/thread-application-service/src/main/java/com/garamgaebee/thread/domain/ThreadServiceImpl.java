@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -28,11 +29,8 @@ public class ThreadServiceImpl implements ThreadService {
     private final ThreadRepository threadRepository;
     private final CreateThreadHelper createThreadHelper;
     private final ThreadDomainMapper mapper;
-
     private final MemberFeignPublisher memberFeignPublisher;
-
     private final ImageFeignPublisher imageFeignPublisher;
-
     private final TeamFeignPublisher teamFeign;
 
     @Autowired
@@ -61,7 +59,7 @@ public class ThreadServiceImpl implements ThreadService {
 
         MemberVO member = memberFeignPublisher.getFeignMember(authorIdx);
         String memberProfileUrl = member.getProfileImgUrl();
-        String authorName = member.getMemberName();
+        String authorName = member.getNickname();
 
         Thread createTarget = Thread.builder()
                 .authorIdx(authorIdx)
@@ -82,8 +80,10 @@ public class ThreadServiceImpl implements ThreadService {
 
         return CreateThreadRes.builder()
                 .threadId(created.getThreadIdx())
+                .authorIdx(created.getAuthorIdx())
                 .isComment(Boolean.FALSE)
                 .authorName(created.getAuthorName())
+                .department(member.getDept())
                 .teamName("NONE")
                 .authorImgUrl(memberProfileUrl)
                 .teamImgUrl("NONE")
@@ -111,7 +111,7 @@ public class ThreadServiceImpl implements ThreadService {
 
         MemberVO member = memberFeignPublisher.getFeignMember(authorIdx);
         String memberProfileUrl = member.getProfileImgUrl();
-        String authorName = member.getMemberName();
+        String authorName = member.getNickname();
         //TODO teamIdx 가지고 Team 객체 가져오기
         String teamProfileUrl = "test";
         String teamName = "teamName";
@@ -134,8 +134,10 @@ public class ThreadServiceImpl implements ThreadService {
 
         return CreateThreadRes.builder()
                 .threadId(created.getThreadIdx())
+                .authorIdx(created.getAuthorIdx())
                 .isComment(Boolean.FALSE)
                 .authorName(created.getAuthorName())
+                .department(member.getDept())
                 .teamName(created.getTeamName())
                 .authorImgUrl(memberProfileUrl)
                 .teamImgUrl(teamProfileUrl)
@@ -184,6 +186,16 @@ public class ThreadServiceImpl implements ThreadService {
             res.add(mapper.ThreadListToDtoList(thread));
         }
 
+        for(GetThreadListRes thread : res) {
+            if(!thread.getIsComment()) {
+                int commentNumber = threadRepository.findCommentNumber(UUID.fromString(thread.getThreadId()));
+                thread.setCommentNumber(commentNumber);
+            }
+            else{
+                thread.setCommentNumber(-1);
+            }
+        }
+
         return res;
     }
 
@@ -199,6 +211,16 @@ public class ThreadServiceImpl implements ThreadService {
 
         for (Thread thread : threads) {
             res.add(mapper.ThreadListToDtoList(thread));
+        }
+
+        for(GetThreadListRes thread : res) {
+            if(!thread.getIsComment()) {
+                int commentNumber = threadRepository.findCommentNumber(UUID.fromString(thread.getThreadId()));
+                thread.setCommentNumber(commentNumber);
+            }
+            else{
+                thread.setCommentNumber(-1);
+            }
         }
 
         return res;
@@ -233,7 +255,7 @@ public class ThreadServiceImpl implements ThreadService {
 
         MemberVO member = memberFeignPublisher.getFeignMember(authorIdx);
         String memberProfileUrl = member.getProfileImgUrl();
-        String authorName = member.getMemberName();
+        String authorName = member.getNickname();
 
         Thread thread = Thread.builder()
                 .authorIdx(authorIdx)
@@ -254,9 +276,11 @@ public class ThreadServiceImpl implements ThreadService {
 
         return CreateCommentRes.builder()
                 .threadId(created.getThreadIdx())
+                .authorIdx(created.getAuthorIdx())
                 .isComment(Boolean.TRUE)
                 .rootThreadIdx(created.getParentIdx())
                 .authorName(authorName)
+                .department(member.getDept())
                 .teamName("NONE")
                 .authorImgUrl(memberProfileUrl)
                 .teamImgUrl("NONE")
@@ -283,7 +307,7 @@ public class ThreadServiceImpl implements ThreadService {
 
         MemberVO member = memberFeignPublisher.getFeignMember(authorIdx);
         String memberProfileUrl = member.getProfileImgUrl();
-        String authorName = member.getMemberName();
+        String authorName = member.getNickname();
         //TODO teamIdx 가지고 TeamVO 객체 가져오기
         String teamProfileUrl = "test";
         String teamName = "teamName";
@@ -307,9 +331,11 @@ public class ThreadServiceImpl implements ThreadService {
 
         return CreateCommentRes.builder()
                 .threadId(created.getThreadIdx())
+                .authorIdx(created.getAuthorIdx())
                 .isComment(Boolean.TRUE)
                 .rootThreadIdx(created.getParentIdx())
                 .authorName(created.getAuthorName())
+                .department(member.getDept())
                 .teamName(created.getTeamName())
                 .authorImgUrl(memberProfileUrl)
                 .teamImgUrl(teamProfileUrl)
@@ -343,7 +369,7 @@ public class ThreadServiceImpl implements ThreadService {
         String memberIdx = req.getMemberIdx();
 
         Like like = Like.builder()
-                .targetThreadIdx(req.getTheradIdx())
+                .targetThreadIdx(req.getThreadIdx())
                 .memberIdx(memberIdx)
                 .build();
 
@@ -351,7 +377,7 @@ public class ThreadServiceImpl implements ThreadService {
 
         return CreateLikeRes.builder()
                 .likeSuccess(Boolean.TRUE)
-                .targetThreadIdx(req.getTheradIdx())
+                .targetThreadIdx(req.getThreadIdx())
                 .build();
 
     }

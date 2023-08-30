@@ -10,6 +10,7 @@ import com.garamgaebee.member.domain.entity.Member;
 import com.garamgaebee.member.domain.entity.Sns;
 import com.garamgaebee.member.domain.valueobject.MemberStatus;
 import jakarta.annotation.Nullable;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,11 +18,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 public class MemberAccessMapper {
 
     public Member getMemberMapper(MemberEntity member, @Nullable List<EmailEntity> emails, @Nullable List<CareerEntity> careers, @Nullable List<SnsEntity> snses){
         return Member.builder()
                 .memberIdx(member.getMemberIdx())
+                .dept(member.getDept())
                 .nickname(member.getNickname())
                 .company(member.getCompany())
                 .duty(member.getDuty())
@@ -31,6 +34,8 @@ public class MemberAccessMapper {
                 .careers(careerListMapper(careers))
                 .snses(snsListMapper(snses))
                 .status(member.getStatus())
+                .createdAt(member.getCreatedAt())
+                .updatedAt(member.getUpdatedAt())
                 .build();
     }
 
@@ -77,6 +82,7 @@ public class MemberAccessMapper {
     }
 
     public MemberEntity memberToEntity(Member member){
+//        log.info(member.toString());
         return MemberEntity.builder()
                 .memberIdx(member.getMemberIdx())
                 .nickname(member.getNickname())
