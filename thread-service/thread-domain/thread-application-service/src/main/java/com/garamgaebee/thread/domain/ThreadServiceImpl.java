@@ -29,11 +29,8 @@ public class ThreadServiceImpl implements ThreadService {
     private final ThreadRepository threadRepository;
     private final CreateThreadHelper createThreadHelper;
     private final ThreadDomainMapper mapper;
-
     private final MemberFeignPublisher memberFeignPublisher;
-
     private final ImageFeignPublisher imageFeignPublisher;
-
     private final TeamFeignPublisher teamFeign;
 
     @Autowired
@@ -62,7 +59,7 @@ public class ThreadServiceImpl implements ThreadService {
 
         MemberVO member = memberFeignPublisher.getFeignMember(authorIdx);
         String memberProfileUrl = member.getProfileImgUrl();
-        String authorName = member.getMemberName();
+        String authorName = member.getNickname();
 
         Thread createTarget = Thread.builder()
                 .authorIdx(authorIdx)
@@ -114,7 +111,7 @@ public class ThreadServiceImpl implements ThreadService {
 
         MemberVO member = memberFeignPublisher.getFeignMember(authorIdx);
         String memberProfileUrl = member.getProfileImgUrl();
-        String authorName = member.getMemberName();
+        String authorName = member.getNickname();
         //TODO teamIdx 가지고 Team 객체 가져오기
         String teamProfileUrl = "test";
         String teamName = "teamName";
@@ -258,7 +255,7 @@ public class ThreadServiceImpl implements ThreadService {
 
         MemberVO member = memberFeignPublisher.getFeignMember(authorIdx);
         String memberProfileUrl = member.getProfileImgUrl();
-        String authorName = member.getMemberName();
+        String authorName = member.getNickname();
 
         Thread thread = Thread.builder()
                 .authorIdx(authorIdx)
@@ -310,7 +307,7 @@ public class ThreadServiceImpl implements ThreadService {
 
         MemberVO member = memberFeignPublisher.getFeignMember(authorIdx);
         String memberProfileUrl = member.getProfileImgUrl();
-        String authorName = member.getMemberName();
+        String authorName = member.getNickname();
         //TODO teamIdx 가지고 TeamVO 객체 가져오기
         String teamProfileUrl = "test";
         String teamName = "teamName";

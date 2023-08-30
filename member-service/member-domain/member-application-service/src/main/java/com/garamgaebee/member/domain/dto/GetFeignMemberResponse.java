@@ -3,12 +3,14 @@ package com.garamgaebee.member.domain.dto;
 import com.garamgaebee.member.domain.valueobject.MemberCareer;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Getter
+@ToString
 public class GetFeignMemberResponse {
     private UUID memberIdx;
 

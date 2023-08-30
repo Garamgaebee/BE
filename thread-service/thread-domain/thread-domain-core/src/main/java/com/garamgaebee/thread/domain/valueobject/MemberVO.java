@@ -15,8 +15,6 @@ import java.util.UUID;
 public class MemberVO {
     private UUID memberIdx;
 
-    private String memberName;
-
     private String nickname;
 
     private String dept;

@@ -3,10 +3,7 @@ package com.garamgaebee.member.dataaccess.member.entity;
 import com.garamgaebee.member.domain.valueobject.MemberStatus;
 import com.garamgaebee.member.domain.valueobject.MemberType;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,13 +11,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@ToString
 @Entity @Getter
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class MemberEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID memberIdx;
 
     @Column(name = "nickname", nullable = false, length = 10)
@@ -59,13 +56,28 @@ public class MemberEntity {
     private MemberStatus status;
 
     @OneToMany(mappedBy = "memberIdx", fetch = FetchType.LAZY, orphanRemoval = true)
+    @ToString.Exclude
     private List<CareerEntity> careers;
 
     @OneToMany(mappedBy = "memberIdx", fetch = FetchType.LAZY, orphanRemoval = true)
+    @ToString.Exclude
     private List<EmailEntity> emails;
 
     @OneToMany(mappedBy = "memberIdx", fetch = FetchType.LAZY, orphanRemoval = true)
+    @ToString.Exclude
     private List<SnsEntity> snses;
+
+    public void setSnses(List<SnsEntity> snses) {
+        this.snses = snses;
+    }
+
+    public void setEmails(List<EmailEntity> emails) {
+        this.emails = emails;
+    }
+
+    public void setCareers(List<CareerEntity> careers) {
+        this.careers = careers;
+    }
 
     @Builder
     public MemberEntity(UUID memberIdx, String nickname, String dept, MemberType type, String company, String duty, String level, String profileImgUrl, LocalDateTime createdAt, LocalDateTime updatedAt, MemberStatus status, List<CareerEntity> careers, List<EmailEntity> emails, List<SnsEntity> snses) {
