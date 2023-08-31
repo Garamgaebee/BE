@@ -60,9 +60,6 @@ public class AuthenticationDataAccessMapper {
     }
 
     public CommonAuthentication commonAuthenticationEntityToCommonAuthentication(CommonAuthenticationEntity commonAuthenticationEntity) {
-        System.out.println("commonAuthenticationEntity.getPassword() result : ");
-        System.out.println(commonAuthenticationEntity.getPassword());
-
         return CommonAuthentication.builder()
                 .id(commonAuthenticationEntity.getId())
                 .email(commonAuthenticationEntity.getEmail())
