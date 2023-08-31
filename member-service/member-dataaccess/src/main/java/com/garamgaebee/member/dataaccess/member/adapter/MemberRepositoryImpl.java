@@ -11,6 +11,7 @@ import com.garamgaebee.member.dataaccess.member.repository.MemberJpaRepository;
 import com.garamgaebee.member.dataaccess.member.repository.SnsJpaRepository;
 import com.garamgaebee.member.domain.entity.Member;
 import com.garamgaebee.member.domain.ports.out.MemberRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
+@Slf4j
 public class MemberRepositoryImpl implements MemberRepository {
 
     private final MemberJpaRepository memberJpaRepository;
@@ -83,6 +85,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     public UUID persistMember(Member member) {
         MemberEntity memberEntity = memberAccessMapper.memberToEntity(member);
 
+//        log.info(memberEntity.toString());
         return memberJpaRepository.save(memberEntity).getMemberIdx();
     }
 

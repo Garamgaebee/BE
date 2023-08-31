@@ -14,6 +14,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.0.3'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:4.0.2'
+    implementation project(path: ':common')
     implementation project(path: ':thread-service:thread-application')
     implementation project(path: ':thread-service:thread-dataaccess')
     implementation project(path: ':thread-service:thread-messaging')

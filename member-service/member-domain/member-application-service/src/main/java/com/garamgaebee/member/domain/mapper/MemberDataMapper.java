@@ -46,6 +46,7 @@ public class MemberDataMapper {
         return GetFeignMemberResponse.builder()
                 .memberIdx(member.getMemberIdx())
                 .nickname(member.getNickname())
+                .dept(member.getDept())
                 .company(member.getCompany())
                 .duty(member.getDuty())
                 .level(member.getLevel())
