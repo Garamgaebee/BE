@@ -25,7 +25,13 @@ public class OpenFeignClientImpl implements OpenFeignClient {
 
     @Override
     public Boolean exitMember(UUID memberId) {
-        //TODO 회원 탈퇴 api 연결
-        return null;
+        if(
+            //TODO 회원 탈퇴 관련 feign api 연결
+                memberFeignClient.deleteMember(memberId).isInactiveSuccess()
+        ) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -1,6 +1,7 @@
 package com.garamgaebee.auth.service.messaging.publisher;
 
 import com.garamgaebee.auth.service.domain.dto.create.CreateMemberRequest;
+import com.garamgaebee.auth.service.domain.dto.delete.DeleteMemberResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,5 +22,9 @@ public interface MemberFeignClient {
     @GetMapping("/api/feign/member/duplicate")
     public boolean checkDuplicateNickname(@RequestParam("nickname") String nickname);
 
-    //TODO 회원 탈퇴 api call
+    /**
+     * 회원 탈퇴
+     */
+    @DeleteMapping("/api/feign/member/{member-idx}")
+    public DeleteMemberResponse deleteMember(@PathVariable("member-idx") UUID memberId);
 }

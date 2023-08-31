@@ -5,7 +5,7 @@ spring:
       on-profile: local
 
   datasource:
-    url: 'jdbc:h2:tcp://localhost:9099/~/test'
+    url: 'jdbc:h2:tcp://localhost/~/test'
     username: sa
     password:
     driver-class-name: org.h2.Driver
@@ -28,7 +28,7 @@ spring:
 
 logging.level:
   org.hibernate.SQL: debug
-
+  
 # open api setting
 openapi:
   service:
