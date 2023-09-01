@@ -28,7 +28,7 @@ spring:
 
 logging.level:
   org.hibernate.SQL: debug
-
+  
 # open api setting
 openapi:
   service:

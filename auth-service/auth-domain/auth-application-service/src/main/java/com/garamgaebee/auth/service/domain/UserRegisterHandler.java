@@ -1,6 +1,7 @@
 package com.garamgaebee.auth.service.domain;
 
 import com.garamgaebee.auth.service.domain.dto.create.CommonAuthenticationPostCommand;
+import com.garamgaebee.auth.service.domain.dto.create.CreateMemberRequest;
 import com.garamgaebee.auth.service.domain.dto.oauth.OauthUserProfile;
 import com.garamgaebee.auth.service.domain.entity.CommonAuthentication;
 import com.garamgaebee.auth.service.domain.port.output.repository.AuthenticationRepository;
@@ -17,9 +18,8 @@ public class UserRegisterHandler {
 
     public Boolean checkNicknameExist(String nickname) {
 
-        //TODO openFeign 닉네임 중복검사 API call
-
-        return false;
+        // openFeign 닉네임 중복검사 API call
+        return openFeignClient.checkDuplicateNickname(nickname);
     }
 
     public CommonAuthentication registerCommonAuthentication(CommonAuthenticationPostCommand commonAuthenticationPostCommand) {
@@ -30,12 +30,14 @@ public class UserRegisterHandler {
         // DB에 생성된 객체 저장
         CommonAuthentication newCommonAuthentication =  authenticationRepository.persistCommonAuthentication(commonAuthentication);
 
-        //TODO openFeign 회원 등록 API call
+        // openFeign 회원 등록 API call
+        openFeignClient.registerMember(CreateMemberRequest.builder()
+                        .memberIdx(newCommonAuthentication.getMemberId())
+                        .nickname(commonAuthenticationPostCommand.getNickname())
+                        .department(commonAuthenticationPostCommand.getDepartment())
+                        .memberType(commonAuthenticationPostCommand.getType())
+                .build());
 
         return newCommonAuthentication;
-    }
-
-    public void updateMember(OauthUserProfile userProfile) {
-        // TODO 필요한 경우 멤버 정보(최종 로그인 시간 등) 업데이트
     }
 }

@@ -6,7 +6,7 @@ spring:
     group:
       "local" : "local,secret"
       "dev" : "dev,rds,secret"
-    default: dev
+    default: local
 
   application:
     name: auth-service
