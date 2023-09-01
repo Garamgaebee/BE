@@ -1,3 +1,68 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service-delete
+          uri: http://host.docker.internal:8081
+          predicates:
+            - Path=/api/auth/member
+            - Method=DELETE
+          filters:
+            - JwtAuthentication=ROLE_USER
+
+        - id: auth-service
+          uri: http://host.docker.internal:8081
+          predicates:
+            - Path=/api/auth/**
+
+        - id: member-service-docs
+          uri: http://host.docker.internal:8082
+          predicates:
+            - Path=/api/members/swagger-ui.html, /api/members/v3/api-docs
+
+        - id: member-service
+          uri: http://host.docker.internal:8082
+          predicates:
+            - Path=/api/members/**
+          filters:
+            - JwtAuthentication=ROLE_USER
+
+        - id: team-service-docs
+          uri: http://host.docker.internal:8083
+          predicates:
+            - Path=/api/teams/swagger-ui.html, /api/teams/v3/api-docs
+
+        - id: team-service
+          uri: http://host.docker.internal:8083
+          predicates:
+            - Path=/api/teams/**
+          filters:
+            - JwtAuthentication=ROLE_USER
+
+        - id: thread-service-docs
+          uri: http://host.docker.internal:8084
+          predicates:
+            - Path=/api/threads/swagger-ui.html, /api/threads/v3/api-docs
+
+        - id: thread-service
+          uri: http://host.docker.internal:8084
+          predicates:
+            - Path=/api/threads/**
+          filters:
+            - JwtAuthentication=ROLE_USER
+
+        - id: search-service-docs
+          uri: http://host.docker.internal:8085
+          predicates:
+            - Path=/api/search/swagger-ui.html, /api/search/v3/api-docs
+
+        - id: search-service
+          uri: http://host.docker.internal:8085
+          predicates:
+            - Path=/api/search/**
+          filters:
+            - JwtAuthentication=ROLE_USER
+
 springdoc:
   enable-native-support: true
   api-docs:
@@ -24,3 +89,15 @@ springdoc:
 
       - url: /api/search/v3/api-docs
         name: Search Service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://host.docker.internal:9000/eureka/}
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+management:
+  endpoint:
+    shutdown:
+      enabled: true
