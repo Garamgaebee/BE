@@ -16,3 +16,17 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  localhost: localhost
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:9000/eureka
+# open api setting
+openapi:
+  service:
+    title: member-service doc #title that you will want to display in the swagger ui
+    version: 1.0.0
+    url: http://localhost:8080 #api gateway url

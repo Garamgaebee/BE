@@ -14,3 +14,18 @@ spring:
       ddl-auto: update
     database-platform:
     show-sql: true
+
+  localhost: host.docker.internal
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://host.docker.internal:9000/eureka
+
+# open api setting
+openapi:
+  service:
+    title: thread-service doc #title that you will want to display in the swagger ui
+    version: 1.0.0
+    url: http://host.docker.internal:8080 #api gateway url
