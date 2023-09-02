@@ -13,7 +13,7 @@ public interface TeamRepository {
 
     List<UUID> findMemberIdListByTeamId(TeamId teamId);
 
-    void saveNotification(Notification notification);
+    void saveNotification(Team team);
 
     Team findAllByTeamId(TeamId teamId);
 }

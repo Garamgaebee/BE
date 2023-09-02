@@ -5,7 +5,7 @@ import com.garamgaebee.teamdomainservice.common.valueobject.BaseId;
 import java.util.UUID;
 
 public class NotificationId extends BaseId<UUID> {
-    protected NotificationId(UUID value) {
+    public NotificationId(UUID value) {
         super(value);
     }
 }

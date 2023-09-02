@@ -37,7 +37,8 @@ public class Team extends AggregateRoot<TeamId> {
     }
     public void setSize(Size size){this.size = size;}
 
-    public void setNotification(Notification notification) {
+    public void addNotification(Notification notification) {
         this.notificationList.add(notification);
     }
+
 }

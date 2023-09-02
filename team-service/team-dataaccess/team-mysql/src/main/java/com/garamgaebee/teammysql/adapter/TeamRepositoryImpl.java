@@ -5,7 +5,6 @@ import com.garamgaebee.common.exception.BaseException;
 import com.garamgaebee.teamapplicationservice.ports.output.TeamRepository;
 import com.garamgaebee.teamdomainservice.entity.Notification;
 import com.garamgaebee.teamdomainservice.entity.Team;
-import com.garamgaebee.teamdomainservice.valueobject.NotificationId;
 import com.garamgaebee.teamdomainservice.valueobject.TeamId;
 import com.garamgaebee.teammysql.entity.*;
 import com.garamgaebee.teammysql.mapper.TeamDataAccessMapper;
@@ -14,15 +13,16 @@ import com.garamgaebee.teammysql.valueobject.State;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
+@Transactional(readOnly=true)
 @Slf4j
 public class TeamRepositoryImpl implements TeamRepository {
     private final TeamJpaRepository teamJpaRepository;
@@ -45,9 +45,13 @@ public class TeamRepositoryImpl implements TeamRepository {
         ).collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
-    public void saveNotification(Notification notification) {
-        teamNotificationJPARepository.save(teamDataAccessMapper.notificationTonotificationEntity(notification));
+    public void saveNotification(Team team) {
+        Notification notification = team.getNotificationList().get(0);
+        TeamEntity teamEntity = findTeamEntityByTeamId(team.getId().getValue());
+        TeamNotificationEntity teamNotificationEntity = teamNotificationJPARepository.save(teamDataAccessMapper.makeToNotificationEntity(notification,teamEntity));
+        teamNotificationImageJpaRepository.saveAll(teamDataAccessMapper.notificationAndNotificationEntityToNotificationImageEntity(notification,teamNotificationEntity));
     }
 
     @Override

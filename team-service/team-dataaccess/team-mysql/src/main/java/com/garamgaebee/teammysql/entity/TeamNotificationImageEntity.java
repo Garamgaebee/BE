@@ -3,10 +3,7 @@ package com.garamgaebee.teammysql.entity;
 import com.garamgaebee.teammysql.common.BaseEntity;
 import com.garamgaebee.teammysql.valueobject.State;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
@@ -28,7 +25,8 @@ public class TeamNotificationImageEntity extends BaseEntity {
 
     @Column(name = "state")
     @Enumerated(EnumType.STRING)
-    private State state;
+    @Builder.Default
+    private State state = State.ACTIVE;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_notification_id")

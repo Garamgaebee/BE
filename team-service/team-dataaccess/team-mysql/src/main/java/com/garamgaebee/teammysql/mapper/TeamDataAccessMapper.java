@@ -15,23 +15,26 @@ import java.util.stream.IntStream;
 @Component
 public class TeamDataAccessMapper {
     public Team teamEntityToTeam(TeamEntity teamEntity) {
-        return Team.builder()
-                .teamName(teamEntity.getName())
-                .introduce(new Introduce(teamEntity.getIntroduction()))
-                .image(new Image(teamEntity.getImage()))
-                .build();
+        Team team = Team.builder()
+                    .teamName(teamEntity.getName())
+                    .introduce(new Introduce(teamEntity.getIntroduction()))
+                    .image(new Image(teamEntity.getImage()))
+                    .build();
+        team.setId(new TeamId(teamEntity.getId()));
+        return team;
     }
 
-    public TeamNotificationEntity notificationTonotificationEntity(Notification notification) {
+    public TeamNotificationEntity makeToNotificationEntity(Notification notification, TeamEntity teamEntity) {
         return TeamNotificationEntity.builder()
                 .id(notification.getId().getValue())
+                .teamEntity(teamEntity)
                 .content(notification.getContent())
                 .build();
     }
 
     public Team teamEntityToTeamWithAll(TeamEntity teamEntity, List<TeamExternalLinkEntity> teamExternalLinkEntityList, List<TeamMemberEntity> teamMemberEntityList, List<TeamNotificationEntity> teamNotificationEntityList, List<List<TeamNotificationImageEntity>> teamNotificationImageJpaRepositoryList) {
         List<Member> memberList = teamMemberEntityList.stream().map(
-                teamMemberEntity -> new Member(new MemberId(teamMemberEntity.getMemberId()),positionToDomainPosition(teamMemberEntity.getPosition()))
+                teamMemberEntity -> new Member(new MemberId(teamMemberEntity.getMemberId()), positionToDomainPosition(teamMemberEntity.getPosition()))
         ).toList();
 
         List<ExternalLink> externalLinkList = teamExternalLinkEntityList.stream().map(
@@ -44,7 +47,7 @@ public class TeamDataAccessMapper {
             ).toList();
             String content = teamNotificationEntityList.get(i).getContent();
             return Notification.builder()
-                    .image(imageList)
+                    .imageList(imageList)
                     .content(content).build();
         }).toList();
 
@@ -57,12 +60,22 @@ public class TeamDataAccessMapper {
                 .notificationList(notificationList)
                 .build();
     }
-    public Position positionToDomainPosition(PositionData positionData){
-        if (positionData ==PositionData.manager) {
+
+    public Position positionToDomainPosition(PositionData positionData) {
+        if (positionData == PositionData.manager) {
             return Position.manager;
-        } else if (positionData==PositionData.member) {
+        } else if (positionData == PositionData.member) {
             return Position.member;
         }
         return Position.nothing;
+    }
+
+    public List<TeamNotificationImageEntity> notificationAndNotificationEntityToNotificationImageEntity(Notification notification, TeamNotificationEntity teamNotificationEntity) {
+        return notification.getImageList().stream().map(
+                image -> TeamNotificationImageEntity.builder()
+                        .teamNotificationEntity(teamNotificationEntity)
+                        .url(image.getUrl())
+                        .build()
+        ).collect(Collectors.toList());
     }
 }
