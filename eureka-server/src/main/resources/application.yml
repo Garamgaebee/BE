@@ -6,9 +6,9 @@ spring:
   application:
     name: eureka-server
 
-eureka:
-  instance:
-    hostname: localhost
-  client:
-    register-with-eureka: false
-    fetch-registry: true
+  profiles:
+    group:
+      "local": "local,secret"
+      "dev": "dev,secret"
+    default: local
+

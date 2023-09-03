@@ -28,7 +28,19 @@ spring:
 
 logging.level:
   org.hibernate.SQL: debug
-  
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:9000/eureka/}
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+
 # open api setting
 openapi:
   service:
