@@ -7,7 +7,7 @@ dependencies {
     implementation project(':image-service:image-domain:image-application-service')
 }
 bootJar {
-    enabled = false
+    enabled = true
 }
 
 jar {

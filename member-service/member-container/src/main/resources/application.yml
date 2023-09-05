@@ -1,18 +1,6 @@
 server:
   port: 8082
 
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://127.0.0.1:9000/eureka
-# open api setting
-openapi:
-  service:
-    title: member-service doc #title that you will want to display in the swagger ui
-    version: 1.0.0
-    url: http://localhost:8080 #api gateway url
 springdoc:
   api-docs:
     path: /api/members/v3/api-docs #these urls will used to load the swagger ui of this service by the api gateway

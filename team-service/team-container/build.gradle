@@ -10,7 +10,7 @@ dependencies {
     implementation project(':common')
 }
 bootJar {
-    enabled = false
+    enabled = true
 }
 
 jar {
