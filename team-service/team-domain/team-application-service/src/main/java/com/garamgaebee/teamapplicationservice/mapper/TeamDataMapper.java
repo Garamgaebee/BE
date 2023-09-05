@@ -1,13 +1,17 @@
 package com.garamgaebee.teamapplicationservice.mapper;
 
+import com.garamgaebee.teamapplicationservice.dto.CreateNotificationCommand;
+import com.garamgaebee.teamapplicationservice.dto.CreateNotificationResponse;
 import com.garamgaebee.teamapplicationservice.dto.GetMainPageResponse;
 import com.garamgaebee.teamapplicationservice.dto.feign.GetFeignTeamResponse;
 import com.garamgaebee.teamapplicationservice.dto.mainpage.*;
+import com.garamgaebee.teamdomainservice.entity.Notification;
 import com.garamgaebee.teamdomainservice.entity.Team;
 import com.garamgaebee.teamdomainservice.valueobject.ExternalLink;
 import com.garamgaebee.teamdomainservice.valueobject.Image;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -98,11 +102,25 @@ public class TeamDataMapper {
                         team.getNotificationList().stream().map(
                                 notification -> GetFeignTeamResponse.Notification.builder()
                                         .content(notification.getContent())
-                                        .imageUrl(notification.getImage().stream().map(
+                                        .imageUrl(notification.getImageList().stream().map(
                                                 Image::getUrl
                                         ).collect(Collectors.toList())).build()
                         ).collect(Collectors.toList())
                 )
                 .name(team.getTeamName()).build();
+    }
+
+    public Notification createNotificationCommandToNotification(CreateNotificationCommand createNotificationCommand) {
+        return Notification.builder()
+                .content(createNotificationCommand.getContent())
+                .imageCount(createNotificationCommand.getImageList().size())
+                .build();
+    }
+
+    public CreateNotificationResponse teamToCreateNotificationResponse(Team team) {
+        return CreateNotificationResponse.builder()
+                .notificationId(team.getNotificationList().get(0).getId().getValue())
+                .teamId(team.getId().getValue())
+                .isCreate(true).build();
     }
 }

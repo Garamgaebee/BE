@@ -32,4 +32,5 @@ public class ThreadFeignListener {
     public ResponseEntity<MemberVO> feignTest(@PathVariable String userIdx){
         return ResponseEntity.ok(memberFeignPublisher.getFeignMember(userIdx));
     }
+
 }

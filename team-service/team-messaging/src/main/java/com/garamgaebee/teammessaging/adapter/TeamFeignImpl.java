@@ -1,26 +1,29 @@
 package com.garamgaebee.teammessaging.adapter;
 
-import com.garamgaebee.teamapplicationservice.dto.feign.GetMainPageMemberFeign;
 import com.garamgaebee.teamapplicationservice.ports.output.TeamFeign;
 import com.garamgaebee.teamdomainservice.entity.Member;
 import com.garamgaebee.teamdomainservice.entity.Thread;
+import com.garamgaebee.teamdomainservice.valueobject.Image;
+import com.garamgaebee.teammessaging.image.TeamFeignImagePublisher;
 import com.garamgaebee.teammessaging.mapper.TeamFeignDataMapper;
 import com.garamgaebee.teammessaging.member.TeamFeignMemberPublisher;
-import com.garamgaebee.teammessaging.member.dto.FeignMember;
-import com.garamgaebee.teammessaging.thread.dto.FeignThread;
 import com.garamgaebee.teammessaging.thread.TeamFeignThreadPublisher;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class TeamFeignImpl implements TeamFeign {
     TeamFeignThreadPublisher teamFeignThreadPublisher;
     TeamFeignMemberPublisher teamFeignMemberPublisher;
-    TeamFeignDataMapper teamFeignDataMapper;
+    private final TeamFeignDataMapper teamFeignDataMapper;
+    private final TeamFeignImagePublisher teamFeignImagePublisher;
     @Override
     public List<Member> mainPageMemberFindById(List<UUID> memberIdList) {
 //        List<FeignMember> feignMemberList = teamFeignMemberPublisher.getMember(new GetMainPageMemberFeign(memberIdList));
@@ -33,5 +36,10 @@ public class TeamFeignImpl implements TeamFeign {
 //        List<FeignThread> feignThreadList = teamFeignThreadPublisher.getThread(value,"date",2);
 //        return teamFeignDataMapper.feignThreadToThread(feignThreadList);
         return null;
+    }
+
+    @Override
+    public List<Image> imageSaveByMultipartList(List<MultipartFile> multipartFileList) {
+        return teamFeignDataMapper.multipartFileListToImageList(teamFeignImagePublisher.createImage(multipartFileList));
     }
 }

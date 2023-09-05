@@ -15,4 +15,6 @@ import java.util.UUID;
 @Repository
 public interface TeamJpaRepository extends JpaRepository<TeamEntity,UUID> {
     Optional<TeamEntity> findByIdAndState(UUID value, State state);
+
+    Optional<TeamEntity> getReferenceByIdAndState(UUID value, State state);
 }

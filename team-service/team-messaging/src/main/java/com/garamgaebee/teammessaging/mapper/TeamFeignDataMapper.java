@@ -4,6 +4,7 @@ import com.garamgaebee.teamdomainservice.entity.Member;
 import com.garamgaebee.teamdomainservice.entity.Thread;
 import com.garamgaebee.teamdomainservice.valueobject.Department;
 import com.garamgaebee.teamdomainservice.valueobject.Image;
+import com.garamgaebee.teammessaging.image.dto.SaveImageResponse;
 import com.garamgaebee.teammessaging.member.dto.FeignMember;
 import com.garamgaebee.teammessaging.thread.dto.FeignThread;
 import org.springframework.stereotype.Component;
@@ -30,6 +31,12 @@ public class TeamFeignDataMapper {
                         .content(feignThread.getContent())
                         .likeCount(feignThread.getLikeCount())
                         .date(feignThread.getDate()).build()
+        ).collect(Collectors.toList());
+    }
+
+    public List<Image> multipartFileListToImageList(SaveImageResponse saveImageResponse) {
+        return saveImageResponse.getUrl().stream().map(
+                 s -> Image.builder().url(s).build()
         ).collect(Collectors.toList());
     }
 }
