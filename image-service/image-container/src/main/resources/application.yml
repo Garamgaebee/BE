@@ -10,3 +10,4 @@ spring:
     include:
       - s3
       - eureka
+    active: local
