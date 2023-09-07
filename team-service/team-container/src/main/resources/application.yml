@@ -11,4 +11,4 @@ spring:
       - mysql
       - eureka
       - openapi
-    active: dev
+    active: local
