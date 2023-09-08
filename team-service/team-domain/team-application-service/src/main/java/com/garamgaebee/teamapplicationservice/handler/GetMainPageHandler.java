@@ -1,26 +1,17 @@
 package com.garamgaebee.teamapplicationservice.handler;
 
-import com.garamgaebee.common.exception.BaseErrorCode;
-import com.garamgaebee.teamapplicationservice.dto.GetMainPageCommand;
-import com.garamgaebee.teamapplicationservice.dto.GetMainPageResponse;
+import com.garamgaebee.teamapplicationservice.dto.command.GetMainPageCommand;
+import com.garamgaebee.teamapplicationservice.dto.response.GetMainPageResponse;
 import com.garamgaebee.teamapplicationservice.mapper.TeamDataMapper;
 import com.garamgaebee.teamapplicationservice.ports.output.TeamFeign;
 import com.garamgaebee.teamapplicationservice.ports.output.TeamRepository;
 import com.garamgaebee.teamdomainservice.TeamDomainService;
 import com.garamgaebee.teamdomainservice.entity.Team;
-import com.garamgaebee.teamdomainservice.entity.Member;
-import com.garamgaebee.teamdomainservice.entity.Thread;
-import com.garamgaebee.teamdomainservice.exception.TeamNotFoundException;
 import com.garamgaebee.teamdomainservice.valueobject.Size;
 import com.garamgaebee.teamdomainservice.valueobject.TeamId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor

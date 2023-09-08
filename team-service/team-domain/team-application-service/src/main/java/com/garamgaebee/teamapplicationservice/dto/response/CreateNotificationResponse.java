@@ -1,4 +1,4 @@
-package com.garamgaebee.teamapplicationservice.dto;
+package com.garamgaebee.teamapplicationservice.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

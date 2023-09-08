@@ -1,7 +1,7 @@
 package com.garamgaebee.teamapplicationservice.handler;
 
-import com.garamgaebee.teamapplicationservice.dto.CreateNotificationCommand;
-import com.garamgaebee.teamapplicationservice.dto.CreateNotificationResponse;
+import com.garamgaebee.teamapplicationservice.dto.command.CreateNotificationCommand;
+import com.garamgaebee.teamapplicationservice.dto.response.CreateNotificationResponse;
 import com.garamgaebee.teamapplicationservice.mapper.TeamDataMapper;
 import com.garamgaebee.teamapplicationservice.ports.output.TeamFeign;
 import com.garamgaebee.teamapplicationservice.ports.output.TeamRepository;

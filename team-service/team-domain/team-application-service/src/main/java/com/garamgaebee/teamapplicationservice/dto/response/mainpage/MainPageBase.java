@@ -1,4 +1,4 @@
-package com.garamgaebee.teamapplicationservice.dto.mainpage;
+package com.garamgaebee.teamapplicationservice.dto.response.mainpage;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

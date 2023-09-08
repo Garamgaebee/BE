@@ -1,4 +1,4 @@
-package com.garamgaebee.teamapplicationservice.dto;
+package com.garamgaebee.teamapplicationservice.dto.command;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import java.util.UUID;
 @Getter
 @Builder
 @AllArgsConstructor
-public class GetMainPageCommand {
+public class DoneTeamCommand {
     UUID teamId;
     UUID memberId;
 }

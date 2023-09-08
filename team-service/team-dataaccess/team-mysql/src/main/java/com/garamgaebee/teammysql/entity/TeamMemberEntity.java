@@ -24,6 +24,7 @@ public class TeamMemberEntity extends BaseEntity{
     private Long id;
 
     @Column(name = "position")
+    @Enumerated(EnumType.STRING)
     private PositionData position;
 
     @ManyToOne(fetch = FetchType.LAZY)

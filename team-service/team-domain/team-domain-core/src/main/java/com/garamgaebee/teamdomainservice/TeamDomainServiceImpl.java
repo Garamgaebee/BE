@@ -5,8 +5,7 @@ import com.garamgaebee.teamdomainservice.entity.Notification;
 import com.garamgaebee.teamdomainservice.entity.Team;
 import com.garamgaebee.teamdomainservice.entity.Thread;
 import com.garamgaebee.teamdomainservice.valueobject.Image;
-import com.garamgaebee.teamdomainservice.valueobject.NotificationId;
-import com.garamgaebee.teamdomainservice.valueobject.TeamId;
+import com.garamgaebee.teamdomainservice.valueobject.Position;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -32,5 +31,20 @@ public class TeamDomainServiceImpl implements TeamDomainService{
     public void notificationSetTeamAndInitNotificationImage(Notification notification, Team team, List<Image> imageUrlList) {
         notification.setImageList(imageUrlList);
         team.addNotification(notification);
+    }
+
+    @Override
+    public void initMemberTeam(Member member, Team team) {
+        member.setTeam(team);
+    }
+
+    @Override
+    public boolean isPossibleDoneTeam(Member member) {
+        return member.checkLeader();
+    }
+
+    @Override
+    public void initMemberPosition(Member member, Position position) {
+        member.setPosition(position);
     }
 }

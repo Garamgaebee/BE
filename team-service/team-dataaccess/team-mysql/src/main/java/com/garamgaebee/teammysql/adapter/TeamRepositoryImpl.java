@@ -3,8 +3,10 @@ package com.garamgaebee.teammysql.adapter;
 import com.garamgaebee.common.exception.BaseErrorCode;
 import com.garamgaebee.common.exception.BaseException;
 import com.garamgaebee.teamapplicationservice.ports.output.TeamRepository;
+import com.garamgaebee.teamdomainservice.entity.Member;
 import com.garamgaebee.teamdomainservice.entity.Notification;
 import com.garamgaebee.teamdomainservice.entity.Team;
+import com.garamgaebee.teamdomainservice.valueobject.Position;
 import com.garamgaebee.teamdomainservice.valueobject.TeamId;
 import com.garamgaebee.teammysql.entity.*;
 import com.garamgaebee.teammysql.mapper.TeamDataAccessMapper;
@@ -67,6 +69,20 @@ public class TeamRepositoryImpl implements TeamRepository {
         }
         return teamDataAccessMapper.teamEntityToTeamWithAll(teamEntity,teamExternalLinkEntityList,teamMemberEntityList,teamNotificationEntityList,teamNotificationImageJpaRepositoryList);
     }
+
+    @Override
+    public Position findMemberPositionInTeam(Member member) {
+        TeamMemberEntity teamMemberEntity = teamMemberJPARepository.findByTeamEntityIdAndMemberIdAndState(member.getTeam().getId().getValue(),member.getId().getValue(),State.ACTIVE).orElseThrow(()->new BaseException(BaseErrorCode.NOT_FOUND_TEAM_MEMBER));
+        return teamDataAccessMapper.positionDataToPosition(teamMemberEntity.getPosition());
+    }
+
+    @Override
+    @Transactional
+    public void doneTeam(Member member) {
+        TeamEntity teamEntity = findTeamEntityByTeamId(member.getTeam().getId().getValue());
+        teamEntity.doneTeam();
+    }
+
     public TeamEntity findTeamEntityByTeamId(UUID teamId){
         return teamJpaRepository.findByIdAndState(teamId, State.ACTIVE).orElseThrow(() -> new BaseException(BaseErrorCode.NOT_FOUND_TEAM));
     }

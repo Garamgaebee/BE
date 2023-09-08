@@ -28,6 +28,11 @@ public class Team extends AggregateRoot<TeamId> {
     String teamName;
     Size size;
 
+    public Team(TeamId teamId) {
+        super();
+        setId(teamId);
+    }
+
     public void setMember(List<Member> memberList) {
         this.teamMember = memberList;
     }

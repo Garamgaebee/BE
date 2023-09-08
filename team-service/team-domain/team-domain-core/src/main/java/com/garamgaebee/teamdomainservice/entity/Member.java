@@ -33,4 +33,16 @@ public class Member extends AggregateRoot<MemberId> {
         setId(memberId);
         this.position = position;
     }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public boolean checkLeader() {
+        return this.position==Position.leader;
+    }
 }
