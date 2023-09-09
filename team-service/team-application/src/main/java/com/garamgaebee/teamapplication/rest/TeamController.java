@@ -2,9 +2,11 @@ package com.garamgaebee.teamapplication.rest;
 
 import com.garamgaebee.teamapplicationservice.dto.command.CreateNotificationCommand;
 import com.garamgaebee.teamapplicationservice.dto.command.DoneTeamCommand;
+import com.garamgaebee.teamapplicationservice.dto.command.ExitTeamCommand;
 import com.garamgaebee.teamapplicationservice.dto.response.CreateNotificationResponse;
 import com.garamgaebee.teamapplicationservice.dto.command.GetMainPageCommand;
 import com.garamgaebee.teamapplicationservice.dto.response.DoneTeamResponse;
+import com.garamgaebee.teamapplicationservice.dto.response.ExitTeamResponse;
 import com.garamgaebee.teamapplicationservice.dto.response.GetMainPageResponse;
 import com.garamgaebee.teamapplicationservice.ports.input.TeamApplicationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -85,5 +87,24 @@ public class TeamController {
                                                      @Parameter(name = "memberId", description = "member's' id", in = ParameterIn.QUERY) @RequestParam UUID memberId) {
         DoneTeamResponse doneTeamResponse = teamApplicationService.doneTeam(new DoneTeamCommand(teamId,memberId));
         return ResponseEntity.ok(doneTeamResponse);
+    }
+    /**
+     * 팀 탈퇴하기 api
+     *
+     * @param teamId   팀 id
+     * @param memberId 멤버 id
+     * @return
+     */
+    @Operation(summary = "팀 종료하기")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description =
+                    "팀을 찾을 수 없습니다.")
+    })
+    @DeleteMapping(value = "/{teamId}/members/{memberId}")
+    public ResponseEntity<ExitTeamResponse> exitTeam(@Parameter(name = "teamId", description = "team's' id", in = ParameterIn.PATH) @PathVariable UUID teamId,
+                                                     @Parameter(name = "memberId", description = "member's' id", in = ParameterIn.PATH) @PathVariable UUID memberId) {
+        ExitTeamResponse exitTeamResponse = teamApplicationService.exitTeam(new ExitTeamCommand(teamId,memberId));
+        return ResponseEntity.ok(exitTeamResponse);
     }
 }

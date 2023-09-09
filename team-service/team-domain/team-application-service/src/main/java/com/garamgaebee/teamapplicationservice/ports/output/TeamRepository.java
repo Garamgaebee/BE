@@ -22,4 +22,6 @@ public interface TeamRepository {
     Position findMemberPositionInTeam(Member member);
 
     void doneTeam(Member member);
+
+    void exitTeam(Member member);
 }

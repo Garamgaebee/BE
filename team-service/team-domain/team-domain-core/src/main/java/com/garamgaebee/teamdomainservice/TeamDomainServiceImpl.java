@@ -47,4 +47,5 @@ public class TeamDomainServiceImpl implements TeamDomainService{
     public void initMemberPosition(Member member, Position position) {
         member.setPosition(position);
     }
+
 }

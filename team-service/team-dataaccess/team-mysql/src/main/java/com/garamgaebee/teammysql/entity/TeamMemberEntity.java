@@ -3,6 +3,7 @@ import com.garamgaebee.teamdomainservice.valueobject.Position;
 import com.garamgaebee.teammysql.common.BaseEntity;
 import com.garamgaebee.teammysql.valueobject.PositionData;
 import com.garamgaebee.teammysql.valueobject.State;
+import com.garamgaebee.teammysql.valueobject.TeamMemberState;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -37,6 +38,9 @@ public class TeamMemberEntity extends BaseEntity{
     @Column(name = "state")
     @Enumerated(EnumType.STRING)
     @Builder.Default
-    private State state = State.ACTIVE;
+    private TeamMemberState state = TeamMemberState.ACTIVE;
 
+    public void exitTeam() {
+        this.state = TeamMemberState.EXIT;
+    }
 }
