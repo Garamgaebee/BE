@@ -16,10 +16,10 @@ import java.util.stream.IntStream;
 public class TeamDataAccessMapper {
     public Team teamEntityToTeam(TeamEntity teamEntity) {
         Team team = Team.builder()
-                    .teamName(teamEntity.getName())
-                    .introduce(new Introduce(teamEntity.getIntroduction()))
-                    .image(new Image(teamEntity.getImage()))
-                    .build();
+                .teamName(teamEntity.getName())
+                .introduce(new Introduce(teamEntity.getIntroduction()))
+                .image(new Image(teamEntity.getImage()))
+                .build();
         team.setId(new TeamId(teamEntity.getId()));
         return team;
     }
@@ -77,5 +77,13 @@ public class TeamDataAccessMapper {
                         .url(image.getUrl())
                         .build()
         ).collect(Collectors.toList());
+    }
+
+    public Position positionDataToPosition(PositionData position) {
+        return switch (position) {
+            case member -> Position.member;
+            case manager -> Position.manager;
+            case leader -> Position.leader;
+        };
     }
 }

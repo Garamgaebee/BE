@@ -1,5 +1,5 @@
 package com.garamgaebee.teammysql.valueobject;
 
 public enum State {
-    ACTIVE,DELETE
+    ACTIVE,DONE,DELETE
 }

@@ -38,4 +38,7 @@ public class TeamEntity extends BaseEntity {
     @Builder.Default
     private State state = State.ACTIVE;
 
+    public void doneTeam() {
+        this.state = State.DONE;
+    }
 }

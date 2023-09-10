@@ -1,17 +1,16 @@
 package com.garamgaebee.teamapplicationservice.mapper;
 
-import com.garamgaebee.teamapplicationservice.dto.CreateNotificationCommand;
-import com.garamgaebee.teamapplicationservice.dto.CreateNotificationResponse;
-import com.garamgaebee.teamapplicationservice.dto.GetMainPageResponse;
+import com.garamgaebee.teamapplicationservice.dto.command.CreateNotificationCommand;
+import com.garamgaebee.teamapplicationservice.dto.response.CreateNotificationResponse;
+import com.garamgaebee.teamapplicationservice.dto.response.GetMainPageResponse;
 import com.garamgaebee.teamapplicationservice.dto.feign.GetFeignTeamResponse;
-import com.garamgaebee.teamapplicationservice.dto.mainpage.*;
+import com.garamgaebee.teamapplicationservice.dto.response.mainpage.*;
 import com.garamgaebee.teamdomainservice.entity.Notification;
 import com.garamgaebee.teamdomainservice.entity.Team;
 import com.garamgaebee.teamdomainservice.valueobject.ExternalLink;
 import com.garamgaebee.teamdomainservice.valueobject.Image;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
