@@ -1,20 +1,9 @@
-plugins {
-    id 'java'
-}
-
-group = 'com.garamgaebee'
-version = '0.0.1-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
-
 bootJar {
     enabled = true
 }
 
 jar {
-    enabled = true
+    enabled = false
 }
 
 dependencies {
