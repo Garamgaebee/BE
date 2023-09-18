@@ -1,13 +1,7 @@
 package com.garamgaebee.teamapplicationservice;
 
-import com.garamgaebee.teamapplicationservice.dto.command.CreateNotificationCommand;
-import com.garamgaebee.teamapplicationservice.dto.command.DoneTeamCommand;
-import com.garamgaebee.teamapplicationservice.dto.command.ExitTeamCommand;
-import com.garamgaebee.teamapplicationservice.dto.response.CreateNotificationResponse;
-import com.garamgaebee.teamapplicationservice.dto.command.GetMainPageCommand;
-import com.garamgaebee.teamapplicationservice.dto.response.DoneTeamResponse;
-import com.garamgaebee.teamapplicationservice.dto.response.ExitTeamResponse;
-import com.garamgaebee.teamapplicationservice.dto.response.GetMainPageResponse;
+import com.garamgaebee.teamapplicationservice.dto.command.*;
+import com.garamgaebee.teamapplicationservice.dto.response.*;
 import com.garamgaebee.teamapplicationservice.dto.feign.GetFeignTeamResponse;
 import com.garamgaebee.teamapplicationservice.handler.*;
 import com.garamgaebee.teamapplicationservice.ports.input.TeamApplicationService;
@@ -26,6 +20,7 @@ public class TeamApplicationServiceImpl implements TeamApplicationService {
     private final DoneTeamHandler doneTeamHandler;
     private final FeignHandler feignHandler;
     private final ExitTeamHandler exitTeamHandler;
+    private final EditTeamHandler editTeamHandler;
     @Override
     public GetMainPageResponse getMainPage(GetMainPageCommand getMainPageCommand) {
         return getMainPageHandler.getMainPage(getMainPageCommand);
@@ -49,5 +44,10 @@ public class TeamApplicationServiceImpl implements TeamApplicationService {
     @Override
     public ExitTeamResponse exitTeam(ExitTeamCommand exitTeamCommand) {
         return exitTeamHandler.exitTeam(exitTeamCommand);
+    }
+
+    @Override
+    public EditTeamResponse editTeamInfo(EditTeamInfoCommand editTeamInfoCommand) {
+        return editTeamHandler.editTeam(editTeamInfoCommand);
     }
 }

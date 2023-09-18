@@ -39,4 +39,7 @@ public class TeamExternalLinkEntity extends BaseEntity {
     @Builder.Default
     private State state = State.ACTIVE;
 
+    public void updateState(State state) {
+        this.state = state;
+    }
 }

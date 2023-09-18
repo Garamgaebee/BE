@@ -48,4 +48,10 @@ public class TeamDomainServiceImpl implements TeamDomainService{
         member.setPosition(position);
     }
 
+    @Override
+    public void validateAndInitEditTeamInfo(Team team) {
+        team.validateName(team.getTeamName());
+        team.validateIntroduce(team.getIntroduce().getContent());
+    }
+
 }

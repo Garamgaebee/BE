@@ -38,7 +38,7 @@ public class TeamDataAccessMapper {
         ).toList();
 
         List<ExternalLink> externalLinkList = teamExternalLinkEntityList.stream().map(
-                teamExternalLinkEntity -> new ExternalLink(teamExternalLinkEntity.getLink())
+                teamExternalLinkEntity -> new ExternalLink(teamExternalLinkEntity.getId(),teamExternalLinkEntity.getLink())
         ).toList();
 
         List<Notification> notificationList = IntStream.range(0, teamNotificationEntityList.size()).boxed().map(i -> {
@@ -55,7 +55,7 @@ public class TeamDataAccessMapper {
                 .teamMember(memberList)
                 .teamName(teamEntity.getName())
                 .introduce(new Introduce(teamEntity.getIntroduction()))
-                .externalLink(externalLinkList)
+                .externalLinkList(externalLinkList)
                 .image(new Image(teamEntity.getImage()))
                 .notificationList(notificationList)
                 .build();
