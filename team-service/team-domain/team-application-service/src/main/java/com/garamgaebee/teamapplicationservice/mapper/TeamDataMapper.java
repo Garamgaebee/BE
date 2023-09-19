@@ -5,6 +5,7 @@ import com.garamgaebee.teamapplicationservice.dto.command.EditTeamInfoCommand;
 import com.garamgaebee.teamapplicationservice.dto.response.CreateNotificationResponse;
 import com.garamgaebee.teamapplicationservice.dto.response.GetMainPageResponse;
 import com.garamgaebee.teamapplicationservice.dto.feign.GetFeignTeamResponse;
+import com.garamgaebee.teamapplicationservice.dto.response.GetMemberTeam;
 import com.garamgaebee.teamapplicationservice.dto.response.mainpage.*;
 import com.garamgaebee.teamapplicationservice.dto.response.mainpage.Authority;
 import com.garamgaebee.teamdomainservice.entity.Member;
@@ -13,6 +14,7 @@ import com.garamgaebee.teamdomainservice.entity.Team;
 import com.garamgaebee.teamdomainservice.valueobject.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -135,5 +137,14 @@ public class TeamDataMapper {
                 .externalLink(new ExternalLink(UUID.randomUUID(),editTeamInfoCommand.getEditTeamRequest().getCommunityLink()))
                 .teamName(editTeamInfoCommand.getEditTeamRequest().getCommunityName())
                 .build();
+    }
+
+    public List<GetMemberTeam> teamListToGetMemberTeamList(List<Team> teamList) {
+        return teamList.stream().map(
+                team -> GetMemberTeam.builder()
+                        .teamImageUrl(team.getImage().getUrl())
+                        .teamPosition(team.getTeamMember().get(0).getPosition().toString())
+                        .teamName(team.getTeamName()).build()
+        ).collect(Collectors.toList());
     }
 }

@@ -4,6 +4,7 @@ import com.garamgaebee.teamapplicationservice.dto.command.*;
 import com.garamgaebee.teamapplicationservice.dto.response.*;
 import com.garamgaebee.teamapplicationservice.dto.feign.GetFeignTeamResponse;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface TeamApplicationService {
@@ -18,4 +19,6 @@ public interface TeamApplicationService {
     ExitTeamResponse exitTeam(ExitTeamCommand exitTeamCommand);
 
     EditTeamResponse editTeamInfo(EditTeamInfoCommand editTeamInfoCommand);
+
+    List<GetMemberTeam> findMemberTeamList(GetMemberTeamCommand getMemberTeamCommand);
 }

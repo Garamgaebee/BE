@@ -18,4 +18,6 @@ public interface TeamMemberJPARepository extends JpaRepository<TeamMemberEntity,
     List<TeamMemberEntity> findAllByTeamEntityIdAndState(UUID value, TeamMemberState state);
 
     Optional<TeamMemberEntity> findByTeamEntityIdAndMemberIdAndState(UUID teamId, UUID memberId, TeamMemberState teamMemberState);
+
+    List<TeamMemberEntity> findByMemberIdAndState(UUID value, TeamMemberState teamMemberState);
 }

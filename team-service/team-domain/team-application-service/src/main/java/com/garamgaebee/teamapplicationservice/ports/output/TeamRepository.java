@@ -26,4 +26,6 @@ public interface TeamRepository {
     void exitTeam(Member member);
 
     void editTeam(Team team);
+
+    List<Team> findTeamListByMemberId(Member member);
 }

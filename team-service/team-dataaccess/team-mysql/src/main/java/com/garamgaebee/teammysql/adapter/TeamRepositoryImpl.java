@@ -111,6 +111,12 @@ public class TeamRepositoryImpl implements TeamRepository {
         );
     }
 
+    @Override
+    public List<Team> findTeamListByMemberId(Member member) {
+        List<TeamMemberEntity> teamMemberEntity = teamMemberJPARepository.findByMemberIdAndState(member.getId().getValue(),TeamMemberState.ACTIVE);
+        return teamDataAccessMapper.teamMemberEntityToTeamByFindTeamListByMemberId(teamMemberEntity);
+    }
+
     public void deleteTeamExternalLink(UUID teamId) {
         List<TeamExternalLinkEntity> teamExternalLinkEntityList = findTeamExternalLinkEntityByTeamId(teamId);
         for (TeamExternalLinkEntity teamExternalLinkEntity : teamExternalLinkEntityList) {
