@@ -5,7 +5,7 @@ spring:
   application:
     name: thread-service
   datasource:
-    url: jdbc:mysql://garamgaebee-rds.cmvufjnyvp1f.ap-northeast-2.rds.amazonaws.com:3306/threaddev
+    url: jdbc:mysql://garamgaebee-rds.cmvufjnyvp1f.ap-northeast-2.rds.amazonaws.com:3306/thread
     username: admin
     password: garamgaebeebackend!!
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -28,4 +28,4 @@ openapi:
   service:
     title: thread-service doc #title that you will want to display in the swagger ui
     version: 1.0.0
-    url: http://host.docker.internal:8080 #api gateway url
+    url: https://dev.garamgaebee.shop #api gateway url

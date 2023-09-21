@@ -7,7 +7,7 @@ spring:
     username: admin
     password: garamgaebeebackend!!
   jpa:
-    database-platform: MySQL8Dialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
     hibernate:
       ddl-auto: update
@@ -28,4 +28,4 @@ openapi:
   service:
     title: member-service doc #title that you will want to display in the swagger ui
     version: 1.0.0
-    url: http://host.docker.internal:8080 #api gateway url
+    url: https://dev.garamgaebee.shop #api gateway url
