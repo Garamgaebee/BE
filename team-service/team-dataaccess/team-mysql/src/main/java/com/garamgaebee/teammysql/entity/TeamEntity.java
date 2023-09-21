@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
 import java.util.UUID;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -41,4 +42,12 @@ public class TeamEntity extends BaseEntity {
     public void doneTeam() {
         this.state = State.DONE;
     }
-}
+
+    public void setTeamName(String teamName) {
+        this.name = teamName;
+    }
+
+    public void setTeamIntroduce(String introduction) {
+        this.introduction = introduction;
+    }
+

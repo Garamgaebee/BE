@@ -24,4 +24,5 @@ public interface TeamDomainService {
 
     void initMemberPosition(Member member, Position position);
 
+    void validateAndInitEditTeamInfo(Team team);
 }

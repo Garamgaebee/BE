@@ -39,7 +39,9 @@ public enum BaseErrorCode {
     EMPTY_ACCESS_TOKEN(false, String.valueOf(HttpStatus.UNAUTHORIZED), "Access Token이 포함되지 않은 요청입니다."),
     FORBIDDEN_ACCESS(false, String.valueOf(HttpStatus.FORBIDDEN), "권한이 없는 접근입니다."),
     TEAM_NOT_LEADER(false, String.valueOf(HttpStatus.BAD_REQUEST), "모임장이 아닙니다."),
-    NOT_FOUND_TEAM_MEMBER(false, String.valueOf(HttpStatus.BAD_REQUEST),"팀 멤버가 아닙니다." );
+    NOT_FOUND_TEAM_MEMBER(false, String.valueOf(HttpStatus.BAD_REQUEST),"팀 멤버가 아닙니다." ),
+    TEAM_OVER_TEAM_NAME_LENGTH(false,String.valueOf(HttpStatus.BAD_REQUEST) , "팀 이름 최대 글자 수를 초과했습니다."),
+    TEAM_OVER_TEAM_CONTENT_LENGTH(false, String.valueOf(HttpStatus.BAD_REQUEST), "팀 소개 최대 글자 수를 초과했습니다.");
 
     private final boolean isSuccess;
     private final String code;

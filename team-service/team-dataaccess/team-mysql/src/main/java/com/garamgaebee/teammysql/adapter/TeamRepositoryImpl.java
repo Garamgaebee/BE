@@ -6,6 +6,7 @@ import com.garamgaebee.teamapplicationservice.ports.output.TeamRepository;
 import com.garamgaebee.teamdomainservice.entity.Member;
 import com.garamgaebee.teamdomainservice.entity.Notification;
 import com.garamgaebee.teamdomainservice.entity.Team;
+import com.garamgaebee.teamdomainservice.valueobject.ExternalLink;
 import com.garamgaebee.teamdomainservice.valueobject.Position;
 import com.garamgaebee.teamdomainservice.valueobject.TeamId;
 import com.garamgaebee.teammysql.entity.*;
@@ -37,6 +38,7 @@ public class TeamRepositoryImpl implements TeamRepository {
 
     @Override
     public Team findByTeamId(TeamId teamId) {
+        log.info(teamId.getValue().toString());
         TeamEntity teamEntity = findTeamEntityByTeamId(teamId.getValue());
         return teamDataAccessMapper.teamEntityToTeam(teamEntity);
     }
@@ -84,14 +86,46 @@ public class TeamRepositoryImpl implements TeamRepository {
         TeamEntity teamEntity = findTeamEntityByTeamId(member.getTeam().getId().getValue());
         teamEntity.doneTeam();
     }
+
     @Transactional
     @Override
     public void exitTeam(Member member) {
         TeamMemberEntity teamMemberEntity = teamMemberJPARepository.findByTeamEntityIdAndMemberIdAndState(member.getTeam().getId().getValue(), member.getId().getValue(), TeamMemberState.ACTIVE).orElseThrow(() -> new BaseException(BaseErrorCode.NOT_FOUND_TEAM_MEMBER));
         teamMemberEntity.exitTeam();
     }
+    @Transactional
+    @Override
+    public void editTeam(Team team) {
+        TeamEntity teamEntity = findTeamEntityByTeamId(team.getId().getValue());
+        teamEntity.setTeamIntroduce(team.getIntroduce().getContent());
+        teamEntity.setTeamName(team.getTeamName());
+        deleteTeamExternalLink(team.getId().getValue());
+        teamExternalLinkJpaRepository.saveAll(
+                team.getExternalLink().stream().map(
+                        externalLink -> TeamExternalLinkEntity.builder()
+                                .id(externalLink.getExternalLinkLinkId())
+                                .teamEntity(teamEntity)
+                                .memberId(team.getTeamMember().get(0).getId().getValue())
+                                .link(externalLink.getLink()).build()
+                ).collect(Collectors.toList())
+        );
+    }
+
+    @Override
+    public List<Team> findTeamListByMemberId(Member member) {
+        List<TeamMemberEntity> teamMemberEntity = teamMemberJPARepository.findByMemberIdAndState(member.getId().getValue(),TeamMemberState.ACTIVE);
+        return teamDataAccessMapper.teamMemberEntityToTeamByFindTeamListByMemberId(teamMemberEntity);
+    }
+
+    public void deleteTeamExternalLink(UUID teamId) {
+        List<TeamExternalLinkEntity> teamExternalLinkEntityList = findTeamExternalLinkEntityByTeamId(teamId);
+        for (TeamExternalLinkEntity teamExternalLinkEntity : teamExternalLinkEntityList) {
+            teamExternalLinkEntity.updateState(State.DELETE);
+        }
+    }
 
     public TeamEntity findTeamEntityByTeamId(UUID teamId) {
+        log.info(teamId.toString());
         return teamJpaRepository.findByIdAndState(teamId, State.ACTIVE).orElseThrow(() -> new BaseException(BaseErrorCode.NOT_FOUND_TEAM));
     }
 
