@@ -13,12 +13,15 @@ import com.garamgaebee.auth.service.domain.dto.mail.CheckAuthorizationCodeComman
 import com.garamgaebee.auth.service.domain.dto.mail.UserSendMailCommand;
 import com.garamgaebee.auth.service.domain.dto.oauth.OauthLoginResponse;
 import com.garamgaebee.auth.service.domain.port.input.service.AuthApplicationService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.servers.Server;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
