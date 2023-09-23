@@ -51,3 +51,4 @@ public class TeamEntity extends BaseEntity {
         this.introduction = introduction;
     }
 
+}
