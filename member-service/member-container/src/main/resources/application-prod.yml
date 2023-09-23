@@ -2,15 +2,11 @@ spring:
   config:
     activate:
       on-profile: prod
-  application:
-    name: member-service
-  datasource:
-    url: jdbc:mysql://garamgaebee-rds.cmvufjnyvp1f.ap-northeast-2.rds.amazonaws.com:3306/member?autoReconnect=true
-    username: admin
-    password: garamgaebeebackend!!
-    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       ddl-auto: none
     database-platform: MySQL8Dialect
     show-sql: false
@@ -19,6 +15,8 @@ spring:
       hibernate:
         format_sql: true
   localhost: host.docker.internal
+  main:
+    allow-circular-references: true
 
 eureka:
   client:
@@ -26,9 +24,3 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://host.docker.internal:9000/eureka
-# open api setting
-openapi:
-  service:
-    title: member-service doc #title that you will want to display in the swagger ui
-    version: 1.0.0
-    url: http://host.docker.internal:8080 #api gateway url

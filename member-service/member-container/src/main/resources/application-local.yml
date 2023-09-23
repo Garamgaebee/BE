@@ -9,6 +9,9 @@ spring:
     driver-class-name: org.h2.Driver
   jpa:
     hibernate:
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       ddl-auto: create
     database-platform:
     show-sql: true
@@ -17,6 +20,8 @@ spring:
       hibernate:
         format_sql: true
   localhost: localhost
+  main:
+    allow-circular-references: true
 
 eureka:
   client:
@@ -24,6 +29,13 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://127.0.0.1:9000/eureka
+
+springdoc:
+  api-docs:
+    path: /api/members/v3/api-docs #these urls will used to load the swagger ui of this service by the api gateway
+  swagger-ui:
+    path: /api/members/swagger-ui.html
+
 # open api setting
 openapi:
   service:

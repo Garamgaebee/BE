@@ -1,19 +1,13 @@
 server:
   port: 8082
 
-springdoc:
-  api-docs:
-    path: /api/members/v3/api-docs #these urls will used to load the swagger ui of this service by the api gateway
-  swagger-ui:
-    path: /api/members/swagger-ui.html
-
 spring:
+  profiles:
+    group:
+      "local" : "local"
+      "dev" : "dev,member-rds"
+      "prod" : "prod, member-rds"
+    default: local
+
   application:
     name: member-service
-  jpa:
-    hibernate:
-      naming:
-        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-  main:
-    allow-circular-references: true
