@@ -9,6 +9,6 @@ spring:
 
   profiles:
     group:
-      "local": "local,secret"
-      "dev": "dev,secret"
+      "local": "local,gateway-secret"
+      "dev": "dev,gateway-secret"
     default: local

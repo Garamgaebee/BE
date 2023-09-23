@@ -4,8 +4,8 @@ server:
 spring:
   profiles:
     group:
-      "local" : "local,secret"
-      "dev" : "dev,rds,secret"
+      "local" : "local,auth-secret"
+      "dev" : "dev,auth-rds,auth-secret"
     default: local
 
   application:

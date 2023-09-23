@@ -2,20 +2,21 @@ spring:
   config:
     activate:
       on-profile: dev
-  datasource:
-    url: jdbc:mysql://garamgaebee-rds.cmvufjnyvp1f.ap-northeast-2.rds.amazonaws.com:3306/memberdev?autoReconnect=true
-    username: admin
-    password: garamgaebeebackend!!
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
     hibernate:
+      naming:
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       ddl-auto: update
     database: mysql
     properties:
       hibernate:
         format_sql: true
   localhost: host.docker.internal
+  main:
+    allow-circular-references: true
 
 eureka:
   client:
@@ -23,6 +24,13 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://host.docker.internal:9000/eureka
+
+springdoc:
+  api-docs:
+    path: /api/members/v3/api-docs #these urls will used to load the swagger ui of this service by the api gateway
+  swagger-ui:
+    path: /api/members/swagger-ui.html
+
 # open api setting
 openapi:
   service:

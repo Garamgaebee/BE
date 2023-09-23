@@ -1,3 +1,5 @@
+application-thread-rds.yml
+
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
