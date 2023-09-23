@@ -5,7 +5,7 @@ spring:
   application:
     name: thread-service
   datasource:
-    url: jdbc:mysql://garamgaebee-rds.cmvufjnyvp1f.ap-northeast-2.rds.amazonaws.com:3306/thread
+    url: jdbc:mysql://garamgaebee-rds.cmvufjnyvp1f.ap-northeast-2.rds.amazonaws.com:3306/threaddev?autoReconnect=true
     username: admin
     password: garamgaebeebackend!!
     driver-class-name: com.mysql.cj.jdbc.Driver
