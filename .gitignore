@@ -1,3 +1,17 @@
+# api-gateway
+application-gateway-secret.yml
+# auth-service
+application-auth-rds.yml
+application-auth-secret.yml
+# image-service
+application-s3.yml
+# member-service
+application-member-rds.yml
+# team-service
+application-team-mysql.yml
+# thread-service
+application-thread-rds.yml
+
 HELP.md
 .gradle
 build/
