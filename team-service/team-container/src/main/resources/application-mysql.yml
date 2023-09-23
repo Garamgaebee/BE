@@ -19,7 +19,7 @@ spring:
     activate:
       on-profile: dev
   datasource:
-    url: jdbc:mysql://garamgaebee-rds.cmvufjnyvp1f.ap-northeast-2.rds.amazonaws.com:3306/team
+    url: jdbc:mysql://garamgaebee-rds.cmvufjnyvp1f.ap-northeast-2.rds.amazonaws.com:3306/team?autoReconnect=true
     username: admin
     password: garamgaebeebackend!!
     driver-class-name: com.mysql.cj.jdbc.Driver

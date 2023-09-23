@@ -5,7 +5,7 @@ spring:
   application:
     name: member-service
   datasource:
-    url: jdbc:mysql://garamgaebee-rds.cmvufjnyvp1f.ap-northeast-2.rds.amazonaws.com:3306/member
+    url: jdbc:mysql://garamgaebee-rds.cmvufjnyvp1f.ap-northeast-2.rds.amazonaws.com:3306/member?autoReconnect=true
     username: admin
     password: garamgaebeebackend!!
     driver-class-name: com.mysql.cj.jdbc.Driver
