@@ -7,6 +7,4 @@ import lombok.Getter;
 @AllArgsConstructor
 public class BaseException extends RuntimeException {
     private final BaseErrorCode baseErrorCode;
-
-
 }
