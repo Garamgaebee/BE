@@ -12,6 +12,9 @@ application-team-mysql.yml
 # thread-service
 application-thread-rds.yml
 
+# shellscript
+*.sh
+
 HELP.md
 .gradle
 build/
