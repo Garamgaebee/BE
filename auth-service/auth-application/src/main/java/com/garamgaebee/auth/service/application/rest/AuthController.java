@@ -22,6 +22,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.servers.Server;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
@@ -40,6 +41,7 @@ public class AuthController {
     private final AuthApplicationService authApplicationService;
 
     // Oauth2Login 컨트롤러
+    @SecurityRequirements
     @PostMapping("/login/oauth/{provider}")
     public ResponseEntity<OauthLoginResponse> oauth2Login(@PathVariable("provider") String provider,
                                                           @RequestParam("code") String code) {
@@ -50,6 +52,7 @@ public class AuthController {
     /**
      * 로그인 API
      */
+    @SecurityRequirements
     @Operation(summary = "로그인 API", description = "아이디/비밀번호로 로그인합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -67,6 +70,7 @@ public class AuthController {
     /**
      * 토큰 재발급 API
      */
+    @SecurityRequirements
     @Operation(summary = "토큰 재발급 API", description = "Refresh Token을 사용하여 토큰을 재발급합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -103,6 +107,7 @@ public class AuthController {
     /**
      * 인증메일 전송 API
      */
+    @SecurityRequirements
     @Operation(summary = "인증메일 전송 API", description = "이메일 주소를 받아 해당 이메일로 인증코드가 담긴 메일을 발송합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -120,8 +125,9 @@ public class AuthController {
     }
 
     /**
-     * 인증메일 전송 API
+     * 인증메일 코드 검사 API
      */
+    @SecurityRequirements
     @Operation(summary = "인증코드 검사 API", description = "이메일과 인증코드를 받아 해당 이메일로 발송된 인증코드가 맞는지 검사합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -140,6 +146,7 @@ public class AuthController {
     /**
      * 회원가입 API
      */
+    @SecurityRequirements
     @Operation(summary = "회원가입 API", description = "회원 정보를 받아 회원을 등록합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -159,6 +166,7 @@ public class AuthController {
     /**
      * 닉네임 중복체크 API
      */
+    @SecurityRequirements
     @Operation(summary = "닉네임 중복체크 API", description = "닉네임 중복 여부를 검사합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
