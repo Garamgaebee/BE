@@ -13,7 +13,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthenticationHandler {
     private final AuthenticationRepository authenticationRepository;
-    private final OpenFeignClient openFeignClient;
 
     public Boolean checkEmailExist(String email) {
         return authenticationRepository.checkEmailExist(email);
@@ -25,7 +24,5 @@ public class AuthenticationHandler {
 
     public void deleteAuthenticationByMemberId(UUID memberId) {
         authenticationRepository.deleteAuthenticationByMemberId(memberId);
-        // open feign 회원 탈퇴 api call
-        openFeignClient.exitMember(memberId);
     }
 }

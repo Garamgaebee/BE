@@ -19,6 +19,7 @@ import com.garamgaebee.auth.service.domain.entity.Authentication;
 import com.garamgaebee.auth.service.domain.entity.CommonAuthentication;
 import com.garamgaebee.auth.service.domain.entity.Oauth2Authentication;
 import com.garamgaebee.auth.service.domain.port.input.service.AuthApplicationService;
+import com.garamgaebee.auth.service.domain.port.output.web.OpenFeignClient;
 import com.garamgaebee.common.exception.BaseErrorCode;
 import com.garamgaebee.common.exception.BaseException;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class AuthApplicationServiceImpl implements AuthApplicationService {
     private final UserRegisterHandler userRegisterHandler;
     private final JwtProvideHandler jwtProvideHandler;
     private final AuthorizationCodeHandler authorizationCodeHandler;
+    private final OpenFeignClient openFeignClient;
 
     // oauth2 로그인
     @Override
@@ -92,7 +94,7 @@ public class AuthApplicationServiceImpl implements AuthApplicationService {
         Authentication authentication = authenticationHandler.findAuthenticationByMemberId(refreshTokenResponse.getMemberId())
                 .orElseThrow(() -> new BaseException(BaseErrorCode.NOT_REGISTERED_MEMBER));
 
-        // refreshToken 삭제
+        // 받은 refreshToken 삭제
         jwtProvideHandler.deleteRefreshToken(refreshToken);
 
         // accessToken + refreshToken 새로 발급
@@ -123,11 +125,7 @@ public class AuthApplicationServiceImpl implements AuthApplicationService {
     public Boolean checkAuthorizationMailCode(CheckAuthorizationCodeCommand checkAuthorizationCodeCommand) {
 
         // email로 인증코드 레디스에서 꺼내서 검사
-        if(!authorizationCodeHandler.checkAuthorizationCode(checkAuthorizationCodeCommand)) {
-            throw new BaseException(BaseErrorCode.WRONG_AUTHORIZATION_CODE);
-        }
-
-        return true;
+        return authorizationCodeHandler.checkAuthorizationCode(checkAuthorizationCodeCommand);
     }
 
     // 회원가입
@@ -184,6 +182,8 @@ public class AuthApplicationServiceImpl implements AuthApplicationService {
                 .orElseThrow(() -> new BaseException(BaseErrorCode.NOT_REGISTERED_MEMBER));
         // DB에서 멤버 삭제
         authenticationHandler.deleteAuthenticationByMemberId(authentication.getMemberId());
+        // open feign 회원 탈퇴 api call
+        openFeignClient.exitMember(authentication.getMemberId());
         // refresh token 삭제
         jwtProvideHandler.deleteRefreshToken(deleteMemberCommand.getRefreshToken());
     }

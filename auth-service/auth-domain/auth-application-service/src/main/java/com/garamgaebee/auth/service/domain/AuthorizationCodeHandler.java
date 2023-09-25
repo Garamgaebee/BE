@@ -58,7 +58,7 @@ public class AuthorizationCodeHandler {
     public Boolean checkAuthorizationCode(CheckAuthorizationCodeCommand checkAuthorizationCodeCommand) {
         return (checkAuthorizationCodeCommand.getCode().equals(
                 (authorizationCodeRedisRepository.findAuthorizationCodeByEmail(checkAuthorizationCodeCommand.getEmail())
-                        .orElseThrow(() -> new BaseException(BaseErrorCode.WRONG_AUTHORIZATION_CODE))
+                        .orElseThrow(() -> new BaseException(BaseErrorCode.WRONG_AUTHORIZATION_EMAIL))
                         .getCode()
                 )
             )

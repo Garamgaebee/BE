@@ -10,6 +10,14 @@ spring:
           filters:
             - JwtAuthentication=ROLE_USER
 
+        - id: auth-service-logout
+          uri: http://host.docker.internal:8081
+          predicates:
+            - Path=/api/auth/logout
+            - Method=POST
+          filters:
+            - JwtAuthentication=ROLE_USER
+
         - id: auth-service
           uri: http://host.docker.internal:8081
           predicates:

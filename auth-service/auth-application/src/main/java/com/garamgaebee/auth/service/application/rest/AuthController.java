@@ -13,10 +13,13 @@ import com.garamgaebee.auth.service.domain.dto.mail.CheckAuthorizationCodeComman
 import com.garamgaebee.auth.service.domain.dto.mail.UserSendMailCommand;
 import com.garamgaebee.auth.service.domain.dto.oauth.OauthLoginResponse;
 import com.garamgaebee.auth.service.domain.port.input.service.AuthApplicationService;
+import com.garamgaebee.common.exception.BaseException;
+import com.garamgaebee.common.exception.ErrorDTO;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.servers.Server;
@@ -44,120 +47,143 @@ public class AuthController {
         return ResponseEntity.ok().body(authApplicationService.oauth2Login(provider, code));
     }
 
-    // 자체로그인 컨트롤러
-    @Operation(summary = "로그인 API", description = "아이디/비밀번호로 로그인 요청", responses = {
-            @ApiResponse(responseCode = "200", description = "로그인 성공", content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    examples = {
-                            @ExampleObject(
-                                    name = "로그인 성공",
-                                    summary = "로그인에 성공합니다.",
-                                    value =
-                                            "{\"memberId\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\","
-                                            + "\"tokenInfo\": {"
-                                            + "\"accessToken\": \"eaoijtho332jfoij_r32jfaejfoie_3afifjajaifjeiellghnaognkvAZaoiEAF\","
-                                            + "\"refreshToken\": \"eaoijtho332jfoij_r32jfaejfoie_3afifjajaifjeiellghnaognkvAZaoiEAF\""
-                                            + "}"
-                                            + "}")})),
-            @ApiResponse(responseCode = "400", description = "잘못된 요청(일치하지 않는 아이디/비밀번호 등)", content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    examples = {
-                            @ExampleObject(
-                                    name = "로그인 실패",
-                                    summary = "로그인에 실패합니다.",
-                                    value =
-                                            "{\"code\": \"400 BAD_REQUEST\",\n"
-                                                    + "\"message\": \"아이디 또는 비밀번호가 일치하지 않습니다.\""
-                                                    + "}")})),
-            @ApiResponse(responseCode = "500", description = "서버 에러", content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    examples = {
-                            @ExampleObject(
-                                    name = "서버 에러",
-                                    summary = "서버에서 예기치 못한 에러가 발생합니다.",
-                                    value =
-                                            "{\"code\": \"500 INTERNAL_SERVER_ERROR\",\n"
-                                                    + "\"message\": \"Unexpected error!\""
-                                                    + "}")}))
+    /**
+     * 로그인 API
+     */
+    @Operation(summary = "로그인 API", description = "아이디/비밀번호로 로그인합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = LoginResponse.class))),
+            @ApiResponse(responseCode = "400", description = "아이디 또는 비밀번호가 일치하지 않습니다.",
+                    content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
+            @ApiResponse(responseCode = "500", description = "Unexpected error!",
+                    content = @Content(schema = @Schema(implementation = ErrorDTO.class)))
     })
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginCommand loginCommand) {
         return ResponseEntity.ok().body(authApplicationService.login(loginCommand));
     }
 
-    // refresh token으로 토큰 재발급 컨트롤러
-    @Operation(summary = "토큰재발급 API", description = "refresh token으로 access token을 재발급 받습니다.", responses = {
-            @ApiResponse(responseCode = "200", description = "token 재발급 성공", content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    examples = {
-                            @ExampleObject(
-                                    name = "token 재발급 성공",
-                                    summary = "token 재발급에 성공합니다.",
-                                    value =
-                                            "{\"tokenInfo\": {"
-                                                    + "\"accessToken\": \"eaoijtho332jfoij_r32jfaejfoie_3afifjajaifjeiellghnaognkvAZaoiEAF\","
-                                                    + "\"refreshToken\": \"eaoijtho332jfoij_r32jfaejfoie_3afifjajaifjeiellghnaognkvAZaoiEAF\""
-                                                    + "}"
-                            +"}")})),
-            @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    examples = {
-                            @ExampleObject(
-                                    name = "token 재발급 실패",
-                                    summary = "token 재발급에 실패합니다.",
-                                    value =
-                                            "{\"code\": \"400 BAD_REQUEST\",\n"
-                                                    + "\"message\": \"유효하지 않은 Refresh Token입니다.\""
-                                                    + "}")})),
-            @ApiResponse(responseCode = "500", description = "서버 에러", content = @Content(
-                    mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    examples = {
-                            @ExampleObject(
-                                    name = "서버 에러",
-                                    summary = "서버에서 예기치 못한 에러가 발생합니다.",
-                                    value =
-                                            "{\"code\": \"500 INTERNAL_SERVER_ERROR\",\n"
-                                                    + "\"message\": \"Unexpected error!\""
-                                                    + "}")}))
+    /**
+     * 토큰 재발급 API
+     */
+    @Operation(summary = "토큰 재발급 API", description = "Refresh Token을 사용하여 토큰을 재발급합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = ReissueTokenResponse.class))),
+            @ApiResponse(responseCode = "400", description = "유효하지 않은 Refresh Token입니다.",
+                    content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
+            @ApiResponse(responseCode = "400", description = "등록되지 않은 유저입니다.",
+                    content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
+            @ApiResponse(responseCode = "500", description = "Unexpected error!",
+                    content = @Content(schema = @Schema(implementation = ErrorDTO.class)))
     })
     @PostMapping("/refresh")
     public ResponseEntity<ReissueTokenResponse> reissueJwtTokenByRefreshToken(@RequestBody ReissueTokenCommand reissueTokenCommand) {
         return ResponseEntity.ok().body(authApplicationService.issueTokenByRefreshToken(reissueTokenCommand));
     }
 
-    // 로그아웃 컨트롤러
+    /**
+     * 로그아웃 API
+     */
+    @Operation(summary = "로그아웃 API", description = "Refresh Token과 함께 로그아웃을 요청합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "로그아웃에 성공하였습니다."
+            ),
+            @ApiResponse(responseCode = "500", description = "Unexpected error!",
+                    content = @Content(schema = @Schema(implementation = ErrorDTO.class)))
+    })
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@RequestBody LogoutCommand logoutCommand) {
         authApplicationService.logout(logoutCommand);
         return ResponseEntity.ok().body("로그아웃에 성공하였습니다.");
     }
 
-    // 메일 전송 컨트롤러
+    /**
+     * 인증메일 전송 API
+     */
+    @Operation(summary = "인증메일 전송 API", description = "이메일 주소를 받아 해당 이메일로 인증코드가 담긴 메일을 발송합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Body에 String으로 메일 전송에 성공하였습니다."
+            ),
+            @ApiResponse(responseCode = "400", description = "이미 가입된 이메일입니다.",
+                    content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
+            @ApiResponse(responseCode = "500", description = "Unexpected error!",
+                    content = @Content(schema = @Schema(implementation = ErrorDTO.class)))
+    })
     @PostMapping("/mail")
     public ResponseEntity<String> sendAuthorizationCodeMail(@RequestBody UserSendMailCommand userSendMailCommand) {
         authApplicationService.sendAuthorizationMailCode(userSendMailCommand);
         return ResponseEntity.ok().body("메일 전송에 성공하였습니다.");
     }
 
-    // 메일 인증코드 검사 컨트롤러
+    /**
+     * 인증메일 전송 API
+     */
+    @Operation(summary = "인증코드 검사 API", description = "이메일과 인증코드를 받아 해당 이메일로 발송된 인증코드가 맞는지 검사합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "true or false"
+            ),
+            @ApiResponse(responseCode = "400", description = "인증코드가 존재하지 않는 이메일입니다.",
+                    content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
+            @ApiResponse(responseCode = "500", description = "Unexpected error!",
+                    content = @Content(schema = @Schema(implementation = ErrorDTO.class)))
+    })
     @PostMapping("/mail/check")
     public ResponseEntity<Boolean> validateMailCode(@RequestBody CheckAuthorizationCodeCommand checkAuthorizationCodeCommand) {
         return ResponseEntity.ok().body(authApplicationService.checkAuthorizationMailCode(checkAuthorizationCodeCommand));
     }
 
-    // 회원가입 컨트롤러
+    /**
+     * 회원가입 API
+     */
+    @Operation(summary = "회원가입 API", description = "회원 정보를 받아 회원을 등록합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = LoginResponse.class))),
+            @ApiResponse(responseCode = "400", description = "이미 가입된 이메일입니다.",
+                    content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
+            @ApiResponse(responseCode = "400", description = "이미 사용 중인 닉네임입니다.",
+                    content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
+            @ApiResponse(responseCode = "500", description = "Unexpected error!",
+                    content = @Content(schema = @Schema(implementation = ErrorDTO.class)))
+    })
     @PostMapping("/member")
     public ResponseEntity<LoginResponse> createNewMember(@RequestBody CommonAuthenticationPostCommand command) {
         return ResponseEntity.ok().body(authApplicationService.createNewCommonAuthentication(command));
     }
 
-    //닉네임 유효성 검사 컨트롤러 테스트
+    /**
+     * 닉네임 중복체크 API
+     */
+    @Operation(summary = "닉네임 중복체크 API", description = "닉네임 중복 여부를 검사합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = ValidateNicknameResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Unexpected error!",
+                    content = @Content(schema = @Schema(implementation = ErrorDTO.class)))
+    })
     @PostMapping("/member/nickname/check")
     public ResponseEntity<ValidateNicknameResponse> validateMemberNickname(@RequestBody ValidateNicknameCommand validateNicknameCommand) {
         return ResponseEntity.ok().body(authApplicationService.validateMemberNickname(validateNicknameCommand));
     }
 
-    // 회원탈퇴 컨트롤러
+    /**
+     * 회원탈퇴 API
+     */
+    @Operation(summary = "회원탈퇴 API", description = "회원을 탈퇴 처리합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "true"
+            ),
+            @ApiResponse(responseCode = "400", description = "등록되지 않은 유저입니다.",
+                    content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
+            @ApiResponse(responseCode = "500", description = "Unexpected error!",
+                    content = @Content(schema = @Schema(implementation = ErrorDTO.class)))
+    })
     @DeleteMapping("/member")
     public ResponseEntity<Boolean> deleteMember(@RequestBody DeleteMemberCommand deleteMemberCommand) {
         authApplicationService.deleteMember(deleteMemberCommand);
