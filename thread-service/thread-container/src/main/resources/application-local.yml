@@ -3,10 +3,10 @@ spring:
     activate:
       on-profile: local
   datasource:
-    url: jdbc:h2:tcp://localhost:8075/~/h2/thread
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: 'jdbc:mysql://localhost:3306/member?autoReconnect=true'
+    username: garamgaebee
+    password: garamgaebeebackend!!
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       naming:
