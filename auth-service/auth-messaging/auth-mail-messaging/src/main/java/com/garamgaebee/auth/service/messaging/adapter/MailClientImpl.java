@@ -20,7 +20,7 @@ public class MailClientImpl implements MailClient {
             mailSender.sendMail(sendMailCommand);
         } catch (Exception e) {
             //TODO 로그로 대체
-            System.out.println("fail to send mail");
+            e.printStackTrace();
         }
     }
 }
