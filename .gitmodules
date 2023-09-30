@@ -1,0 +1,4 @@
+[submodule "BE-Private"]
+	path = BE-Private
+	url = https://github.com/Garamgaebee/BE-Private.git
+    branch = main

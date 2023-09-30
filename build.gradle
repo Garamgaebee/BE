@@ -39,3 +39,35 @@ subprojects {
     }
 
 }
+tasks.register('copyPrivate', Copy) {
+    copy {
+        from './BE-Private/api-gateway'
+        include "*.yml"
+        into 'api-gateway/src/main/resources'
+    }
+    copy {
+        from './BE-Private/auth-service'
+        include "*.yml"
+        into 'auth-service/auth-container/src/main/resources'
+    }
+    copy {
+        from './BE-Private/image-service'
+        include "*.yml"
+        into 'image-service/image-container/src/main/resources'
+    }
+    copy {
+        from './BE-Private/member-service'
+        include "*.yml"
+        into 'member-service/member-container/src/main/resources'
+    }
+    copy {
+        from './BE-Private/team-service'
+        include "*.yml"
+        into 'team-service/team-container/src/main/resources'
+    }
+    copy {
+        from './BE-Private/thread-service'
+        include "*.yml"
+        into 'thread-service/thread-container/src/main/resources'
+    }
+}
