@@ -4,10 +4,7 @@ import com.garamgaebee.member.domain.dto.DeleteImageCommand;
 import com.garamgaebee.member.domain.valueobject.ImageDeleteVO;
 import com.garamgaebee.member.domain.valueobject.ImageVO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -23,7 +20,7 @@ public interface ImageFeignPublisher {
     /**
      * Feign Image 삭제
      * */
-    @RequestMapping(method = RequestMethod.DELETE, value = "/api/feign/images", consumes = "application/json")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/api/feign/images", produces = "application/json")
     ImageDeleteVO deleteFeignImages(@RequestBody DeleteImageCommand imageRequest);
 }
 
