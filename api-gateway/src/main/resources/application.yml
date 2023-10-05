@@ -12,3 +12,8 @@ spring:
       "local": "local,gateway-secret"
       "dev": "dev,gateway-secret"
     default: local
+
+logging:
+  level:
+    org.springframework.cloud.gateway: trace
+    reactor.netty: trace

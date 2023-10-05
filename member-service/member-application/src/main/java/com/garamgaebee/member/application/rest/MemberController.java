@@ -1,8 +1,10 @@
 package com.garamgaebee.member.application.rest;
 
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.garamgaebee.common.exception.BaseException;
 import com.garamgaebee.common.exception.ErrorDTO;
+import com.garamgaebee.common.response.BaseResponse;
 import com.garamgaebee.member.domain.dto.DeleteMemberResponse;
 import com.garamgaebee.member.domain.dto.GetMemberResponse;
 import com.garamgaebee.member.domain.dto.ProfileImgResponse;
@@ -37,8 +39,7 @@ public class MemberController {
      * */
     @Operation(summary = "멤버 조회 API", description = "멤버 정보를 조회하는 api")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = GetMemberResponse.class))),
+            @ApiResponse(responseCode = "200"),
             @ApiResponse(responseCode = "400", description = "에러 없음"),
             @ApiResponse(responseCode = "404", description = "유저를 찾을 수 없습니다.",
                     content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
@@ -46,10 +47,10 @@ public class MemberController {
                     content = @Content(schema = @Schema(implementation = ErrorDTO.class)))
     })
     @GetMapping(value = "/{member-idx}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GetMemberResponse> getMember(@Parameter(description = "멤버 인덱스 (UUID String)") @PathVariable("member-idx") String memberIdx) throws BaseException {
+    public BaseResponse<GetMemberResponse> getMember(@Parameter(description = "멤버 인덱스 (UUID String)") @PathVariable("member-idx") String memberIdx) {
         GetMemberResponse getMemberResponse = memberService.getMember(UUID.fromString(memberIdx));
 
-        return ResponseEntity.ok(getMemberResponse);
+        return new BaseResponse<>(getMemberResponse);
     }
 
     /**
@@ -57,8 +58,7 @@ public class MemberController {
      * */
     @Operation(summary = "프로필 이미지 등록 API", description = "프로필 이미지 등록 API (최초 업로드시 사용)")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = GetMemberResponse.class))),
+            @ApiResponse(responseCode = "200"),
             @ApiResponse(responseCode = "400", description = "에러 없음"),
             @ApiResponse(responseCode = "404", description = "유저를 찾을 수 없습니다.",
                     content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
@@ -66,10 +66,10 @@ public class MemberController {
                     content = @Content(schema = @Schema(implementation = ErrorDTO.class)))
     })
     @PostMapping(value = "/{member-idx}/image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileImgResponse> postProfileImg(@PathVariable("member-idx") String memberIdx, @RequestPart(value = "file") MultipartFile file) {
+    public BaseResponse<ProfileImgResponse> postProfileImg(@PathVariable("member-idx") String memberIdx, @RequestPart(value = "file") MultipartFile file) {
         ProfileImgResponse profileImgResponse = memberService.postProfileImg(memberIdx, file);
 
-        return ResponseEntity.ok(profileImgResponse);
+        return new BaseResponse<>(profileImgResponse);
     }
 
     /**
@@ -77,18 +77,17 @@ public class MemberController {
      * */
     @Operation(summary = "프로필 이미지 수정 API", description = "프로필 이미지 수정 API")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = GetMemberResponse.class))),
+            @ApiResponse(responseCode = "200"),
             @ApiResponse(responseCode = "400", description = "에러 없음"),
             @ApiResponse(responseCode = "404", description = "유저를 찾을 수 없습니다.",
                     content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
             @ApiResponse(responseCode = "500", description = "Unexpected error! | 기존 이미지 삭제에 실패하였습니다. 서버에 문의해주세요",
                     content = @Content(schema = @Schema(implementation = ErrorDTO.class)))
     })
-    @PostMapping(value = "/{member-idx}/image/modify", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ProfileImgResponse> patchProfileImg(@PathVariable("member-idx") String memberIdx, @RequestPart(value = "file") MultipartFile file) throws BaseException{
+    @PatchMapping(value = "/{member-idx}/image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public BaseResponse<ProfileImgResponse> patchProfileImg(@PathVariable("member-idx") String memberIdx, @RequestPart(value = "file") MultipartFile file) {
         ProfileImgResponse profileImgResponse = memberService.patchProfileImg(memberIdx, file);
 
-        return ResponseEntity.ok(profileImgResponse);
+        return new BaseResponse<>(profileImgResponse);
     }
 }

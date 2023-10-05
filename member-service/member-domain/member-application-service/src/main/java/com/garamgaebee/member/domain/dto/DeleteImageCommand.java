@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class DeleteImageCommand {
-    List<String> urlList = new ArrayList<>();
+    private List<String> urlList;
 }
