@@ -80,8 +80,8 @@ jobs:
           port: 22
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
-            sudo docker rm -f $(docker ps -aq)
-            sudo docker rmi $(docker images -q)
+            sudo docker rm -f $(sudo docker ps -aq)
+            sudo docker rmi $(sudo docker images -q)
   
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/eureka
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/gateway
