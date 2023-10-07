@@ -41,26 +41,6 @@ jobs:
       - name: Build with Gradle
         run: |
           chmod +x gradlew 
-        
-          cd ./eureka-server
-          ./gradlew build
-        
-          cd ./api-gateway
-          ./gradlew build
-        
-          cd ./auth-service/auth-container
-          ./gradlew build
-        
-          cd ./image-service/image-container
-          ./gradlew build
-        
-          cd ./member-service/member-container
-          ./gradlew build
-        
-          cd ./team-service/team-container
-          ./gradlew build
-        
-          cd ./thread-service/thread-container
           ./gradlew build
 
       # docker build & push to develop
