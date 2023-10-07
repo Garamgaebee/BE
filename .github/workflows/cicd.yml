@@ -39,41 +39,41 @@ jobs:
 
       # gradle build
       - name: Build with Gradle
-        run: ./gradlew clean build
+        run: sudo ./gradlew clean build
 
       # docker build & push to develop
       - name: Docker build & push to dev
         if: contains(github.ref, '72-construct-cicd-process')
         run: |
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           cd ./eureka-server
-          docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/eureka --platform linux/amd64 .
-          docker push ${{ secrets.DOCKER_USERNAME }}/eureka
+          sudo docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/eureka --platform linux/amd64 .
+          sudo docker push ${{ secrets.DOCKER_USERNAME }}/eureka
   
           cd ./api-gateway
-          docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/gateway --platform linux/amd64 .
-          docker push ${{ secrets.DOCKER_USERNAME }}/gateway
+          sudo docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/gateway --platform linux/amd64 .
+          sudo docker push ${{ secrets.DOCKER_USERNAME }}/gateway
           
           cd ./auth-service/auth-container
-          docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/authservice --platform linux/amd64 .
-          docker push ${{ secrets.DOCKER_USERNAME }}/authservice
+          sudo docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/authservice --platform linux/amd64 .
+          sudo docker push ${{ secrets.DOCKER_USERNAME }}/authservice
           
           cd ./image-service/image-container
-          docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/imageservice --platform linux/amd64 .
-          docker push ${{ secrets.DOCKER_USERNAME }}/imageservice
+          sudo docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/imageservice --platform linux/amd64 .
+          sudo docker push ${{ secrets.DOCKER_USERNAME }}/imageservice
   
           cd ./member-service/member-container
-          docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/memberservice --platform linux/amd64 .
-          docker push ${{ secrets.DOCKER_USERNAME }}/memberservice
+          sudo docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/memberservice --platform linux/amd64 .
+          sudo docker push ${{ secrets.DOCKER_USERNAME }}/memberservice
   
   
           cd ./team-service/team-container
-          docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/teamservice --platform linux/amd64 .
-          docker push ${{ secrets.DOCKER_USERNAME }}/teamservice
+          sudo docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/teamservice --platform linux/amd64 .
+          sudo docker push ${{ secrets.DOCKER_USERNAME }}/teamservice
   
           cd ./thread-service/thread-container
-          docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/threadservice --platform linux/amd64 .
-          docker push ${{ secrets.DOCKER_USERNAME }}/threadservice
+          sudo docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/threadservice --platform linux/amd64 .
+          sudo docker push ${{ secrets.DOCKER_USERNAME }}/threadservice
 
       ## deploy to develop
       - name: Deploy to dev
