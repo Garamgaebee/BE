@@ -31,6 +31,7 @@ public class CreateThreadHelper {
     /**
      * 이미지 파일 리스트에서 url 리스트로 바꾸기
      * */
+    //todo: 이미지파일이 비었다면 image service 호출하지 않기
     public List<String> getImageList(List<MultipartFile> fileList) {
         ImageVO imageList = imageFeignPublisher.getFeignImageUrls(fileList);
         List<String> imgUrls = new ArrayList<>();
