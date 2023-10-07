@@ -39,7 +39,7 @@ jobs:
 
       # gradle build
       - name: Build with Gradle
-        run: sudo ./gradlew clean build
+        run: sudo gradlew clean build
 
       # docker build & push to develop
       - name: Docker build & push to dev
