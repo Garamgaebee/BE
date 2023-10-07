@@ -13,6 +13,11 @@ jobs:
     steps:
 
       - uses: actions/checkout@v3
+        # submodule checkout
+        with:
+          token: ${{ secrets.ACTION_TOKEN }}
+          submodules: true
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -29,13 +34,6 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-
-      # submodule checkout
-      - name: Checkout
-        uses: actions/checkout@v1
-        with:
-          token: ${{ secrets.ACTION_TOKEN }}
-          submodules: true
 
       # gradle build
       - name: Build with Gradle
@@ -91,12 +89,12 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/teamservice
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/threadservice
             sudo docker pull redis
-            sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 9000:9000 ${{ secrets.DOCKER_USERNAME }}/eureka > eureka.out 2>&1 &
-            sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/gateway > gateway.out 2>&1 &
-            sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 8081:8081 ${{ secrets.DOCKER_USERNAME }}/authservice > authservice.out 2>&1 &
-            sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 9001:9001 ${{ secrets.DOCKER_USERNAME }}/imageservice > imageservice.out 2>&1 &
-            sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 8082:8082 ${{ secrets.DOCKER_USERNAME }}/memberservice > memberservice.out 2>&1 &
-            sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 8083:8083 ${{ secrets.DOCKER_USERNAME }}/teamservice > teamservice.out 2>&1 &
-            sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 8084:8084 ${{ secrets.DOCKER_USERNAME }}/threadservice > threadservice.out 2>&1 &
-            sudo nohup docker run -p 6379:6379 redis > redis.out 2>&1 &
+            sudo docker run --add-host=host.docker.internal:host-gateway -d -p 9000:9000 ${{ secrets.DOCKER_USERNAME }}/eureka
+            sudo docker run --add-host=host.docker.internal:host-gateway -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/gateway
+            sudo docker run --add-host=host.docker.internal:host-gateway -d -p 8081:8081 ${{ secrets.DOCKER_USERNAME }}/authservice
+            sudo docker run --add-host=host.docker.internal:host-gateway -d -p 9001:9001 ${{ secrets.DOCKER_USERNAME }}/imageservice
+            sudo docker run --add-host=host.docker.internal:host-gateway -d -p 8082:8082 ${{ secrets.DOCKER_USERNAME }}/memberservice
+            sudo docker run --add-host=host.docker.internal:host-gateway -d -p 8083:8083 ${{ secrets.DOCKER_USERNAME }}/teamservice
+            sudo docker run --add-host=host.docker.internal:host-gateway -d -p 8084:8084 ${{ secrets.DOCKER_USERNAME }}/threadservice
+            sudo docker run -d -p 6379:6379 redis
             sudo docker image prune -f
