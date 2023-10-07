@@ -43,7 +43,7 @@ public class ThreadController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     content = @Content(schema = @Schema(implementation = CreateThreadRes.class))),
-            @ApiResponse(responseCode = "400", description = "내용 길이 초과",
+            @ApiResponse(responseCode = "400", description = "내용 길이 초과\t\n \t\n",
                     content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
             @ApiResponse(responseCode = "500", description = "Unexpected error!",
                     content = @Content(schema = @Schema(implementation = ErrorDTO.class)))
@@ -115,7 +115,7 @@ public class ThreadController {
                     content = @Content(schema = @Schema(implementation = DeleteThreadRes.class))),
             @ApiResponse(responseCode = "400", description = "에러 없음"),
             @ApiResponse(responseCode = "404", description = "대상 스레드를 찾을 수 없습니다.",
-                    content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
+            content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
             @ApiResponse(responseCode = "500", description = "Unexpected error!",
                     content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
     })
@@ -177,6 +177,8 @@ public class ThreadController {
                     content = @Content(schema = @Schema(implementation = CreateCommentRes.class))),
             @ApiResponse(responseCode = "400", description = "내용 길이 초과",
                     content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
+            @ApiResponse(responseCode = "404", description = "대상 스레드를 찾을 수 없습니다.",
+                    content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
             @ApiResponse(responseCode = "500", description = "Unexpected error!",
                     content = @Content(schema = @Schema(implementation = ErrorDTO.class)))
     })
@@ -210,6 +212,8 @@ public class ThreadController {
                     content = @Content(schema = @Schema(implementation = CreateCommentRes.class))),
             @ApiResponse(responseCode = "400", description = "내용 길이 초과",
                     content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
+            @ApiResponse(responseCode = "404", description = "대상 스레드를 찾을 수 없습니다.",
+            content = @Content(schema = @Schema(implementation = ErrorDTO.class))),
             @ApiResponse(responseCode = "500", description = "Unexpected error!",
                     content = @Content(schema = @Schema(implementation = ErrorDTO.class)))
     })
