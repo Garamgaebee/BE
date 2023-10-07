@@ -39,13 +39,36 @@ jobs:
 
       # gradle build
       - name: Build with Gradle
-        run: sudo gradlew clean build
+        run: |
+          chmod +x gradlew 
+        
+          cd ./eureka-server
+          ./gradlew build
+        
+          cd ./api-gateway
+          ./gradlew build
+        
+          cd ./auth-service/auth-container
+          ./gradlew build
+        
+          cd ./image-service/image-container
+          ./gradlew build
+        
+          cd ./member-service/member-container
+          ./gradlew build
+        
+          cd ./team-service/team-container
+          ./gradlew build
+        
+          cd ./thread-service/thread-container
+          ./gradlew build
 
       # docker build & push to develop
       - name: Docker build & push to dev
         if: contains(github.ref, '72-construct-cicd-process')
         run: |
           sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          
           cd ./eureka-server
           sudo docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/eureka --platform linux/amd64 .
           sudo docker push ${{ secrets.DOCKER_USERNAME }}/eureka
@@ -65,7 +88,6 @@ jobs:
           cd ./member-service/member-container
           sudo docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/memberservice --platform linux/amd64 .
           sudo docker push ${{ secrets.DOCKER_USERNAME }}/memberservice
-  
   
           cd ./team-service/team-container
           sudo docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/teamservice --platform linux/amd64 .
