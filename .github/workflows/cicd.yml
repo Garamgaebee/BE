@@ -91,11 +91,11 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/teamservice
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/threadservice
             sudo docker pull redis
-            sudo docker run --add-host=host.docker.internal:host-gateway -d -p 9000:9000 ${{ secrets.DOCKER_USERNAME }}/eureka > eureka.out
-            sudo docker run --add-host=host.docker.internal:host-gateway -d -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/gateway > gateway.out
-            sudo docker run --add-host=host.docker.internal:host-gateway -d -p 8081:8081 ${{ secrets.DOCKER_USERNAME }}/authservice > authservice.out
-            sudo docker run --add-host=host.docker.internal:host-gateway -d -p 9001:9001 ${{ secrets.DOCKER_USERNAME }}/imageservice > imageservice.out
-            sudo docker run --add-host=host.docker.internal:host-gateway -d -p 8082:8082 ${{ secrets.DOCKER_USERNAME }}/memberservice > memberservice.out
-            sudo docker run --add-host=host.docker.internal:host-gateway -d -p 8083:8083 ${{ secrets.DOCKER_USERNAME }}/teamservice  > teamservice.out
-            sudo docker run --add-host=host.docker.internal:host-gateway -d -p 8084:8084 ${{ secrets.DOCKER_USERNAME }}/threadservice > threadservice.out
-            sudo docker run -d -p 6379:6379 redis > redis.out
+            sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 9000:9000 ${{ secrets.DOCKER_USERNAME }}/eureka > eureka.out 2>&1 &
+            sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/gateway > gateway.out 2>&1 &
+            sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 8081:8081 ${{ secrets.DOCKER_USERNAME }}/authservice > authservice.out 2>&1 &
+            sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 9001:9001 ${{ secrets.DOCKER_USERNAME }}/imageservice > imageservice.out 2>&1 &
+            sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 8082:8082 ${{ secrets.DOCKER_USERNAME }}/memberservice > memberservice.out 2>&1 &
+            sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 8083:8083 ${{ secrets.DOCKER_USERNAME }}/teamservice  > teamservice.out 2>&1 &
+            sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 8084:8084 ${{ secrets.DOCKER_USERNAME }}/threadservice > threadservice.out 2>&1 &
+            sudo nohup docker run -d -p 6379:6379 redis > redis.out
