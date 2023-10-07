@@ -49,32 +49,25 @@ jobs:
         run: |
           sudo docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           
-          cd ./eureka-server
-          sudo docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/eureka --platform linux/amd64 .
+          sudo docker build -f ./eureka-server/Dockerfile --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/eureka --platform linux/amd64 .
           sudo docker push ${{ secrets.DOCKER_USERNAME }}/eureka
   
-          cd ./api-gateway
-          sudo docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/gateway --platform linux/amd64 .
+          sudo docker build -f ./api-gateway/Dockerfile --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/gateway --platform linux/amd64 .
           sudo docker push ${{ secrets.DOCKER_USERNAME }}/gateway
           
-          cd ./auth-service/auth-container
-          sudo docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/authservice --platform linux/amd64 .
+          sudo docker build -f ./auth-service/auth-container/Dockerfile --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/authservice --platform linux/amd64 .
           sudo docker push ${{ secrets.DOCKER_USERNAME }}/authservice
           
-          cd ./image-service/image-container
-          sudo docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/imageservice --platform linux/amd64 .
+          sudo docker build -f ./image-service/image-container/Dockerfile --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/imageservice --platform linux/amd64 .
           sudo docker push ${{ secrets.DOCKER_USERNAME }}/imageservice
   
-          cd ./member-service/member-container
-          sudo docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/memberservice --platform linux/amd64 .
+          sudo docker build -f ./member-service/member-container/Dockerfile --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/memberservice --platform linux/amd64 .
           sudo docker push ${{ secrets.DOCKER_USERNAME }}/memberservice
   
-          cd ./team-service/team-container
-          sudo docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/teamservice --platform linux/amd64 .
+          sudo docker build -f ./team-service/team-container/Dockerfile --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/teamservice --platform linux/amd64 .
           sudo docker push ${{ secrets.DOCKER_USERNAME }}/teamservice
   
-          cd ./thread-service/thread-container
-          sudo docker build --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/threadservice --platform linux/amd64 .
+          sudo docker build -f ./thread-service/thread-container/Dockerfile --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/threadservice --platform linux/amd64 .
           sudo docker push ${{ secrets.DOCKER_USERNAME }}/threadservice
 
       ## deploy to develop
