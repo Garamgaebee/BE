@@ -173,28 +173,27 @@ public class ThreadServiceImpl implements ThreadService {
     @Transactional
     public List<GetThreadListRes> getThreadList(Integer orderType) {
         List<Thread> threads;
-
+        //todo: 0 or else가 아닌 예외처리 해주기
         if (orderType == 0) {
             threads = threadRepository.getThreadListOrderByTime();
         } else {
             threads = threadRepository.getThreadListOrderByLike();
         }
-
         List<GetThreadListRes> res = new ArrayList<>();
 
         for (Thread thread : threads) {
             res.add(mapper.ThreadListToDtoList(thread));
         }
-
-        for(GetThreadListRes thread : res) {
-            if(!thread.getIsComment()) {
-                int commentNumber = threadRepository.findCommentNumber(UUID.fromString(thread.getThreadId()));
-                thread.setCommentNumber(commentNumber);
-            }
-            else{
-                thread.setCommentNumber(-1);
-            }
-        }
+        //todo: parent string으로 파라미터 변경
+//        for(GetThreadListRes thread : res) {
+//            if(!thread.getIsComment()) {
+//                int commentNumber = threadRepository.findCommentNumber(UUID.fromString(thread.getThreadId()));
+//                thread.setCommentNumber(commentNumber);
+//            }
+//            else{
+//                thread.setCommentNumber(-1);
+//            }
+//        }
 
         return res;
     }

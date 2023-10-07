@@ -62,11 +62,9 @@ public class ThreadAccessMapper {
      * */
     public List<Thread> entitiesToThreads(List<ThreadEntity> threadEntities) {
         List<Thread> threads = new ArrayList<>();
-
         for (ThreadEntity entity : threadEntities) {
             threads.add(entityToThread(entity));
         }
-
         return threads;
     }
 

@@ -3,13 +3,11 @@ package com.garamgaebee.thread.dataaccess.thread.entity;
 import com.garamgaebee.thread.domain.entity.ThreadStatus;
 import com.garamgaebee.thread.domain.entity.ThreadType;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

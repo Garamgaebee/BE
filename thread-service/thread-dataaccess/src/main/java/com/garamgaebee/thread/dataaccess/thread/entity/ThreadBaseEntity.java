@@ -29,5 +29,6 @@ public class ThreadBaseEntity {
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
+    //todo: @Builder.Default 추가
     private ThreadStatus status = ThreadStatus.ACTIVE;
 }
