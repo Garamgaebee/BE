@@ -156,13 +156,13 @@ public class ThreadServiceImpl implements ThreadService {
     @Override
     @Transactional(rollbackFor = BaseException.class)
     public DeleteThreadRes deleteThread(String threadIdx) throws BaseException{
+
         //이미지도 삭제하기
         Thread thread = threadRepository.getThread(threadIdx);
 
-        if(!thread.getImgUrls().isEmpty()){
-            deleteImages(thread.getImgUrls());
-        }
-
+//        if(!thread.getImgUrls().isEmpty()){
+//            deleteImages(thread.getImgUrls());
+//        }
         return threadRepository.deleteThread(threadIdx);
     }
 

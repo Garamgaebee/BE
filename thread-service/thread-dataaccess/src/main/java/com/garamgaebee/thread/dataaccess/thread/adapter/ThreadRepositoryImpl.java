@@ -62,10 +62,14 @@ public class ThreadRepositoryImpl implements ThreadRepository {
      * */
     @Override
     public DeleteThreadRes deleteThread(String threadIdx) throws BaseException{
+
         ThreadEntity entity = threadJpaRepository.findById(UUID.fromString(threadIdx)).orElseThrow(() -> new BaseException(BaseErrorCode.THREAD_NOT_EXIST));
 
+
         likeJpaRepository.deleteAllByThreadId(UUID.fromString(threadIdx));
+
         imageJpaRepository.deleteAllByThreadIdx(UUID.fromString(threadIdx));
+        //todo 진짜 삭제하는지 물어보기
         threadJpaRepository.delete(entity);
 
         return new DeleteThreadRes(true);
