@@ -11,6 +11,7 @@ import com.garamgaebee.thread.dataaccess.thread.repository.ThreadJpaRepository;
 import com.garamgaebee.thread.domain.dto.DeleteThreadRes;
 import com.garamgaebee.thread.domain.entity.Like;
 import com.garamgaebee.thread.domain.entity.Thread;
+import com.garamgaebee.thread.domain.entity.ThreadStatus;
 import com.garamgaebee.thread.domain.ports.out.ThreadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -61,10 +62,14 @@ public class ThreadRepositoryImpl implements ThreadRepository {
      * */
     @Override
     public DeleteThreadRes deleteThread(String threadIdx) throws BaseException{
+
         ThreadEntity entity = threadJpaRepository.findById(UUID.fromString(threadIdx)).orElseThrow(() -> new BaseException(BaseErrorCode.THREAD_NOT_EXIST));
 
+
         likeJpaRepository.deleteAllByThreadId(UUID.fromString(threadIdx));
+
         imageJpaRepository.deleteAllByThreadIdx(UUID.fromString(threadIdx));
+        //todo 진짜 삭제하는지 물어보기
         threadJpaRepository.delete(entity);
 
         return new DeleteThreadRes(true);
@@ -76,14 +81,13 @@ public class ThreadRepositoryImpl implements ThreadRepository {
     @Override
     public List<Thread> getThreadListOrderByTime() {
         List<ThreadEntity> entities = threadJpaRepository.findAllOrderByCreatedAt();
-
         return mapper.entitiesToThreads(entities);
     }
 
     @Override
     public List<Thread> getThreadListOrderByLike() {
-        List<ThreadEntity> entities = threadJpaRepository.findAllOrderByLikeNumber();
-
+        List<ThreadEntity> entities = threadJpaRepository.findAllByStatusOrderByLikes(ThreadStatus.ACTIVE);
+        System.out.println(entities);
         return mapper.entitiesToThreads(entities);
     }
 
@@ -109,6 +113,7 @@ public class ThreadRepositoryImpl implements ThreadRepository {
 
     @Override
     public int findCommentNumber(UUID uuid) {
+        System.out.println("gg");
         return threadJpaRepository.findCommentNumber(uuid);
     }
 

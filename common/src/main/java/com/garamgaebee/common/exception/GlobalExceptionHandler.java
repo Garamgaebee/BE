@@ -12,32 +12,31 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
-    @ResponseBody
-    @ExceptionHandler(value = {Exception.class})
-    public ErrorDTO handleException(Exception e) {
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<ErrorDTO> handleException(final Exception e) {
         log.error("handleException: {}", e.getMessage());
         log.error(String.valueOf(e.getCause()));
-        return ErrorDTO.builder()
-                .code(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
-                .message("Unexpected error!")
-                .build();
-    }
-    @ResponseBody
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    protected ResponseEntity<BaseException> handleHttpRequestMethodNotSupportedException(final HttpRequestMethodNotSupportedException e) {
-        log.error("handleHttpRequestMethodNotSupportedException: {}", e.getMessage());
+        final ErrorDTO errorDTO = new ErrorDTO(BaseErrorCode.SERVER_ERROR);
         return ResponseEntity
-                .status(HttpStatus.METHOD_NOT_ALLOWED)
-                .body(new BaseException(BaseErrorCode.METHOD_NOT_ALLOWED));
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(errorDTO);
     }
 
-    @ResponseBody
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    protected ResponseEntity<ErrorDTO> handleHttpRequestMethodNotSupportedException(final HttpRequestMethodNotSupportedException e) {
+        log.error("handleHttpRequestMethodNotSupportedException: {}", e.getMessage());
+        final ErrorDTO errorDTO = new ErrorDTO(BaseErrorCode.METHOD_NOT_ALLOWED);
+        return ResponseEntity
+                .status(HttpStatus.METHOD_NOT_ALLOWED)
+                .body(errorDTO);
+    }
+
     @ExceptionHandler(value = {BaseException.class})
-    public ResponseEntity<BaseException> handleException(BaseException e) {
+    public ResponseEntity<ErrorDTO> handleException(BaseException e) {
         log.error("handleCustomException: {}", e.getMessage());
+        final ErrorDTO errorDTO = new ErrorDTO(e);
         return ResponseEntity
                 .status(e.getBaseErrorCode().getCode())
-                .body(new BaseException(e.getBaseErrorCode()));
+                .body(errorDTO);
     }
 }
