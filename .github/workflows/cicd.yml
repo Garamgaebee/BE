@@ -38,8 +38,8 @@ jobs:
       # gradle build
       - name: Build with Gradle
         run: |
-          gradle copySubmodule
-          chmod +x gradlew 
+          chmod +x gradlew
+          ./gradlew copySubmodule 
           ./gradlew build
 
       # docker build & push to develop
