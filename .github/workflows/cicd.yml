@@ -38,6 +38,7 @@ jobs:
       # gradle build
       - name: Build with Gradle
         run: |
+          git submodule update
           chmod +x gradlew 
           ./gradlew build
 
