@@ -6,6 +6,15 @@ dependencies {
     implementation project(':image-service:image-domain:image-domain-core')
     implementation project(':image-service:image-domain:image-application-service')
 }
+
+processResources.dependsOn('copySecret')
+
+tasks.register('copySecret', Copy) {
+    from './BE-private/image-service' // 서브모듈 디렉토리 경로
+    include "application*.yml"  // 복사할 파일들
+    into 'src/main/resources'  // 복사 위치
+}
+
 bootJar {
     enabled = true
 }

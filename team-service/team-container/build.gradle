@@ -9,6 +9,15 @@ dependencies {
     implementation project(':team-service:team-messaging')
     implementation project(':common')
 }
+
+processResources.dependsOn('copySecret')
+
+tasks.register('copySecret', Copy) {
+    from './BE-private/team-service' // 서브모듈 디렉토리 경로
+    include "application*.yml"  // 복사할 파일들
+    into 'src/main/resources'  // 복사 위치
+}
+
 bootJar {
     enabled = true
 }
