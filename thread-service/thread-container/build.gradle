@@ -6,6 +6,12 @@ jar {
     enabled = false
 }
 
+task copySubmodule(type: Copy) {
+    from '../../BE-Private/thread-service' // 서브모듈 디렉토리 경로
+    include "*.yml"  // 복사할 파일들
+    into 'src/main/resources'  // 복사 위치
+}
+
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'

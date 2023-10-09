@@ -6,6 +6,13 @@ dependencies {
     implementation project(':image-service:image-domain:image-domain-core')
     implementation project(':image-service:image-domain:image-application-service')
 }
+
+task copySubmodule(type: Copy) {
+    from '../../BE-Private/image-service' // 서브모듈 디렉토리 경로
+    include "*.yml"  // 복사할 파일들
+    into 'src/main/resources'  // 복사 위치
+}
+
 bootJar {
     enabled = true
 }
