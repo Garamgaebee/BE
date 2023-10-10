@@ -1,0 +1,29 @@
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:9000/eureka/}
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+management:
+  endpoint:
+    shutdown:
+      enabled: true
+
+# open api setting
+openapi:
+  service:
+    title: auth-service doc #title that you will want to display in the swagger ui
+    version: 1.0.0
+    url: http://localhost:8080 #api gateway url
+springdoc:
+  api-docs:
+    path: /api/auth/v3/api-docs #these urls will used to load the swagger ui of this service by the api gateway
+  swagger-ui:
+    path: /api/auth/swagger-ui.html

@@ -1,0 +1,12 @@
+server:
+  port: 8085
+
+spring:
+  profiles:
+    group:
+      "local" : "local"
+      "dev" : "dev"
+    default: local
+
+  application:
+    name: notification-service
