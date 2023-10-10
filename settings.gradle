@@ -46,5 +46,5 @@ findProject(':auth-service:auth-messaging:auth-mail-messaging')?.name = 'auth-ma
 include 'api-gateway'
 
 include 'eureka-server'
-
+include 'notification-service'
 

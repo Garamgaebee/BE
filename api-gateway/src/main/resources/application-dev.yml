@@ -59,15 +59,15 @@ spring:
           filters:
             - JwtAuthentication=ROLE_USER
 
-        - id: search-service-docs
+        - id: notification-service-docs
           uri: http://host.docker.internal:8085
           predicates:
-            - Path=/api/search/swagger-ui.html, /api/search/v3/api-docs
+            - Path=/api/notifications/swagger-ui.html, /api/notifications/v3/api-docs
 
-        - id: search-service
+        - id: notification-service
           uri: http://host.docker.internal:8085
           predicates:
-            - Path=/api/search/**
+            - Path=/api/notifications/**
           filters:
             - JwtAuthentication=ROLE_USER
 
@@ -95,8 +95,8 @@ springdoc:
       - url: /api/threads/v3/api-docs
         name: Thread Service
 
-      - url: /api/search/v3/api-docs
-        name: Search Service
+      - url: /api/notifications/v3/api-docs
+        name: Notification Service
 
 eureka:
   client:
