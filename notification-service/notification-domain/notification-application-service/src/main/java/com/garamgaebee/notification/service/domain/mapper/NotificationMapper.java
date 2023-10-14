@@ -8,10 +8,10 @@ public class NotificationMapper {
     public GetNotificationResponse NotificationToGetNotificationResponse(Notification notification) {
         return GetNotificationResponse.builder()
                 .id(notification.getId())
-                .event(notification.getNotificationSetting().getIsPushNewFunctionEvent())
-                .community(notification.getNotificationSetting().getIsPushTeamEvent())
-                .posting(notification.getNotificationSetting().getIsPushThreadEvent())
-                .hotPosting(notification.getNotificationSetting().getIsPushHotThreadEvent())
+                .event(notification.getPushSetting().getIsPushNewFunctionEvent())
+                .community(notification.getPushSetting().getIsPushTeamEvent())
+                .posting(notification.getPushSetting().getIsPushThreadEvent())
+                .hotPosting(notification.getPushSetting().getIsPushHotThreadEvent())
                 .build();
     }
 }
