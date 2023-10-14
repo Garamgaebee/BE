@@ -11,7 +11,8 @@ application-member-rds.yml
 application-team-mysql.yml
 # thread-service
 application-thread-rds.yml
-
+# notification-service
+garamgaebee-firebase-adminsdk.json
 # shellscript
 *.sh
 

@@ -10,4 +10,6 @@ dependencies {
     implementation project(':notification-service:notification-domain:notification-domain-core')
     implementation project(':common')
 
+    implementation 'org.springframework.boot:spring-boot-starter:'
+
 }

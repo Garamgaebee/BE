@@ -1,0 +1,16 @@
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    implementation project(':notification-service:notification-domain')
+
+    implementation 'org.springframework.boot:spring-boot-starter:'
+
+    // firebase
+    implementation 'com.google.firebase:firebase-admin:9.1.1'
+}
