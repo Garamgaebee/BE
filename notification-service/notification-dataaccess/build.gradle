@@ -5,3 +5,9 @@ bootJar {
 jar {
     enabled = true
 }
+
+dependencies {
+    api project(':notification-service:notification-dataaccess:notification-mysql-dataaccess')
+
+    implementation project(":notification-service:notification-domain")
+}

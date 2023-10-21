@@ -4,6 +4,17 @@ spring:
     activate:
       on-profile: dev
 
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        fotmat_sql: true
+
+logging.level:
+  org.hibernate.SQL: debug
+
 eureka:
   client:
     service-url:

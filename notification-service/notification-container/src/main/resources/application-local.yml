@@ -3,6 +3,22 @@ spring:
   config:
     activate:
       on-profile: local
+  datasource:
+    url: 'jdbc:mysql://localhost:3306/notification?autoReconnect=true'
+    username: garamgaebee
+    password: garamgaebeebackend!!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        fotmat_sql: true
+
+logging.level:
+  org.hibernate.SQL: debug
 
 eureka:
   client:

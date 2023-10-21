@@ -65,4 +65,6 @@ include 'notification-service:notification-messaging:notification-openfeign-mess
 findProject(':notification-service:notification-messaging:notification-openfeign-messaging')?.name = 'notification-openfeign-messaging'
 include 'notification-service:notification-messaging:notification-firebase-messaging'
 findProject(':notification-service:notification-messaging:notification-firebase-messaging')?.name = 'notification-firebase-messaging'
+include 'notification-service:notification-dataaccess:notification-mysql-dataaccess'
+findProject(':notification-service:notification-dataaccess:notification-mysql-dataaccess')?.name = 'notification-mysql-dataaccess'
 
