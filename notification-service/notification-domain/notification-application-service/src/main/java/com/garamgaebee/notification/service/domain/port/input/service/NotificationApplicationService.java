@@ -1,5 +1,6 @@
 package com.garamgaebee.notification.service.domain.port.input.service;
 
+import com.garamgaebee.notification.service.domain.dto.CreateNotificationCommand;
 import com.garamgaebee.notification.service.domain.dto.GetNotificationResponse;
 import com.garamgaebee.notification.service.domain.entity.Notification;
 
@@ -18,5 +19,8 @@ public interface NotificationApplicationService {
     public Boolean changePushThreadEventNotificationStatus(UUID memberId);
     // 인기 Thread 관련 알림 설정 변경
     public Boolean changePushHotThreadEventNotificationStatus(UUID memberId);
+
+    // 알림 생성
+    public void createNewNotification(CreateNotificationCommand createNotificationCommand);
 
 }

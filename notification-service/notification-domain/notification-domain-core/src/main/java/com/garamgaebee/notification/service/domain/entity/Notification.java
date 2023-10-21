@@ -39,6 +39,7 @@ public class Notification {
                         .isPushHotThreadEvent(false)
                         .build()
         );
+        setNotificationDetailList(new ArrayList<>());
     }
 
     public void changeIsPushNewFunctionEventStatus() {

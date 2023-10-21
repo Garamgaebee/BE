@@ -1,5 +1,6 @@
 package com.garamgaebee.notification.service.domain.entity;
 
+import com.garamgaebee.notification.service.domain.vo.NotificationType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ public class NotificationDetail {
     private String body;
     private LocalDateTime time;
     //TODO enum으로 변경
-    private String type;
+    private NotificationType type;
     private String moveTo;
     private Boolean isRead;
 

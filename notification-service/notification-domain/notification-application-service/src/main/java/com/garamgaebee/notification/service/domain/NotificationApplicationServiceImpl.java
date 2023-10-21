@@ -1,5 +1,6 @@
 package com.garamgaebee.notification.service.domain;
 
+import com.garamgaebee.notification.service.domain.dto.CreateNotificationCommand;
 import com.garamgaebee.notification.service.domain.dto.GetNotificationResponse;
 import com.garamgaebee.notification.service.domain.entity.Notification;
 import com.garamgaebee.notification.service.domain.mapper.NotificationMapper;
@@ -57,5 +58,10 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
 
         notification.changeIsPushHotThreadEventStatus();
         return true;
+    }
+
+    @Override
+    public void createNewNotification(CreateNotificationCommand createNotificationCommand) {
+
     }
 }

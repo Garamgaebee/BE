@@ -7,6 +7,7 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +16,7 @@ public class FcmNotificationSenderImpl implements FcmNotificationSender {
 
     private final FirebaseMessaging firebaseMessaging;
 
+    @Async
     @Override
     public void sendNotificationByToken(SendNotificationCommand sendNotificationCommand) {
 
