@@ -1,10 +1,13 @@
 package com.garamgaebee.notification.service.domain;
 
+import com.garamgaebee.common.exception.BaseErrorCode;
+import com.garamgaebee.common.exception.BaseException;
 import com.garamgaebee.notification.service.domain.dto.CreateNotificationCommand;
 import com.garamgaebee.notification.service.domain.dto.GetNotificationResponse;
 import com.garamgaebee.notification.service.domain.entity.Notification;
 import com.garamgaebee.notification.service.domain.mapper.NotificationMapper;
 import com.garamgaebee.notification.service.domain.port.input.service.NotificationApplicationService;
+import com.garamgaebee.notification.service.domain.port.output.repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,19 +18,18 @@ import java.util.UUID;
 public class NotificationApplicationServiceImpl implements NotificationApplicationService {
 
     private final NotificationMapper notificationMapper;
+    private final NotificationRepository notificationRepository;
 
     @Override
     public GetNotificationResponse getNotificationSettingInfo(UUID memberId) {
-        //TODO data access layer에서 가져오기
-        Notification notification = new Notification();
+        Notification notification = notificationRepository.findNotificationPushSettingByMemberId(memberId).orElseThrow(() -> new BaseException(BaseErrorCode.MEMBER_NOT_EXIST));
 
         return notificationMapper.NotificationToGetNotificationResponse(notification);
     }
 
     @Override
     public Boolean changePushNewEventNotificationStatus(UUID memberId) {
-        //TODO data access layer에서 가져오기
-        Notification notification = new Notification();
+        Notification notification = notificationRepository.findNotificationPushSettingByMemberId(memberId).orElseThrow(() -> new BaseException(BaseErrorCode.MEMBER_NOT_EXIST));
 
         notification.changeIsPushNewFunctionEventStatus();
         return true;
@@ -35,8 +37,7 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
 
     @Override
     public Boolean changePushTeamEventNotificationStatus(UUID memberId) {
-        //TODO data access layer에서 가져오기
-        Notification notification = new Notification();
+        Notification notification = notificationRepository.findNotificationPushSettingByMemberId(memberId).orElseThrow(() -> new BaseException(BaseErrorCode.MEMBER_NOT_EXIST));
 
         notification.changeIsPushTeamEventStatus();
         return true;
@@ -44,8 +45,7 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
 
     @Override
     public Boolean changePushThreadEventNotificationStatus(UUID memberId) {
-        //TODO data access layer에서 가져오기
-        Notification notification = new Notification();
+        Notification notification = notificationRepository.findNotificationPushSettingByMemberId(memberId).orElseThrow(() -> new BaseException(BaseErrorCode.MEMBER_NOT_EXIST));
 
         notification.changeIsPushThreadEventStatus();
         return true;
@@ -53,8 +53,7 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
 
     @Override
     public Boolean changePushHotThreadEventNotificationStatus(UUID memberId) {
-        //TODO data access layer에서 가져오기
-        Notification notification = new Notification();
+        Notification notification = notificationRepository.findNotificationPushSettingByMemberId(memberId).orElseThrow(() -> new BaseException(BaseErrorCode.MEMBER_NOT_EXIST));
 
         notification.changeIsPushHotThreadEventStatus();
         return true;

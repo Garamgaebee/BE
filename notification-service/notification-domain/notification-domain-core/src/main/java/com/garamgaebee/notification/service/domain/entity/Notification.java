@@ -1,10 +1,7 @@
 package com.garamgaebee.notification.service.domain.entity;
 
 import com.garamgaebee.notification.service.domain.vo.FcmToken;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +10,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Notification {
     private Long id;
