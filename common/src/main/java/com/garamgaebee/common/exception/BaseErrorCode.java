@@ -44,7 +44,8 @@ public enum BaseErrorCode {
     TEAM_OVER_TEAM_CONTENT_LENGTH(false, HttpStatus.BAD_REQUEST, "팀 소개 최대 글자 수를 초과했습니다."),
 
 
-    METHOD_NOT_ALLOWED(false, HttpStatus.METHOD_NOT_ALLOWED, "허용되지 않은 메소드입니다.");
+    METHOD_NOT_ALLOWED(false, HttpStatus.METHOD_NOT_ALLOWED, "허용되지 않은 메소드입니다."),
+    NOT_FOUND_TEAM_LEADER(false, HttpStatus.BAD_REQUEST, "팀 리더를 찾을 수 없습니다.");
 
     private final boolean isSuccess;
     private final HttpStatus code;

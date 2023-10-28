@@ -7,10 +7,8 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class MainPageThread {
-    MainPageThreadMember mainPageThreadMember;
-    String threadContent;
-    int likeCount;
-    int commentCount;
-    String threadTime;
+public class MainPageNotification {
+    int size;
+    String content;
+    String createdAt;
 }

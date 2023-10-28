@@ -1,5 +1,5 @@
 package com.garamgaebee.teammysql.valueobject;
 
-public enum TeamMemberState {
+public enum TeamMemberStateData {
     ACTIVE,EXILE,EXIT,INACTIVE
 }

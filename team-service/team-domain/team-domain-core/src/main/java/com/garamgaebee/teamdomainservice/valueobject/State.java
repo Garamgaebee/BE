@@ -1,5 +1,5 @@
 package com.garamgaebee.teamdomainservice.valueobject;
 
-public enum Status {
-    ACTIVE, EXIT,EXILE,INACTIVE
+public enum State {
+    ACTIVE,DONE,DELETE
 }

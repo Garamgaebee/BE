@@ -5,11 +5,9 @@ import com.garamgaebee.common.exception.BaseException;
 import com.garamgaebee.teamdomainservice.common.entity.AggregateRoot;
 import com.garamgaebee.teamdomainservice.valueobject.Image;
 import com.garamgaebee.teamdomainservice.valueobject.NotificationId;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,11 +15,13 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Getter
+@ToString
 public class Notification extends AggregateRoot<NotificationId> {
     String content;
     List<Image> imageList;
     int imageCount;
-
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
     public void validateNotification() {
         if (checkContentLength(content)) {
             throw new BaseException(BaseErrorCode.TEAM_NOTIFICATION_OVER_CHARACTER_LIMIT);

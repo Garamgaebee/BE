@@ -20,8 +20,8 @@ import java.util.UUID;
 @Component
 @Slf4j
 public class TeamFeignImpl implements TeamFeign {
-    TeamFeignThreadPublisher teamFeignThreadPublisher;
-    TeamFeignMemberPublisher teamFeignMemberPublisher;
+    private final TeamFeignThreadPublisher teamFeignThreadPublisher;
+    private final TeamFeignMemberPublisher teamFeignMemberPublisher;
     private final TeamFeignDataMapper teamFeignDataMapper;
     private final TeamFeignImagePublisher teamFeignImagePublisher;
     @Override
@@ -41,5 +41,11 @@ public class TeamFeignImpl implements TeamFeign {
     @Override
     public List<Image> imageSaveByMultipartList(List<MultipartFile> multipartFileList) {
         return teamFeignDataMapper.multipartFileListToImageList(teamFeignImagePublisher.createImage(multipartFileList));
+    }
+
+    @Override
+    public Member findById(String string) {
+        log.info("hi");
+        return teamFeignDataMapper.feignMemberToMember(teamFeignMemberPublisher.getMember(string));
     }
 }

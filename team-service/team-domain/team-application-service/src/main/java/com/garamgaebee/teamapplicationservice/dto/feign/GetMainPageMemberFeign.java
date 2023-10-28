@@ -10,5 +10,5 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 public class GetMainPageMemberFeign {
-    List<UUID> meberIdList = new ArrayList<>();
+    String memberId;
 }

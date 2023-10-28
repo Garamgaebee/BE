@@ -37,7 +37,7 @@ public class TeamController {
      * @param teamId   팀 id
      * @param memberId 멤버 id
      */
-    @GetMapping(value = "/{teamId}")
+    @GetMapping(value = "/{teamId}/main")
     public ResponseEntity<BaseResponse<GetMainPageResponse>> getMainPage(@PathVariable UUID teamId, @RequestParam UUID memberId) {
         GetMainPageResponse getMainPageResponse = teamApplicationService.getMainPage(new GetMainPageCommand(teamId, memberId));
         return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse<>(getMainPageResponse));

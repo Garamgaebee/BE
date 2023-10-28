@@ -28,7 +28,7 @@ public class DoneTeamHandler {
         teamDomainService.initMemberTeam(member,team);
         Position position = teamRepository.findMemberPositionInTeam(member);
         teamDomainService.initMemberPosition(member,position);
-        if(teamDomainService.isPossibleDoneTeam(member)){
+        if(!teamDomainService.isPossibleDoneTeam(member)){
             throw new BaseException(BaseErrorCode.TEAM_NOT_LEADER);
         }
         teamRepository.doneTeam(member);

@@ -1,5 +1,5 @@
 package com.garamgaebee.teamdomainservice.valueobject;
 
-public enum Position {
-    member,manager,guest,leader
+public enum IsOpened {
+    PUBLIC, PRIVATE
 }
