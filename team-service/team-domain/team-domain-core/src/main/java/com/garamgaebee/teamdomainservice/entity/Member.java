@@ -11,7 +11,6 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @AllArgsConstructor
-@Builder
 @Getter
 public class Member extends AggregateRoot<MemberId> {
     Department department;
@@ -23,6 +22,16 @@ public class Member extends AggregateRoot<MemberId> {
     public Member(MemberId memberId) {
         super();
         setId(memberId);
+    }
+
+    @Builder
+    public Member(Department department, MemberId memberId, Position position, Image image, String name, Team team) {
+        setId(memberId);
+        this.position = position;
+        this.team = team;
+        this.department = department;
+        this.image = image;
+        this.name = name;
     }
 
     public Member(MemberId memberId, Position position) {
@@ -40,7 +49,8 @@ public class Member extends AggregateRoot<MemberId> {
     }
 
     public boolean checkLeader() {
-        return this.position==Position.leader;
+        System.out.println(position);
+        return this.position == Position.leader;
     }
 
 }

@@ -13,4 +13,6 @@ public interface TeamFeign {
 
     List<Thread> mainPageThreadFindByIdOrderByDateDesc(UUID value);
     List<Image> imageSaveByMultipartList(List<MultipartFile> multipartFileList);
+
+    Member findById(String string);
 }

@@ -57,8 +57,6 @@ public class MemberFeignListener {
     @DeleteMapping("/{member-idx}")
     public DeleteMemberResponse deleteMember(@PathVariable("member-idx") String memberIdx) throws BaseException {
         return memberService.deleteMember(UUID.fromString(memberIdx));
-
-
     }
 
     /**

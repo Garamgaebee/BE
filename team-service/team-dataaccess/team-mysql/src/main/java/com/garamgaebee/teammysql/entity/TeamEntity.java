@@ -1,15 +1,16 @@
 package com.garamgaebee.teammysql.entity;
 
 import com.garamgaebee.teammysql.common.BaseEntity;
-import com.garamgaebee.teammysql.valueobject.State;
+import com.garamgaebee.teammysql.valueobject.IsOpenedData;
+import com.garamgaebee.teammysql.valueobject.StateData;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.util.List;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
 import static lombok.AccessLevel.PROTECTED;
 
 @Entity
@@ -34,13 +35,21 @@ public class TeamEntity extends BaseEntity {
     @Column(name = "introduction")
     private String introduction;
 
+    @Column(name = "is_opened")
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    private IsOpenedData isOpenedData = IsOpenedData.PUBLIC;
+
     @Column(name = "state")
     @Enumerated(EnumType.STRING)
     @Builder.Default
-    private State state = State.ACTIVE;
+    private StateData stateData = StateData.ACTIVE;
+
+    @Column(name = "ended_at")
+    private LocalDateTime endedAt;
 
     public void doneTeam() {
-        this.state = State.DONE;
+        this.stateData = StateData.DONE;
     }
 
     public void setTeamName(String teamName) {

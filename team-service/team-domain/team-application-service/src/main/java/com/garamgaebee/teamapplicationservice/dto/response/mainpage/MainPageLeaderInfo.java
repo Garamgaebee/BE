@@ -7,11 +7,8 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class MainPageTeamMember {
-    String memberImage;
-    String teamImage;
-    String memberName;
-    String memberDepartment;
-    String memberTeamName;
-    String memberTeamPosition;
+public class MainPageLeaderInfo {
+    String url;
+    String name;
+    String Department;
 }

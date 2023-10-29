@@ -12,8 +12,9 @@ import com.garamgaebee.teamdomainservice.valueobject.TeamId;
 import com.garamgaebee.teammysql.entity.*;
 import com.garamgaebee.teammysql.mapper.TeamDataAccessMapper;
 import com.garamgaebee.teammysql.repository.*;
-import com.garamgaebee.teammysql.valueobject.State;
-import com.garamgaebee.teammysql.valueobject.TeamMemberState;
+import com.garamgaebee.teammysql.valueobject.PositionData;
+import com.garamgaebee.teammysql.valueobject.StateData;
+import com.garamgaebee.teammysql.valueobject.TeamMemberStateData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -38,14 +40,13 @@ public class TeamRepositoryImpl implements TeamRepository {
 
     @Override
     public Team findByTeamId(TeamId teamId) {
-        log.info(teamId.getValue().toString());
         TeamEntity teamEntity = findTeamEntityByTeamId(teamId.getValue());
         return teamDataAccessMapper.teamEntityToTeam(teamEntity);
     }
 
     @Override
     public List<UUID> findMemberIdListByTeamId(TeamId teamId) {
-        List<TeamMemberEntity> teamMemberEntityList = teamMemberJPARepository.findTop2ByTeamEntityIdAndStateOrderByIdDesc(teamId.getValue(), TeamMemberState.ACTIVE);
+        List<TeamMemberEntity> teamMemberEntityList = teamMemberJPARepository.findTop2ByTeamEntityIdAndStateOrderByIdDesc(teamId.getValue(), TeamMemberStateData.ACTIVE);
         return teamMemberEntityList.stream().map(
                 TeamMemberEntity::getMemberId
         ).collect(Collectors.toList());
@@ -76,7 +77,7 @@ public class TeamRepositoryImpl implements TeamRepository {
 
     @Override
     public Position findMemberPositionInTeam(Member member) {
-        TeamMemberEntity teamMemberEntity = teamMemberJPARepository.findByTeamEntityIdAndMemberIdAndState(member.getTeam().getId().getValue(), member.getId().getValue(), TeamMemberState.ACTIVE).orElseThrow(() -> new BaseException(BaseErrorCode.NOT_FOUND_TEAM_MEMBER));
+        TeamMemberEntity teamMemberEntity = teamMemberJPARepository.findByTeamEntityIdAndMemberIdAndState(member.getTeam().getId().getValue(), member.getId().getValue(), TeamMemberStateData.ACTIVE).orElseThrow(() -> new BaseException(BaseErrorCode.NOT_FOUND_TEAM_MEMBER));
         return teamDataAccessMapper.positionDataToPosition(teamMemberEntity.getPosition());
     }
 
@@ -90,9 +91,10 @@ public class TeamRepositoryImpl implements TeamRepository {
     @Transactional
     @Override
     public void exitTeam(Member member) {
-        TeamMemberEntity teamMemberEntity = teamMemberJPARepository.findByTeamEntityIdAndMemberIdAndState(member.getTeam().getId().getValue(), member.getId().getValue(), TeamMemberState.ACTIVE).orElseThrow(() -> new BaseException(BaseErrorCode.NOT_FOUND_TEAM_MEMBER));
+        TeamMemberEntity teamMemberEntity = teamMemberJPARepository.findByTeamEntityIdAndMemberIdAndState(member.getTeam().getId().getValue(), member.getId().getValue(), TeamMemberStateData.ACTIVE).orElseThrow(() -> new BaseException(BaseErrorCode.NOT_FOUND_TEAM_MEMBER));
         teamMemberEntity.exitTeam();
     }
+
     @Transactional
     @Override
     public void editTeam(Team team) {
@@ -113,35 +115,63 @@ public class TeamRepositoryImpl implements TeamRepository {
 
     @Override
     public List<Team> findTeamListByMemberId(Member member) {
-        List<TeamMemberEntity> teamMemberEntity = teamMemberJPARepository.findByMemberIdAndState(member.getId().getValue(),TeamMemberState.ACTIVE);
+        List<TeamMemberEntity> teamMemberEntity = teamMemberJPARepository.findByMemberIdAndState(member.getId().getValue(), TeamMemberStateData.ACTIVE);
         return teamDataAccessMapper.teamMemberEntityToTeamByFindTeamListByMemberId(teamMemberEntity);
+    }
+
+    @Override
+    public Position findMemberPositionByTeamId(UUID teamId, UUID memberId) {
+        Optional<TeamMemberEntity> teamMemberEntityOptional = teamMemberJPARepository.findByTeamEntityIdAndMemberIdAndState(teamId, memberId, TeamMemberStateData.ACTIVE);
+        return teamDataAccessMapper.teamMemberEntityToAuthority(teamMemberEntityOptional);
+    }
+
+    @Override
+    public Long findMemberNums(UUID teamId) {
+        return teamMemberJPARepository.countByTeamEntityIdAndState(teamId, TeamMemberStateData.ACTIVE);
+    }
+
+    @Override
+    public UUID findLeaderByTeamId(UUID teamId) {
+        TeamMemberEntity member = teamMemberJPARepository.findByTeamEntityIdAndPositionAndState(teamId, PositionData.leader, TeamMemberStateData.ACTIVE).orElseThrow(() -> new BaseException(BaseErrorCode.NOT_FOUND_TEAM_LEADER));
+        return member.getMemberId();
+    }
+
+    @Override
+    public List<Notification> findNotificationByTeamId(UUID teamId) {
+        List<TeamNotificationEntity> teamNotificationEntity = teamNotificationJPARepository.findAllByTeamEntityId(teamId);
+        return teamDataAccessMapper.notificationEntityListToNotificationList(teamNotificationEntity);
+    }
+
+    @Override
+    public List<ExternalLink> findTeamIdByNotificationList(UUID teamId) {
+        List<TeamExternalLinkEntity> teamExternalLinkEntityList = findTeamExternalLinkEntityByTeamId(teamId);
+        return teamDataAccessMapper.teamExternalLinkEntityListToExternalLinkList(teamExternalLinkEntityList);
     }
 
     public void deleteTeamExternalLink(UUID teamId) {
         List<TeamExternalLinkEntity> teamExternalLinkEntityList = findTeamExternalLinkEntityByTeamId(teamId);
         for (TeamExternalLinkEntity teamExternalLinkEntity : teamExternalLinkEntityList) {
-            teamExternalLinkEntity.updateState(State.DELETE);
+            teamExternalLinkEntity.updateState(StateData.DELETE);
         }
     }
 
     public TeamEntity findTeamEntityByTeamId(UUID teamId) {
-        log.info(teamId.toString());
-        return teamJpaRepository.findByIdAndState(teamId, State.ACTIVE).orElseThrow(() -> new BaseException(BaseErrorCode.NOT_FOUND_TEAM));
+        return teamJpaRepository.findByIdAndStateData(teamId, StateData.ACTIVE).orElseThrow(() -> new BaseException(BaseErrorCode.NOT_FOUND_TEAM));
     }
 
     public List<TeamExternalLinkEntity> findTeamExternalLinkEntityByTeamId(UUID teamId) {
-        return teamExternalLinkJpaRepository.findAllByTeamEntityIdAndState(teamId, State.ACTIVE);
+        return teamExternalLinkJpaRepository.findAllByTeamEntityIdAndStateData(teamId, StateData.ACTIVE);
     }
 
     public List<TeamMemberEntity> findTeamMemberEntityByTeamId(UUID teamId) {
-        return teamMemberJPARepository.findAllByTeamEntityIdAndState(teamId, TeamMemberState.ACTIVE);
+        return teamMemberJPARepository.findAllByTeamEntityIdAndState(teamId, TeamMemberStateData.ACTIVE);
     }
 
     public List<TeamNotificationEntity> findTeamNotificationEntityByTeamId(UUID teamId) {
-        return teamNotificationJPARepository.findAllByTeamEntityIdAndState(teamId, State.ACTIVE);
+        return teamNotificationJPARepository.findAllByTeamEntityIdAndStateData(teamId, StateData.ACTIVE);
     }
 
     public List<TeamNotificationImageEntity> findTeamNotificationImageEntityByTeamId(UUID notificationId) {
-        return teamNotificationImageJpaRepository.findAllByTeamNotificationEntityIdAndState(notificationId, State.ACTIVE);
+        return teamNotificationImageJpaRepository.findAllByTeamNotificationEntityIdAndStateData(notificationId, StateData.ACTIVE);
     }
 }

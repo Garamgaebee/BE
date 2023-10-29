@@ -4,8 +4,9 @@ import com.garamgaebee.teamdomainservice.entity.Member;
 import com.garamgaebee.teamdomainservice.entity.Thread;
 import com.garamgaebee.teamdomainservice.valueobject.Department;
 import com.garamgaebee.teamdomainservice.valueobject.Image;
+import com.garamgaebee.teamdomainservice.valueobject.MemberId;
 import com.garamgaebee.teammessaging.image.dto.SaveImageResponse;
-import com.garamgaebee.teammessaging.member.dto.FeignMember;
+import com.garamgaebee.teammessaging.member.dto.GetFeignMemberResponse;
 import com.garamgaebee.teammessaging.thread.dto.FeignThread;
 import org.springframework.stereotype.Component;
 
@@ -14,14 +15,13 @@ import java.util.stream.Collectors;
 
 @Component
 public class TeamFeignDataMapper {
-    public List<Member> feignMemberToMember(List<FeignMember> feignMemberList) {
-        return feignMemberList.stream().map(
-                feignMember -> Member.builder()
-                        .name(feignMember.getName())
-                        .department(new Department(feignMember.getDepartment()))
-                        .image(new Image(feignMember.getImageUrl()))
-                        .build()
-        ).collect(Collectors.toList());
+    public Member feignMemberToMember(GetFeignMemberResponse getFeignMemberResponse) {
+        return Member.builder()
+                .memberId(new MemberId(getFeignMemberResponse.getMemberIdx()))
+                .name(getFeignMemberResponse.getNickname())
+                .image(new Image(getFeignMemberResponse.getProfileImgUrl()))
+                .department(new Department(getFeignMemberResponse.getDept()))
+                .build();
     }
 
     public List<Thread> feignThreadToThread(List<FeignThread> feignThreadList) {

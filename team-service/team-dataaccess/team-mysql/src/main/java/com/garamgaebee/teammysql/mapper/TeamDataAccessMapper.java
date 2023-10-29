@@ -5,23 +5,31 @@ import com.garamgaebee.teamdomainservice.entity.Notification;
 import com.garamgaebee.teamdomainservice.entity.Team;
 import com.garamgaebee.teamdomainservice.valueobject.*;
 import com.garamgaebee.teammysql.entity.*;
+import com.garamgaebee.teammysql.valueobject.IsOpenedData;
 import com.garamgaebee.teammysql.valueobject.PositionData;
+import com.garamgaebee.teammysql.valueobject.StateData;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Component
 public class TeamDataAccessMapper {
     public Team teamEntityToTeam(TeamEntity teamEntity) {
-        Team team = Team.builder()
+        return Team.builder()
                 .teamName(teamEntity.getName())
+                .teamId(new TeamId(teamEntity.getId()))
+                .isOpened(IsOpenedDataToIsOpened(teamEntity.getIsOpenedData()))
                 .introduce(new Introduce(teamEntity.getIntroduction()))
+                .state(TeamStateDataToTeamState(teamEntity.getStateData()))
                 .image(new Image(teamEntity.getImage()))
+                .endedAt(teamEntity.getEndedAt())
+                .createdAt(teamEntity.getCreatedAt())
+                .updatedAt(teamEntity.getUpdatedAt())
                 .build();
-        team.setId(new TeamId(teamEntity.getId()));
-        return team;
     }
 
     public TeamNotificationEntity makeToNotificationEntity(Notification notification, TeamEntity teamEntity) {
@@ -67,7 +75,22 @@ public class TeamDataAccessMapper {
         } else if (positionData == PositionData.member) {
             return Position.member;
         }
-        return Position.nothing;
+        return Position.guest;
+    }
+
+    private IsOpened IsOpenedDataToIsOpened(IsOpenedData isOpenedData) {
+        return switch (isOpenedData) {
+            case PUBLIC -> IsOpened.PUBLIC;
+            case PRIVATE -> IsOpened.PRIVATE;
+        };
+    }
+
+    private State TeamStateDataToTeamState(StateData stateData) {
+        return switch (stateData) {
+            case ACTIVE -> State.ACTIVE;
+            case DELETE -> State.DELETE;
+            case DONE -> State.DONE;
+        };
     }
 
     public List<TeamNotificationImageEntity> notificationAndNotificationEntityToNotificationImageEntity(Notification notification, TeamNotificationEntity teamNotificationEntity) {
@@ -97,6 +120,44 @@ public class TeamDataAccessMapper {
                         .image(
                                 Image.builder().url(teamMemberEntity.getTeamEntity().getImage()).build()
                         ).build()
+        ).collect(Collectors.toList());
+    }
+
+    public Position teamMemberEntityToAuthority(Optional<TeamMemberEntity> teamMemberEntityOptional) {
+        return teamMemberEntityOptional.map(teamMemberEntity -> switch (teamMemberEntity.getPosition()) {
+            case leader -> Position.leader;
+            case manager -> Position.manager;
+            case member -> Position.member;
+        }).orElse(Position.guest);
+    }
+
+    public Member teamMemberEntityToTeamMember(TeamMemberEntity member) {
+        return Member.builder()
+                .position(Position.leader)
+                .memberId(new MemberId(member.getMemberId()))
+                .build();
+    }
+
+    public List<Notification> notificationEntityListToNotificationList(List<TeamNotificationEntity> teamNotificationEntity) {
+        if(teamNotificationEntity.isEmpty())
+            return new ArrayList<>();
+        return teamNotificationEntity.stream().map(
+                t ->
+                        Notification.builder()
+                                .content(t.getContent())
+                                .createdAt(t.getCreatedAt())
+                                .updatedAt(t.getUpdatedAt())
+                                .build()
+        ).collect(Collectors.toList());
+    }
+
+    public List<ExternalLink> teamExternalLinkEntityListToExternalLinkList(List<TeamExternalLinkEntity> teamExternalLinkEntityList) {
+        if (teamExternalLinkEntityList.isEmpty())
+            return new ArrayList<>();
+        return teamExternalLinkEntityList.stream().map(
+                teamExternalLinkEntity -> ExternalLink.builder()
+                        .externalLinkLinkId(teamExternalLinkEntity.getId())
+                        .link(teamExternalLinkEntity.getLink()).build()
         ).collect(Collectors.toList());
     }
 }
