@@ -2,7 +2,9 @@ package com.garamgaebee.notification.service.domain.mapper;
 
 import com.garamgaebee.notification.service.domain.dto.GetNotificationResponse;
 import com.garamgaebee.notification.service.domain.entity.Notification;
+import org.springframework.stereotype.Component;
 
+@Component
 public class NotificationMapper {
 
     public GetNotificationResponse NotificationToGetNotificationResponse(Notification notification) {

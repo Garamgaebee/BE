@@ -8,6 +8,7 @@ jar {
 
 dependencies {
     implementation project(':notification-service:notification-domain')
+    implementation project(':common')
 
     // JPA
     // container에서 @EnableJpaRepository가 가능하도록 implementation -> api

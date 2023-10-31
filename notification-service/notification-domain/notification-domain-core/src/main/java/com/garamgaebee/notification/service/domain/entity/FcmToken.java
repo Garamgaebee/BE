@@ -1,4 +1,4 @@
-package com.garamgaebee.notification.service.domain.vo;
+package com.garamgaebee.notification.service.domain.entity;
 
 import lombok.*;
 
@@ -7,5 +7,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class FcmToken {
+    private Long id;
     private String fcmToken;
 }

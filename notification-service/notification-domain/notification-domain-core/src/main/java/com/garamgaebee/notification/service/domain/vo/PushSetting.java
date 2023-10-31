@@ -1,4 +1,4 @@
-package com.garamgaebee.notification.service.domain.entity;
+package com.garamgaebee.notification.service.domain.vo;
 
 import lombok.*;
 

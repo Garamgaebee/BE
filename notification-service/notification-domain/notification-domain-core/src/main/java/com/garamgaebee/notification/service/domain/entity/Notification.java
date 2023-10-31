@@ -1,6 +1,6 @@
 package com.garamgaebee.notification.service.domain.entity;
 
-import com.garamgaebee.notification.service.domain.vo.FcmToken;
+import com.garamgaebee.notification.service.domain.vo.PushSetting;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -22,13 +22,9 @@ public class Notification {
 
     public void init(UUID memberId, String fcmToken) {
         setMemberId(memberId);
-        List<FcmToken> newFcmTokenList = new ArrayList<>();
-        newFcmTokenList.add(
-                FcmToken.builder()
-                        .fcmToken(fcmToken)
-                        .build()
-        );
-        setFcmTokenList(newFcmTokenList);
+        setFcmTokenList(new ArrayList<>());
+        setNotificationDetailList(new ArrayList<>());
+        addFcmToken(fcmToken);
         setPushSetting(
                 PushSetting.builder()
                         .isPushNewFunctionEvent(false)
@@ -37,7 +33,6 @@ public class Notification {
                         .isPushHotThreadEvent(false)
                         .build()
         );
-        setNotificationDetailList(new ArrayList<>());
     }
 
     public void changeIsPushNewFunctionEventStatus() {
@@ -64,11 +59,12 @@ public class Notification {
         );
     }
 
-    public void deleteFcmToken(String fcmToken) {
-        fcmTokenList.remove(
-                FcmToken.builder()
-                        .fcmToken(fcmToken)
-                        .build()
-        );
+    public void deleteFcmToken(FcmToken fcmToken) {
+        for(FcmToken fcm : fcmTokenList) {
+            if(fcm.getId().equals(fcmToken.getId())) {
+                fcmTokenList.remove(fcm);
+                break;
+            }
+        }
     }
 }
