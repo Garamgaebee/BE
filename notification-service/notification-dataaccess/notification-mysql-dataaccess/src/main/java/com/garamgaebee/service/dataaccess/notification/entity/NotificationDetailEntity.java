@@ -28,7 +28,6 @@ public class NotificationDetailEntity {
     private NotificationType type;
 
     private String moveTo;
-    private Boolean isRead;
 
     @Builder.Default
     @OneToMany(mappedBy = "notificationDetail", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)

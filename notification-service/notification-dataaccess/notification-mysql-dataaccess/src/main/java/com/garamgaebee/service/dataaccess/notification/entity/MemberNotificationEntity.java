@@ -20,10 +20,13 @@ public class MemberNotificationEntity {
     @JoinColumn(name = "notification_detail_id")
     private NotificationDetailEntity notificationDetail;
 
+    private Boolean isRead;
+
     @Builder
     public MemberNotificationEntity(NotificationEntity notification, NotificationDetailEntity notificationDetail) {
         setNotification(notification);
         setNotificationDetail(notificationDetail);
+        setIsRead(false);
     }
 
     // 연관관계 메서드

@@ -19,6 +19,5 @@ public class NotificationDetail {
     //TODO enum으로 변경
     private NotificationType type;
     private String moveTo;
-    private Boolean isRead;
 
 }

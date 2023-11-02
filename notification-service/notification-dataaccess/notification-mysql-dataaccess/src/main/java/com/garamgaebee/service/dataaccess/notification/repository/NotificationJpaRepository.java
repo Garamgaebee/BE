@@ -12,7 +12,4 @@ import java.util.UUID;
 public interface NotificationJpaRepository extends JpaRepository<NotificationEntity, Long> {
 
     public Optional<NotificationEntity> findByMemberId(UUID memberId);
-
-    public List<NotificationEntity> findAllByIsPushNewFunctionEventIsTrue();
-    public List<NotificationEntity> findAllByIsPushHotThreadEventIsTrue();
 }

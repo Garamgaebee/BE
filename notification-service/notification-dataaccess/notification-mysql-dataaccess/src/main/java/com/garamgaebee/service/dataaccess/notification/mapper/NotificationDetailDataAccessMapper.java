@@ -13,9 +13,19 @@ public class NotificationDetailDataAccessMapper {
                 .title(notificationDetail.getTitle())
                 .body(notificationDetail.getBody())
                 .type(notificationDetail.getType())
-                .isRead(notificationDetail.getIsRead())
                 .moveTo(notificationDetail.getMoveTo())
                 .time(notificationDetail.getTime())
+                .build();
+    }
+
+    public NotificationDetail notificationDetailEntityToNotificationDetail(NotificationDetailEntity notificationDetailEntity) {
+        return NotificationDetail.builder()
+                .id(notificationDetailEntity.getId())
+                .title(notificationDetailEntity.getTitle())
+                .body(notificationDetailEntity.getBody())
+                .time(notificationDetailEntity.getTime())
+                .moveTo(notificationDetailEntity.getMoveTo())
+                .type(notificationDetailEntity.getType())
                 .build();
     }
 }

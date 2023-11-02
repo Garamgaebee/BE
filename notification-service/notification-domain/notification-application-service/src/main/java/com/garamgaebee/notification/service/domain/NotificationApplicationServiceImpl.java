@@ -108,18 +108,8 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
     public Boolean createNewNotificationDetail(CreateNewNotificationCommand createNewNotificationCommand) {
 
         // 신기능 알림 허용 멤버 조회
-        List<Notification> notificationList = notificationRepository.findAllNotificationByAllowNewEventPush();
+        List<Notification> notificationList = notificationRepository.findAllNotificationFcmToken();
         List<String> fcmTokenList = new ArrayList<>();
-        List<UUID> memberIdList = new ArrayList<>();
-
-        for(Notification notification : notificationList) {
-
-            memberIdList.add(notification.getMemberId());
-
-            for(FcmToken fcmToken : notification.getFcmTokenList()) {
-                fcmTokenList.add(fcmToken.getFcmToken());
-            }
-        }
 
         NotificationDetail notificationDetail = NotificationDetail.builder()
                 .title(createNewNotificationCommand.getTitle())
@@ -127,11 +117,21 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
                 .moveTo(createNewNotificationCommand.getLinkUrl())
                 .type(NotificationType.SYSTEM)
                 .time(LocalDateTime.now())
-                .isRead(false)
                 .build();
 
         // 생성된 알림 저장
-        notificationRepository.createNewNotificationDetail(notificationDetail, memberIdList);
+        notificationDetail = notificationRepository.createNewNotificationDetail(notificationDetail);
+
+        for(Notification notification : notificationList) {
+
+            notificationRepository.createMemberNotification(notification, notificationDetail);
+
+            if(notification.getPushSetting().getIsPushNewFunctionEvent()) {
+                for (FcmToken fcmToken : notification.getFcmTokenList()) {
+                    fcmTokenList.add(fcmToken.getFcmToken());
+                }
+            }
+        }
 
         //TODO FCM으로 push
 
@@ -144,9 +144,23 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
         // 알림 대상 멤버 fcm 토큰 조회
         List<String> fcmList = new ArrayList<>();
 
+        NotificationDetail notificationDetail = NotificationDetail.builder()
+                .title(createTeamNotificationCommand.getTitle())
+                .body(createTeamNotificationCommand.getBody())
+                .moveTo(createTeamNotificationCommand.getLinkUrl())
+                .type(NotificationType.TEAM)
+                .time(LocalDateTime.now())
+                .build();
+
+        // 생성된 알림 저장
+        notificationDetail = notificationRepository.createNewNotificationDetail(notificationDetail);
+
         for(UUID memberId : createTeamNotificationCommand.getMemberIdList()) {
             try {
                 Notification notification = notificationRepository.findNotificationFcmTokenByMemberId(memberId).orElseThrow(() -> new BaseException(BaseErrorCode.MEMBER_NOT_EXIST));
+
+                notificationRepository.createMemberNotification(notification, notificationDetail);
+
                 // team event push 알림을 허용 했다면 fcm token 추출
                 if(notification.getPushSetting().getIsPushTeamEvent()) {
                     for (FcmToken fcmToken : notification.getFcmTokenList()) {
@@ -157,18 +171,6 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
                 //TODO 없는 memberId log 찍기
             }
         }
-
-        NotificationDetail notificationDetail = NotificationDetail.builder()
-                .title(createTeamNotificationCommand.getTitle())
-                .body(createTeamNotificationCommand.getBody())
-                .moveTo(createTeamNotificationCommand.getLinkUrl())
-                .type(NotificationType.TEAM)
-                .time(LocalDateTime.now())
-                .isRead(false)
-                .build();
-
-        // 생성된 알림 저장
-        notificationRepository.createNewNotificationDetail(notificationDetail, createTeamNotificationCommand.getMemberIdList());
 
         //TODO FCM으로 push
 
@@ -182,9 +184,23 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
         // 알림 대상 멤버 fcm 토큰 조회
         List<String> fcmList = new ArrayList<>();
 
+        NotificationDetail notificationDetail = NotificationDetail.builder()
+                .title(createThreadNotificationCommand.getTitle())
+                .body(createThreadNotificationCommand.getBody())
+                .moveTo(createThreadNotificationCommand.getLinkUrl())
+                .type(NotificationType.THREAD)
+                .time(LocalDateTime.now())
+                .build();
+
+        // 생성된 알림 저장
+        notificationDetail = notificationRepository.createNewNotificationDetail(notificationDetail);
+
         for(UUID memberId : createThreadNotificationCommand.getMemberIdList()) {
             try {
                 Notification notification = notificationRepository.findNotificationFcmTokenByMemberId(memberId).orElseThrow(() -> new BaseException(BaseErrorCode.MEMBER_NOT_EXIST));
+
+                notificationRepository.createMemberNotification(notification, notificationDetail);
+
                 // thread event push 알림을 허용 했다면 fcm token 추출
                 if(notification.getPushSetting().getIsPushTeamEvent()) {
                     for (FcmToken fcmToken : notification.getFcmTokenList()) {
@@ -196,18 +212,6 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
             }
         }
 
-        NotificationDetail notificationDetail = NotificationDetail.builder()
-                .title(createThreadNotificationCommand.getTitle())
-                .body(createThreadNotificationCommand.getBody())
-                .moveTo(createThreadNotificationCommand.getLinkUrl())
-                .type(NotificationType.THREAD)
-                .time(LocalDateTime.now())
-                .isRead(false)
-                .build();
-
-        // 생성된 알림 저장
-        notificationRepository.createNewNotificationDetail(notificationDetail, createThreadNotificationCommand.getMemberIdList());
-
         //TODO FCM으로 push
 
         return true;
@@ -218,18 +222,8 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
     public Boolean createHotThreadNotificationDetail(CreateHotThreadNotificationCommand createHotThreadNotificationCommand) {
 
         // 신기능 알림 허용 멤버 조회
-        List<Notification> notificationList = notificationRepository.findAllNotificationByAllowHotThreadEventPush();
+        List<Notification> notificationList = notificationRepository.findAllNotificationFcmToken();
         List<String> fcmTokenList = new ArrayList<>();
-        List<UUID> memberIdList = new ArrayList<>();
-
-        for(Notification notification : notificationList) {
-
-            memberIdList.add(notification.getMemberId());
-
-            for(FcmToken fcmToken : notification.getFcmTokenList()) {
-                fcmTokenList.add(fcmToken.getFcmToken());
-            }
-        }
 
         NotificationDetail notificationDetail = NotificationDetail.builder()
                 .title(createHotThreadNotificationCommand.getTitle())
@@ -237,11 +231,19 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
                 .moveTo(createHotThreadNotificationCommand.getLinkUrl())
                 .type(NotificationType.HOT_THREAD)
                 .time(LocalDateTime.now())
-                .isRead(false)
                 .build();
 
         // 생성된 알림 저장
-        notificationRepository.createNewNotificationDetail(notificationDetail, memberIdList);
+        notificationDetail = notificationRepository.createNewNotificationDetail(notificationDetail);
+
+        for(Notification notification : notificationList) {
+
+            notificationRepository.createMemberNotification(notification, notificationDetail);
+
+            for(FcmToken fcmToken : notification.getFcmTokenList()) {
+                fcmTokenList.add(fcmToken.getFcmToken());
+            }
+        }
 
         //TODO FCM으로 push
 
