@@ -71,4 +71,8 @@ public class NotificationController {
     /**
      * 알림 읽음 처리
      */
+    @PostMapping("/{notification-id}/read")
+    public BaseResponse<Boolean> readMemberNotification(@PathVariable("notification-id") Long notificationId) {
+        return new BaseResponse<>(notificationApplicationService.readMemberNotification(notificationId));
+    }
 }

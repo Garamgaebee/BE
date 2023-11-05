@@ -18,4 +18,11 @@ public class MemberNotificationDataAccessMapper {
                 .build();
     }
 
+    public MemberNotification memberNotificationEntityToMemberNotificationWithoutNotificationAndNotificationDetail(MemberNotificationEntity memberNotificationEntity) {
+        return MemberNotification.builder()
+                .id(memberNotificationEntity.getId())
+                .isRead(memberNotificationEntity.getIsRead())
+                .build();
+    }
+
 }

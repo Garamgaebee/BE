@@ -4,6 +4,7 @@ import com.garamgaebee.common.exception.BaseErrorCode;
 import com.garamgaebee.common.exception.BaseException;
 import com.garamgaebee.notification.service.domain.dto.*;
 import com.garamgaebee.notification.service.domain.entity.FcmToken;
+import com.garamgaebee.notification.service.domain.entity.MemberNotification;
 import com.garamgaebee.notification.service.domain.entity.Notification;
 import com.garamgaebee.notification.service.domain.entity.NotificationDetail;
 import com.garamgaebee.notification.service.domain.mapper.MemberNotificationMapper;
@@ -264,5 +265,18 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
         return notificationRepository.findMemberNotificationList(notification).stream().map(memberNotification -> {
             return memberNotificationMapper.memberNotificationToGetMemberNotificationResponse(memberNotification);
         }).collect(Collectors.toList());
+    }
+
+    // 알림 읽음 처리
+    @Override
+    public Boolean readMemberNotification(Long memberNotificationId) {
+        MemberNotification memberNotification = notificationRepository.findMemberNotification(memberNotificationId).orElseThrow(
+                () -> new BaseException(BaseErrorCode.NOTIFICATION_NOT_EXIST));
+
+        memberNotification.setIsRead(true);
+
+        notificationRepository.saveMemberNotification(memberNotification);
+
+        return true;
     }
 }

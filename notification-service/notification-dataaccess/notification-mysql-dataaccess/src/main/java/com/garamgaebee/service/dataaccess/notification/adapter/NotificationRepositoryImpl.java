@@ -143,7 +143,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     }
 
     /**
-     * MemberNotification 조회
+     * MemberNotification 리스트 조회
      */
     public List<MemberNotification> findMemberNotificationList(Notification notification) {
         NotificationEntity notificationEntity = notificationJpaRepository.findById(notification.getId()).orElseThrow(() ->
@@ -152,6 +152,32 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         return notificationEntity.getMemberNotificationEntityList().stream().map(memberNotificationEntity -> {
             return memberNotificationDataAccessMapper.memberNotificationEntityToMemberNotification(memberNotificationEntity);
         }).collect(Collectors.toList());
+    }
+
+    /**
+     * MemberNotification 단건 조회
+     */
+    @Override
+    public Optional<MemberNotification> findMemberNotification(Long memberNotificationId) {
+        Optional<MemberNotificationEntity> memberNotificationEntityWrapper = memberNotificationJpaRepository.findById(memberNotificationId);
+
+        if(memberNotificationEntityWrapper.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(memberNotificationDataAccessMapper.memberNotificationEntityToMemberNotification(memberNotificationEntityWrapper.get()));
+    }
+
+    /**
+     * memberNotification 저장
+     */
+    @Override
+    public void saveMemberNotification(MemberNotification memberNotification) {
+        MemberNotificationEntity memberNotificationEntity = memberNotificationJpaRepository.findById(memberNotification.getId()).orElseThrow(
+                () -> new BaseException(BaseErrorCode.NOTIFICATION_NOT_EXIST)
+        );
+
+        memberNotificationEntity.setIsRead(memberNotification.getIsRead());
+        memberNotificationJpaRepository.save(memberNotificationEntity);
     }
 
 

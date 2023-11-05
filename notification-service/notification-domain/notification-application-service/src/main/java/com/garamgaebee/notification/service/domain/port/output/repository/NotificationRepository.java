@@ -17,5 +17,7 @@ public interface NotificationRepository {
     public NotificationDetail createNewNotificationDetail(NotificationDetail notificationDetail);
     public void createMemberNotification(Notification notification, NotificationDetail notificationDetail);
     public List<MemberNotification> findMemberNotificationList(Notification notification);
+    public Optional<MemberNotification> findMemberNotification(Long memberNotificationId);
+    public void saveMemberNotification(MemberNotification memberNotification);
 
 }

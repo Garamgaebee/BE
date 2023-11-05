@@ -33,5 +33,7 @@ public interface NotificationApplicationService {
 
     // member 알림 목록 조회
     public List<GetMemberNotificationResponse> getMemberNotificationList(UUID memberId);
+    // 알림 읽음 처리
+    public Boolean readMemberNotification(Long memberNotificationId);
 
 }
