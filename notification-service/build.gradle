@@ -1,0 +1,15 @@
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    implementation project(':notification-service:notification-application')
+    implementation project(':notification-service:notification-container')
+    implementation project(':notification-service:notification-dataaccess')
+    implementation project(':notification-service:notification-domain')
+    implementation project(':notification-service:notification-messaging')
+}

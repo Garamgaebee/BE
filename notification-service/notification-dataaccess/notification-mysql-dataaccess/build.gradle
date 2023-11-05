@@ -1,0 +1,22 @@
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    implementation project(':notification-service:notification-domain')
+    implementation project(':common')
+
+    // JPA
+    // container에서 @EnableJpaRepository가 가능하도록 implementation -> api
+    api 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // mysql
+    implementation 'mysql:mysql-connector-java:8.0.33'
+
+    // h2
+    implementation 'com.h2database:h2'
+}

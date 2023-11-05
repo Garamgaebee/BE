@@ -1,0 +1,13 @@
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    api project(':notification-service:notification-domain:notification-application-service')
+    api project(':notification-service:notification-domain:notification-domain-core')
+
+}
