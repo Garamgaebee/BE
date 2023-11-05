@@ -4,8 +4,10 @@ import com.garamgaebee.common.exception.BaseErrorCode;
 import com.garamgaebee.common.exception.BaseException;
 import com.garamgaebee.notification.service.domain.dto.*;
 import com.garamgaebee.notification.service.domain.entity.FcmToken;
+import com.garamgaebee.notification.service.domain.entity.MemberNotification;
 import com.garamgaebee.notification.service.domain.entity.Notification;
 import com.garamgaebee.notification.service.domain.entity.NotificationDetail;
+import com.garamgaebee.notification.service.domain.mapper.MemberNotificationMapper;
 import com.garamgaebee.notification.service.domain.mapper.NotificationMapper;
 import com.garamgaebee.notification.service.domain.port.input.service.NotificationApplicationService;
 import com.garamgaebee.notification.service.domain.port.output.fcm.FcmNotificationSender;
@@ -18,12 +20,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class NotificationApplicationServiceImpl implements NotificationApplicationService {
 
     private final NotificationMapper notificationMapper;
+    private final MemberNotificationMapper memberNotificationMapper;
     private final NotificationRepository notificationRepository;
     private final FcmNotificationSender fcmNotificationSender;
 
@@ -246,6 +250,32 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
         }
 
         //TODO FCM으로 push
+
+        return true;
+    }
+
+    // 멤버 알림 목록 조회
+    @Override
+    public List<GetMemberNotificationResponse> getMemberNotificationList(UUID memberId) {
+
+        Notification notification = notificationRepository.findNotificationPushSettingByMemberId(memberId).orElseThrow(
+                () -> new BaseException(BaseErrorCode.MEMBER_NOT_EXIST)
+        );
+
+        return notificationRepository.findMemberNotificationList(notification).stream().map(memberNotification -> {
+            return memberNotificationMapper.memberNotificationToGetMemberNotificationResponse(memberNotification);
+        }).collect(Collectors.toList());
+    }
+
+    // 알림 읽음 처리
+    @Override
+    public Boolean readMemberNotification(Long memberNotificationId) {
+        MemberNotification memberNotification = notificationRepository.findMemberNotification(memberNotificationId).orElseThrow(
+                () -> new BaseException(BaseErrorCode.NOTIFICATION_NOT_EXIST));
+
+        memberNotification.setIsRead(true);
+
+        notificationRepository.saveMemberNotification(memberNotification);
 
         return true;
     }

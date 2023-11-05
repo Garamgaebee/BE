@@ -1,22 +1,19 @@
-package com.garamgaebee.notification.service.domain.entity;
+package com.garamgaebee.notification.service.domain.dto;
 
 import com.garamgaebee.notification.service.domain.vo.NotificationType;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Builder
-public class NotificationDetail {
+public class GetMemberNotificationResponse {
     private Long id;
     private String title;
     private String body;
     private LocalDateTime time;
     private NotificationType type;
     private String moveTo;
-
+    private Boolean isRead;
 }

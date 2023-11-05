@@ -1,5 +1,6 @@
 package com.garamgaebee.notification.service.domain.port.output.repository;
 
+import com.garamgaebee.notification.service.domain.entity.MemberNotification;
 import com.garamgaebee.notification.service.domain.entity.Notification;
 import com.garamgaebee.notification.service.domain.entity.NotificationDetail;
 
@@ -15,5 +16,8 @@ public interface NotificationRepository {
     public void createNewNotification(Notification notification);
     public NotificationDetail createNewNotificationDetail(NotificationDetail notificationDetail);
     public void createMemberNotification(Notification notification, NotificationDetail notificationDetail);
+    public List<MemberNotification> findMemberNotificationList(Notification notification);
+    public Optional<MemberNotification> findMemberNotification(Long memberNotificationId);
+    public void saveMemberNotification(MemberNotification memberNotification);
 
 }

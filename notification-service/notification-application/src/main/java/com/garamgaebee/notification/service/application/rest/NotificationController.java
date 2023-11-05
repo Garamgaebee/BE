@@ -1,12 +1,14 @@
 package com.garamgaebee.notification.service.application.rest;
 
 import com.garamgaebee.common.response.BaseResponse;
+import com.garamgaebee.notification.service.domain.dto.GetMemberNotificationResponse;
 import com.garamgaebee.notification.service.domain.dto.GetNotificationResponse;
 import com.garamgaebee.notification.service.domain.port.input.service.NotificationApplicationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -55,5 +57,22 @@ public class NotificationController {
     @PatchMapping("/{member-id}/setting/hot-thread")
     public BaseResponse<Boolean> changeHotThreadPushSetting(@PathVariable("member-id") UUID memberId) {
         return new BaseResponse<>(notificationApplicationService.changePushHotThreadEventNotificationStatus(memberId));
+    }
+
+    /**
+     * member 알림 목록 조회
+     */
+    @GetMapping("/{member-id}")
+    public BaseResponse<List<GetMemberNotificationResponse>> getMemberNotificationList(@PathVariable("member-id") UUID memberId) {
+        return new BaseResponse<>(notificationApplicationService.getMemberNotificationList(memberId));
+    }
+
+
+    /**
+     * 알림 읽음 처리
+     */
+    @PostMapping("/{notification-id}/read")
+    public BaseResponse<Boolean> readMemberNotification(@PathVariable("notification-id") Long notificationId) {
+        return new BaseResponse<>(notificationApplicationService.readMemberNotification(notificationId));
     }
 }

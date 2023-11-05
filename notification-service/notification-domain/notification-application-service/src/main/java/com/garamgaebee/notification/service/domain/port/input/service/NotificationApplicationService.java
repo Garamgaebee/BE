@@ -2,6 +2,7 @@ package com.garamgaebee.notification.service.domain.port.input.service;
 
 import com.garamgaebee.notification.service.domain.dto.*;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface NotificationApplicationService {
@@ -29,5 +30,10 @@ public interface NotificationApplicationService {
     public Boolean createThreadNotificationDetail(CreateThreadNotificationCommand createThreadNotificationCommand);
     // hot thread 알림 생성
     public Boolean createHotThreadNotificationDetail(CreateHotThreadNotificationCommand createHotThreadNotificationCommand);
+
+    // member 알림 목록 조회
+    public List<GetMemberNotificationResponse> getMemberNotificationList(UUID memberId);
+    // 알림 읽음 처리
+    public Boolean readMemberNotification(Long memberNotificationId);
 
 }
