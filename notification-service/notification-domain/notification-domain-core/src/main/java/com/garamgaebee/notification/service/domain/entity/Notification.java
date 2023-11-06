@@ -20,7 +20,7 @@ public class Notification {
     private List<NotificationDetail> notificationDetailList;
 
 
-    public void init(UUID memberId, String fcmToken) {
+    public void init(UUID memberId, FcmToken fcmToken) {
         setMemberId(memberId);
         setFcmTokenList(new ArrayList<>());
         setNotificationDetailList(new ArrayList<>());
@@ -51,12 +51,8 @@ public class Notification {
         pushSetting.setIsPushHotThreadEvent(!pushSetting.getIsPushHotThreadEvent());
     }
 
-    public void addFcmToken(String fcmToken) {
-        fcmTokenList.add(
-                FcmToken.builder()
-                        .fcmToken(fcmToken)
-                        .build()
-        );
+    public void addFcmToken(FcmToken fcmToken) {
+        fcmTokenList.add(fcmToken);
     }
 
     public void deleteFcmToken(FcmToken fcmToken) {

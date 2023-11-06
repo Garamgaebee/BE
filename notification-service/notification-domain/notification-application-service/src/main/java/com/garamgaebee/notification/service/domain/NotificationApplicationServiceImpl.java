@@ -3,6 +3,7 @@ package com.garamgaebee.notification.service.domain;
 import com.garamgaebee.common.exception.BaseErrorCode;
 import com.garamgaebee.common.exception.BaseException;
 import com.garamgaebee.notification.service.domain.dto.*;
+import com.garamgaebee.notification.service.domain.dto.fcm.SendNotificationCommand;
 import com.garamgaebee.notification.service.domain.entity.FcmToken;
 import com.garamgaebee.notification.service.domain.entity.MemberNotification;
 import com.garamgaebee.notification.service.domain.entity.Notification;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -37,7 +39,10 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
         Notification newNotification = new Notification();
         newNotification.init(
                 registerNotificationCommand.getMemberId(),
-                registerNotificationCommand.getFcmToken()
+                FcmToken.builder()
+                        .fcmToken(registerNotificationCommand.getFcmToken())
+                        .time(registerNotificationCommand.getFcmTokenTime())
+                        .build()
         );
 
         // Notification 정보 저장
@@ -137,7 +142,8 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
             }
         }
 
-        //TODO FCM으로 push
+        // FCM으로 push
+        sendNotificationToFcmNotificationSender(notificationDetail, fcmTokenList);
 
         return true;
     }
@@ -146,7 +152,7 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
     public Boolean createTeamNotificationDetail(CreateTeamNotificationCommand createTeamNotificationCommand) {
 
         // 알림 대상 멤버 fcm 토큰 조회
-        List<String> fcmList = new ArrayList<>();
+        List<String> fcmTokenList = new ArrayList<>();
 
         NotificationDetail notificationDetail = NotificationDetail.builder()
                 .title(createTeamNotificationCommand.getTitle())
@@ -168,7 +174,7 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
                 // team event push 알림을 허용 했다면 fcm token 추출
                 if(notification.getPushSetting().getIsPushTeamEvent()) {
                     for (FcmToken fcmToken : notification.getFcmTokenList()) {
-                        fcmList.add(fcmToken.getFcmToken());
+                        fcmTokenList.add(fcmToken.getFcmToken());
                     }
                 }
             } catch(BaseException e) {
@@ -176,7 +182,8 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
             }
         }
 
-        //TODO FCM으로 push
+        // FCM으로 push
+        sendNotificationToFcmNotificationSender(notificationDetail, fcmTokenList);
 
         return true;
 
@@ -186,7 +193,7 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
     public Boolean createThreadNotificationDetail(CreateThreadNotificationCommand createThreadNotificationCommand) {
 
         // 알림 대상 멤버 fcm 토큰 조회
-        List<String> fcmList = new ArrayList<>();
+        List<String> fcmTokenList = new ArrayList<>();
 
         NotificationDetail notificationDetail = NotificationDetail.builder()
                 .title(createThreadNotificationCommand.getTitle())
@@ -208,7 +215,7 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
                 // thread event push 알림을 허용 했다면 fcm token 추출
                 if(notification.getPushSetting().getIsPushTeamEvent()) {
                     for (FcmToken fcmToken : notification.getFcmTokenList()) {
-                        fcmList.add(fcmToken.getFcmToken());
+                        fcmTokenList.add(fcmToken.getFcmToken());
                     }
                 }
             } catch(BaseException e) {
@@ -216,7 +223,8 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
             }
         }
 
-        //TODO FCM으로 push
+        // FCM으로 push
+        sendNotificationToFcmNotificationSender(notificationDetail, fcmTokenList);
 
         return true;
 
@@ -249,7 +257,8 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
             }
         }
 
-        //TODO FCM으로 push
+        // FCM으로 push
+        sendNotificationToFcmNotificationSender(notificationDetail, fcmTokenList);
 
         return true;
     }
@@ -257,7 +266,6 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
     // 멤버 알림 목록 조회
     @Override
     public List<GetMemberNotificationResponse> getMemberNotificationList(UUID memberId) {
-
         Notification notification = notificationRepository.findNotificationPushSettingByMemberId(memberId).orElseThrow(
                 () -> new BaseException(BaseErrorCode.MEMBER_NOT_EXIST)
         );
@@ -278,5 +286,36 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
         notificationRepository.saveMemberNotification(memberNotification);
 
         return true;
+    }
+
+
+    // fcm push 알림 전송 helper
+    private void sendNotificationToFcmNotificationSender(NotificationDetail notificationDetail, List<String> targetList) {
+
+        // fcm multicast 최대 size : 500
+        while(targetList.size() > 500) {
+            fcmNotificationSender.sendNotificationByToken(SendNotificationCommand.builder()
+                        .title(notificationDetail.getTitle())
+                        .body(notificationDetail.getBody())
+                        .data(Map.of("type", notificationDetail.getType().toString(),
+                            "moveTo" , notificationDetail.getMoveTo(),
+                            "time", notificationDetail.getTime().toString()))
+                        .tokenList(targetList.subList(0, 499))
+                    .build());
+
+            targetList.subList(0, 499).clear();
+        }
+
+        if(!targetList.isEmpty()) {
+            fcmNotificationSender.sendNotificationByToken(SendNotificationCommand.builder()
+                    .title(notificationDetail.getTitle())
+                    .body(notificationDetail.getBody())
+                    .data(Map.of("type", notificationDetail.getType().toString(),
+                            "moveTo" , notificationDetail.getMoveTo(),
+                            "time", notificationDetail.getTime().toString()))
+                    .tokenList(targetList)
+                    .build());
+        }
+
     }
 }

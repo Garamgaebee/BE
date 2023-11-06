@@ -3,6 +3,7 @@ package com.garamgaebee.notification.service.domain.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
@@ -10,4 +11,5 @@ import java.util.UUID;
 public class RegisterNotificationCommand {
     private UUID memberId;
     private String fcmToken;
+    private LocalDateTime fcmTokenTime;
 }
