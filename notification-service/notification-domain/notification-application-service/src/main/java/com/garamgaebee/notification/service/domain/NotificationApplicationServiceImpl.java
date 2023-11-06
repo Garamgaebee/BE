@@ -303,6 +303,7 @@ public class NotificationApplicationServiceImpl implements NotificationApplicati
                         .tokenList(targetList.subList(0, 499))
                     .build());
 
+            // 전송한 token list에서 삭제
             targetList.subList(0, 499).clear();
         }
 
