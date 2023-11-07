@@ -16,7 +16,7 @@ public class SwaggerConfig {
                 .route(r -> r.path("/members/v3/api-docs").uri("http://member-service"))
                 .route(r -> r.path("/teams/v3/api-docs").uri("http://team-service"))
                 .route(r -> r.path("/threads/v3/api-docs").uri("http://thread-service"))
-                .route(r -> r.path("/search/v3/api-docs").uri("http://search-service"))
+                .route(r -> r.path("/notifications/v3/api-docs").uri("http://notification-service"))
     .build();
     }
 }
