@@ -2,6 +2,8 @@ package com.garamgaebee.notification.service.domain.entity;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -9,4 +11,5 @@ import lombok.*;
 public class FcmToken {
     private Long id;
     private String fcmToken;
+    private LocalDateTime time;
 }

@@ -106,6 +106,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                     NotificationFcmTokenEntity.builder()
                             .id(fcmToken.getId())
                             .fcmToken(fcmToken.getFcmToken())
+                            .time(fcmToken.getTime())
                             .build()
             );
         }

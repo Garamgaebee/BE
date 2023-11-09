@@ -38,6 +38,7 @@ public class NotificationDataAccessMapper {
                     return FcmToken.builder()
                             .id(notificationFcmTokenEntity.getId())
                             .fcmToken(notificationFcmTokenEntity.getFcmToken())
+                            .time(notificationFcmTokenEntity.getTime())
                             .build();
                 }).collect(Collectors.toList()))
                 .build();
