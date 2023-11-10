@@ -23,6 +23,11 @@ spring:
           predicates:
             - Path=/api/auth/**
 
+        - id: auth-service-feign
+          uri: http://host.docker.internal:8081
+          predicates:
+            - Path=/api/feign/auth/**
+
         - id: member-service-docs
           uri: http://host.docker.internal:8082
           predicates:
@@ -34,6 +39,11 @@ spring:
             - Path=/api/members/**
           filters:
             - JwtAuthentication=ROLE_USER
+
+        - id: member-service-feign
+          uri: http://host.docker.internal:8082
+          predicates:
+            - Path=/api/feign/member/**
 
         - id: team-service-docs
           uri: http://host.docker.internal:8083
@@ -47,6 +57,11 @@ spring:
           filters:
             - JwtAuthentication=ROLE_USER
 
+        - id: team-service-feign
+          uri: http://host.docker.internal:8083
+          predicates:
+            - Path=/api/feign/teams/**
+
         - id: thread-service-docs
           uri: http://host.docker.internal:8084
           predicates:
@@ -59,6 +74,11 @@ spring:
           filters:
             - JwtAuthentication=ROLE_USER
 
+        - id: thread-service-feign
+          uri: http://host.docker.internal:8084
+          predicates:
+            - Path=/api/feign/threads/**
+
         - id: notification-service-docs
           uri: http://host.docker.internal:8085
           predicates:
@@ -70,6 +90,11 @@ spring:
             - Path=/api/notifications/**
           filters:
             - JwtAuthentication=ROLE_USER
+
+        - id: notification-service-feign
+          uri: http://host.docker.internal:8085
+          predicates:
+            - Path=/api/feign/notifications/**
 
 springdoc:
   enable-native-support: true
