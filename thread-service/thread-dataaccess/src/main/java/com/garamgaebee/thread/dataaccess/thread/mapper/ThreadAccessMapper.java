@@ -29,6 +29,7 @@ public class ThreadAccessMapper {
                 .content(createTarget.getContent())
                 .isComment(createTarget.isComment())
                 .parentIdx(createTarget.getParentIdx())
+                .status(ThreadStatus.ACTIVE)
                 .build();
 
     }

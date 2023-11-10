@@ -81,6 +81,7 @@ public class ThreadRepositoryImpl implements ThreadRepository {
     @Override
     public List<Thread> getThreadListOrderByTime() {
         List<ThreadEntity> entities = threadJpaRepository.findAllOrderByCreatedAt();
+
         return mapper.entitiesToThreads(entities);
     }
 
