@@ -42,7 +42,7 @@ public class ThreadEntity extends ThreadBaseEntity{
     @Column(name = "content", nullable = false, length = 501)
     private String content;
 
-    @Column(name = "author_img", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "author_img", columnDefinition = "TEXT")
     private String authorImageUrl;
 
     @Column(name = "team_img", columnDefinition = "TEXT")

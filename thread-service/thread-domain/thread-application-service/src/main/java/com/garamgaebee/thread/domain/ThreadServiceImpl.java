@@ -51,9 +51,10 @@ public class ThreadServiceImpl implements ThreadService {
     //영속성 컨텍스트를 이용하기 위하여 트랜잭션으로 묶었습니다.
     @Transactional
     public CreateThreadRes createThread(List<MultipartFile> fileList, CreateThreadCommand req) throws BaseException{
-
-        List<String> imgUrls = createThreadHelper.getImageList(fileList);
-
+        List<String> imgUrls = new ArrayList<>();
+        if (imageFileCheck(fileList)) {
+            imgUrls = createThreadHelper.getImageList(fileList);
+        }
         //TODO jwt에서 userIdx 가져오기
         String authorIdx = req.getAuthorIdx();
 
@@ -407,5 +408,13 @@ public class ThreadServiceImpl implements ThreadService {
         DeleteImageCommand deleteImageCommand = new DeleteImageCommand(urls);
 
         imageFeignPublisher.deleteFeignImages(deleteImageCommand);
+    }
+    public boolean imageFileCheck(List<MultipartFile> multipartFileList) {
+        for (MultipartFile multipartFile : multipartFileList) {
+            if (!multipartFile.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
