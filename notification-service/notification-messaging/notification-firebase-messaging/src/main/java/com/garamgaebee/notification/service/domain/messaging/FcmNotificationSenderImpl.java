@@ -1,6 +1,7 @@
 package com.garamgaebee.notification.service.domain.messaging;
 
 import com.garamgaebee.notification.service.domain.dto.fcm.SendNotificationCommand;
+import com.garamgaebee.notification.service.domain.port.input.fcm.FcmEventListener;
 import com.garamgaebee.notification.service.domain.port.output.fcm.FcmNotificationSender;
 import com.google.firebase.messaging.*;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 public class FcmNotificationSenderImpl implements FcmNotificationSender {
 
     private final FirebaseMessaging firebaseMessaging;
+    private final FcmEventListener fcmEventListener;
 
     @Async
     @Override
@@ -53,7 +55,8 @@ public class FcmNotificationSenderImpl implements FcmNotificationSender {
 
         // 잘못된 토큰이 존재하면
         if(!failedTokens.isEmpty()) {
-            //TODO 잘못된 토큰 삭제 api call
+            // 잘못된 토큰 삭제
+            fcmEventListener.deleteFcmTokenList(failedTokens);
         }
     }
 

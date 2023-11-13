@@ -16,6 +16,7 @@ import com.garamgaebee.service.dataaccess.notification.mapper.NotificationDataAc
 import com.garamgaebee.service.dataaccess.notification.mapper.NotificationDetailDataAccessMapper;
 import com.garamgaebee.service.dataaccess.notification.repository.MemberNotificationJpaRepository;
 import com.garamgaebee.service.dataaccess.notification.repository.NotificationDetailJpaRepository;
+import com.garamgaebee.service.dataaccess.notification.repository.NotificationFcmTokenJpaRepository;
 import com.garamgaebee.service.dataaccess.notification.repository.NotificationJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -33,9 +34,11 @@ public class NotificationRepositoryImpl implements NotificationRepository {
     private final NotificationJpaRepository notificationJpaRepository;
     private final NotificationDetailJpaRepository notificationDetailJpaRepository;
     private final MemberNotificationJpaRepository memberNotificationJpaRepository;
+    private final NotificationFcmTokenJpaRepository notificationFcmTokenJpaRepository;
     private final NotificationDataAccessMapper notificationDataAccessMapper;
     private final NotificationDetailDataAccessMapper notificationDetailDataAccessMapper;
     private final MemberNotificationDataAccessMapper memberNotificationDataAccessMapper;
+
 
 
     /**
@@ -179,6 +182,14 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
         memberNotificationEntity.setIsRead(memberNotification.getIsRead());
         memberNotificationJpaRepository.save(memberNotificationEntity);
+    }
+
+    /**
+     * FcmTokenList 삭제
+     */
+    @Override
+    public void deleteFcmTokenList(List<String> fcmTokenList) {
+        notificationFcmTokenJpaRepository.deleteAllByFcmToken(fcmTokenList);
     }
 
 

@@ -19,5 +19,6 @@ public interface NotificationRepository {
     public List<MemberNotification> findMemberNotificationList(Notification notification);
     public Optional<MemberNotification> findMemberNotification(Long memberNotificationId);
     public void saveMemberNotification(MemberNotification memberNotification);
+    public void deleteFcmTokenList(List<String> fcmTokenList);
 
 }
