@@ -1,4 +1,4 @@
-package com.garamgaebee.notification.service.domain.dto;
+package com.garamgaebee.notification.service.domain.port.input.command;
 
 import lombok.Builder;
 import lombok.Data;
@@ -12,5 +12,5 @@ public class CreateThreadNotificationCommand {
     private String title;
     private String body;
     private String linkUrl;
-    private List<UUID> memberIdList;
+    private List<UUID> ownerIdList;
 }

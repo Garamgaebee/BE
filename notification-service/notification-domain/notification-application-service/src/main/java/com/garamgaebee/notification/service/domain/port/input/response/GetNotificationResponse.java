@@ -1,4 +1,4 @@
-package com.garamgaebee.notification.service.domain.dto;
+package com.garamgaebee.notification.service.domain.port.input.response;
 
 import lombok.Builder;
 import lombok.Data;

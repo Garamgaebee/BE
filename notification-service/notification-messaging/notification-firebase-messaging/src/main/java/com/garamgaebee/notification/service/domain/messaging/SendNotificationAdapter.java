@@ -1,8 +1,8 @@
 package com.garamgaebee.notification.service.domain.messaging;
 
-import com.garamgaebee.notification.service.domain.dto.fcm.SendNotificationCommand;
-import com.garamgaebee.notification.service.domain.port.input.fcm.FcmEventListener;
-import com.garamgaebee.notification.service.domain.port.output.fcm.FcmNotificationSender;
+import com.garamgaebee.notification.service.domain.port.input.DeleteFcmTokenListUseCase;
+import com.garamgaebee.notification.service.domain.port.input.command.SendNotificationCommand;
+import com.garamgaebee.notification.service.domain.port.output.fcm.SendNotificationPort;
 import com.google.firebase.messaging.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
@@ -13,10 +13,10 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class FcmNotificationSenderImpl implements FcmNotificationSender {
+public class SendNotificationAdapter implements SendNotificationPort {
 
     private final FirebaseMessaging firebaseMessaging;
-    private final FcmEventListener fcmEventListener;
+    private final DeleteFcmTokenListUseCase deleteFcmTokenListUseCase;
 
     @Async
     @Override
@@ -56,7 +56,7 @@ public class FcmNotificationSenderImpl implements FcmNotificationSender {
         // 잘못된 토큰이 존재하면
         if(!failedTokens.isEmpty()) {
             // 잘못된 토큰 삭제
-            fcmEventListener.deleteFcmTokenList(failedTokens);
+            deleteFcmTokenListUseCase.deleteFcmTokenList(failedTokens);
         }
     }
 

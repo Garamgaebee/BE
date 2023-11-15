@@ -1,14 +1,10 @@
 package com.garamgaebee.notification.service.application.rest;
 
 import com.garamgaebee.common.response.BaseResponse;
-import com.garamgaebee.notification.service.domain.dto.*;
-import com.garamgaebee.notification.service.domain.port.input.service.NotificationApplicationService;
+import com.garamgaebee.notification.service.domain.port.input.command.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -56,6 +52,14 @@ public class NotificationFeignController {
     @PostMapping("/hot-thread")
     public BaseResponse<Boolean> createHotThreadNotification(@RequestBody CreateHotThreadNotificationCommand createHotThreadNotificationCommand) {
         return new BaseResponse<>(notificationApplicationService.createHotThreadNotificationDetail(createHotThreadNotificationCommand));
+    }
+
+    /**
+     * 단일 fcm token 제거
+     */
+    @DeleteMapping("/token")
+    public BaseResponse<Boolean> deleteFcmToken(@RequestParam("token") String fcmToken) {
+        return new BaseResponse<>(notificationApplicationService.deleteSingleFcmToken(fcmToken));
     }
 
 }

@@ -1,6 +1,6 @@
 package com.garamgaebee.notification.service.domain.mapper;
 
-import com.garamgaebee.notification.service.domain.dto.GetMemberNotificationResponse;
+import com.garamgaebee.notification.service.domain.port.input.response.GetMemberNotificationResponse;
 import com.garamgaebee.notification.service.domain.entity.MemberNotification;
 import org.springframework.stereotype.Component;
 

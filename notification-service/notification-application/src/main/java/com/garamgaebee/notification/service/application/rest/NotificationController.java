@@ -1,9 +1,8 @@
 package com.garamgaebee.notification.service.application.rest;
 
 import com.garamgaebee.common.response.BaseResponse;
-import com.garamgaebee.notification.service.domain.dto.GetMemberNotificationResponse;
-import com.garamgaebee.notification.service.domain.dto.GetNotificationResponse;
-import com.garamgaebee.notification.service.domain.port.input.service.NotificationApplicationService;
+import com.garamgaebee.notification.service.domain.port.input.response.GetMemberNotificationResponse;
+import com.garamgaebee.notification.service.domain.port.input.response.GetNotificationResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

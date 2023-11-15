@@ -1,66 +1,41 @@
 package com.garamgaebee.notification.service.domain.entity;
 
-import com.garamgaebee.notification.service.domain.vo.PushSetting;
+import com.garamgaebee.notification.service.domain.vo.NotificationType;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
-@Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Notification {
     private Long id;
-    private UUID memberId;
-    private PushSetting pushSetting;
-    private List<FcmToken> fcmTokenList;
-    private List<NotificationDetail> notificationDetailList;
+    @Setter
+    private String title;
+    @Setter
+    private String body;
+    @Setter
+    private LocalDateTime time;
+    @Setter
+    private NotificationType type;
+    @Setter
+    private String moveTo;
+    @Setter
+    private List<MemberNotification> memberNotificationList;
 
-
-    public void init(UUID memberId, FcmToken fcmToken) {
-        setMemberId(memberId);
-        setFcmTokenList(new ArrayList<>());
-        setNotificationDetailList(new ArrayList<>());
-        addFcmToken(fcmToken);
-        setPushSetting(
-                PushSetting.builder()
-                        .isPushNewFunctionEvent(false)
-                        .isPushTeamEvent(false)
-                        .isPushThreadEvent(false)
-                        .isPushHotThreadEvent(false)
-                        .build()
-        );
+    // entity 생성
+    public static Notification create(String title, String body, NotificationType type, String moveTo) {
+        return Notification.builder()
+                .id(null)
+                .title(title)
+                .body(body)
+                .time(LocalDateTime.now())
+                .type(type)
+                .moveTo(moveTo)
+                .memberNotificationList(new ArrayList<>())
+                .build();
     }
 
-    public void changeIsPushNewFunctionEventStatus() {
-        pushSetting.setIsPushNewFunctionEvent(!pushSetting.getIsPushTeamEvent());
-    }
-
-    public void changeIsPushTeamEventStatus() {
-        pushSetting.setIsPushTeamEvent(!pushSetting.getIsPushTeamEvent());
-    }
-
-    public void changeIsPushThreadEventStatus() {
-        pushSetting.setIsPushThreadEvent(!pushSetting.getIsPushThreadEvent());
-    }
-
-    public void changeIsPushHotThreadEventStatus() {
-        pushSetting.setIsPushHotThreadEvent(!pushSetting.getIsPushHotThreadEvent());
-    }
-
-    public void addFcmToken(FcmToken fcmToken) {
-        fcmTokenList.add(fcmToken);
-    }
-
-    public void deleteFcmToken(FcmToken fcmToken) {
-        for(FcmToken fcm : fcmTokenList) {
-            if(fcm.getId().equals(fcmToken.getId())) {
-                fcmTokenList.remove(fcm);
-                break;
-            }
-        }
-    }
 }

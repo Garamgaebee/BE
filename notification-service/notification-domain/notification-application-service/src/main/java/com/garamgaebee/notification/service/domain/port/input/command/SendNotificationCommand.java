@@ -1,4 +1,4 @@
-package com.garamgaebee.notification.service.domain.dto.fcm;
+package com.garamgaebee.notification.service.domain.port.input.command;
 
 import lombok.Builder;
 import lombok.Getter;

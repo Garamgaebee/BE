@@ -1,7 +1,7 @@
 package com.garamgaebee.notification.service.domain.port.output.fcm;
 
-import com.garamgaebee.notification.service.domain.dto.fcm.SendNotificationCommand;
+import com.garamgaebee.notification.service.domain.port.input.command.SendNotificationCommand;
 
-public interface FcmNotificationSender {
+public interface SendNotificationPort {
     public void sendNotificationByToken(SendNotificationCommand sendNotificationCommand);
 }

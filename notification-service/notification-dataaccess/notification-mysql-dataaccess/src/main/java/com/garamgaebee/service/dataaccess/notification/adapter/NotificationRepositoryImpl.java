@@ -6,7 +6,6 @@ import com.garamgaebee.notification.service.domain.entity.FcmToken;
 import com.garamgaebee.notification.service.domain.entity.MemberNotification;
 import com.garamgaebee.notification.service.domain.entity.Notification;
 import com.garamgaebee.notification.service.domain.entity.NotificationDetail;
-import com.garamgaebee.notification.service.domain.port.output.repository.NotificationRepository;
 import com.garamgaebee.service.dataaccess.notification.entity.MemberNotificationEntity;
 import com.garamgaebee.service.dataaccess.notification.entity.NotificationDetailEntity;
 import com.garamgaebee.service.dataaccess.notification.entity.NotificationEntity;
@@ -21,7 +20,6 @@ import com.garamgaebee.service.dataaccess.notification.repository.NotificationJp
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
