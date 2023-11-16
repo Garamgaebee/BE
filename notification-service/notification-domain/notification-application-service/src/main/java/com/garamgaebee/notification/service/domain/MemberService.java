@@ -7,7 +7,7 @@ import com.garamgaebee.notification.service.domain.entity.Member;
 import com.garamgaebee.notification.service.domain.port.input.command.RegisterMemberCommand;
 import com.garamgaebee.notification.service.domain.port.input.response.GetNotificationResponse;
 import com.garamgaebee.notification.service.domain.port.input.*;
-import com.garamgaebee.notification.service.domain.port.output.persistance.*;
+import com.garamgaebee.notification.service.domain.port.output.persistence.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

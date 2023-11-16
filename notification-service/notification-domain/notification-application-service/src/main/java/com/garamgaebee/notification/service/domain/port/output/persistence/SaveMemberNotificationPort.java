@@ -1,4 +1,4 @@
-package com.garamgaebee.notification.service.domain.port.output.persistance;
+package com.garamgaebee.notification.service.domain.port.output.persistence;
 
 import com.garamgaebee.notification.service.domain.entity.MemberNotification;
 

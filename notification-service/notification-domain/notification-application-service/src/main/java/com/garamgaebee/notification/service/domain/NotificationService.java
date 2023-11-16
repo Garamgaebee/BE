@@ -12,7 +12,7 @@ import com.garamgaebee.notification.service.domain.port.input.ReadMemberNotifica
 import com.garamgaebee.notification.service.domain.port.input.command.*;
 import com.garamgaebee.notification.service.domain.port.input.response.GetMemberNotificationResponse;
 import com.garamgaebee.notification.service.domain.port.output.fcm.SendNotificationPort;
-import com.garamgaebee.notification.service.domain.port.output.persistance.*;
+import com.garamgaebee.notification.service.domain.port.output.persistence.*;
 import com.garamgaebee.notification.service.domain.vo.NotificationType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
