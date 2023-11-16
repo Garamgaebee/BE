@@ -14,12 +14,10 @@ public class MemberNotificationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     @ManyToOne
     @JoinColumn(name = "member_id")
     private MemberEntity member;
 
-    @Column(nullable = false)
     @ManyToOne
     @JoinColumn(name = "notification_id")
     private NotificationEntity notification;

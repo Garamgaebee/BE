@@ -1,6 +1,9 @@
 package com.garamgaebee.notification.service.application.rest;
 
 import com.garamgaebee.common.response.BaseResponse;
+import com.garamgaebee.notification.service.domain.port.input.CreateMemberUseCase;
+import com.garamgaebee.notification.service.domain.port.input.CreateNotificationUseCase;
+import com.garamgaebee.notification.service.domain.port.input.DeleteSingleFcmTokenUseCase;
 import com.garamgaebee.notification.service.domain.port.input.command.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,14 +15,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/feign/notifications")
 public class NotificationFeignController {
 
-    private final NotificationApplicationService notificationApplicationService;
+    private final CreateMemberUseCase createMemberUseCase;
+    private final CreateNotificationUseCase createNotificationUseCase;
+    private final DeleteSingleFcmTokenUseCase deleteSingleFcmTokenUseCase;
 
     /**
      * 새로운 Notification 객체 등록
      */
     @PostMapping("")
-    public BaseResponse<Boolean> registerNewNotification(@RequestBody RegisterNotificationCommand registerNotificationCommand) {
-        return new BaseResponse<>(notificationApplicationService.registerNewNotification(registerNotificationCommand));
+    public BaseResponse<Boolean> registerNewMember(@RequestBody RegisterMemberCommand registerMemberCommand) {
+        return new BaseResponse<>(createMemberUseCase.createMember(registerMemberCommand));
     }
 
     /**
@@ -27,7 +32,7 @@ public class NotificationFeignController {
      */
     @PostMapping("/new-event")
     public BaseResponse<Boolean> createNewEventNotification(@RequestBody CreateNewNotificationCommand createNewNotificationCommand) {
-        return new BaseResponse<>(notificationApplicationService.createNewNotificationDetail(createNewNotificationCommand));
+        return new BaseResponse<>(createNotificationUseCase.createNewNotification(createNewNotificationCommand));
     }
 
     /**
@@ -35,7 +40,7 @@ public class NotificationFeignController {
      */
     @PostMapping("/team")
     public BaseResponse<Boolean> createTeamNotification(@RequestBody CreateTeamNotificationCommand createTeamNotificationCommand) {
-        return new BaseResponse<>(notificationApplicationService.createTeamNotificationDetail(createTeamNotificationCommand));
+        return new BaseResponse<>(createNotificationUseCase.createTeamNotification(createTeamNotificationCommand));
     }
 
     /**
@@ -43,7 +48,7 @@ public class NotificationFeignController {
      */
     @PostMapping("/thread")
     public BaseResponse<Boolean> createThreadNotification(@RequestBody CreateThreadNotificationCommand createThreadNotificationCommand) {
-        return new BaseResponse<>(notificationApplicationService.createThreadNotificationDetail(createThreadNotificationCommand));
+        return new BaseResponse<>(createNotificationUseCase.createThreadNotification(createThreadNotificationCommand));
     }
 
     /**
@@ -51,7 +56,7 @@ public class NotificationFeignController {
      */
     @PostMapping("/hot-thread")
     public BaseResponse<Boolean> createHotThreadNotification(@RequestBody CreateHotThreadNotificationCommand createHotThreadNotificationCommand) {
-        return new BaseResponse<>(notificationApplicationService.createHotThreadNotificationDetail(createHotThreadNotificationCommand));
+        return new BaseResponse<>(createNotificationUseCase.createHotThreadNotification(createHotThreadNotificationCommand));
     }
 
     /**
@@ -59,7 +64,7 @@ public class NotificationFeignController {
      */
     @DeleteMapping("/token")
     public BaseResponse<Boolean> deleteFcmToken(@RequestParam("token") String fcmToken) {
-        return new BaseResponse<>(notificationApplicationService.deleteSingleFcmToken(fcmToken));
+        return new BaseResponse<>(deleteSingleFcmTokenUseCase.deleteSingleFcmToken(fcmToken));
     }
 
 }

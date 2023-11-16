@@ -5,5 +5,5 @@ import java.util.UUID;
 public interface DeleteSingleFcmTokenUseCase {
 
     // 단일 fcm token 삭제
-    public void deleteSingleFcmToken(String fcmToken);
+    public Boolean deleteSingleFcmToken(String fcmToken);
 }

@@ -9,6 +9,10 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
+        # jpa batch insert
+        hibernate.jdbc.batch_size: 50
+        hibernate.order_inserts: true
+        hibernate.order_updates: true
         show_sql: true
         fotmat_sql: true
 

@@ -80,15 +80,16 @@ public class NotificationPersistenceAdapter implements
     }
 
     @Override
-    public Notification updateMemberNotifications(Notification notification) {
+    public void updateMemberNotifications(Notification notification) {
 
         NotificationEntity notificationEntity = notificationRepository.findById(notification.getId()).orElseThrow(
                 () -> new BaseException(BaseErrorCode.NOTIFICATION_NOT_EXIST)
         );
 
+        List<MemberNotificationEntity> memberNotificationEntityList = new ArrayList<>();
         for(MemberNotification memberNotification : notification.getMemberNotificationList()) {
             if(memberNotification.getId() == null) {
-                notificationEntity.getMemberNotificationEntityList().add(
+                memberNotificationEntityList.add(
                         MemberNotificationEntity.builder()
                                 .member(memberRepository.findById(memberNotification.getMemberId()).get())
                                 .notification(notificationEntity)
@@ -97,6 +98,6 @@ public class NotificationPersistenceAdapter implements
             }
         }
 
-        return notificationRepository.save(notificationEntity).ofDomainEntity();
+        memberNotificationRepository.saveAll(memberNotificationEntityList);
     }
 }

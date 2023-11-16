@@ -136,8 +136,10 @@ public class MemberService implements
      * 단일 fcm token 삭제
      */
     @Override
-    public void deleteSingleFcmToken(String fcmToken) {
+    public Boolean deleteSingleFcmToken(String fcmToken) {
         deleteFcmTokenPort.deleteSingleFcmTokenByTokenValue(fcmToken);
+
+        return true;
     }
 
     /**
