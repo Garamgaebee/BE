@@ -5,5 +5,5 @@ import java.util.UUID;
 public interface DeleteMemberUseCase {
 
     // 멤버 삭제
-    public void deleteMember(UUID ownerId);
+    public Boolean deleteMember(UUID ownerId);
 }

@@ -126,10 +126,10 @@ public class MemberService implements
      * 회원 삭제
      */
     @Override
-    public void deleteMember(UUID ownerId) {
+    public Boolean deleteMember(UUID ownerId) {
         // delete Member
         deleteMemberPort.deleteMemberByOwner(ownerId);
-
+        return true;
     }
 
     /**
