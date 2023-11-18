@@ -62,8 +62,8 @@ public class NotificationFeignController {
     /**
      * 단일 fcm token 제거
      */
-    @DeleteMapping("/token")
-    public BaseResponse<Boolean> deleteFcmToken(@RequestParam("token") String fcmToken) {
+    @DeleteMapping("/tokens/{token}")
+    public BaseResponse<Boolean> deleteFcmToken(@PathVariable("token") String fcmToken) {
         return new BaseResponse<>(deleteSingleFcmTokenUseCase.deleteSingleFcmToken(fcmToken));
     }
 

@@ -17,7 +17,7 @@ public class FcmTokenEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "member_id")
     private MemberEntity member;
 

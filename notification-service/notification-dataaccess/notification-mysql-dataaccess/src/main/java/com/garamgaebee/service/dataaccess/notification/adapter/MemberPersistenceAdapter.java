@@ -9,6 +9,7 @@ import com.garamgaebee.service.dataaccess.notification.entity.FcmTokenEntity;
 import com.garamgaebee.service.dataaccess.notification.entity.MemberEntity;
 import com.garamgaebee.service.dataaccess.notification.repository.FcmTokenRepository;
 import com.garamgaebee.service.dataaccess.notification.repository.MemberRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -28,16 +29,19 @@ public class MemberPersistenceAdapter implements
     private final FcmTokenRepository fcmTokenRepository;
     private final MemberRepository memberRepository;
 
+    @Transactional
     @Override
     public void deleteFcmTokenListByTokenValue(List<String> tokenList) {
         fcmTokenRepository.deleteAllByFcmTokenValue(tokenList);
     }
 
+    @Transactional
     @Override
     public void deleteSingleFcmTokenByTokenValue(String token) {
         fcmTokenRepository.deleteByFcmToken(token);
     }
 
+    @Transactional
     @Override
     public void deleteMemberByOwner(UUID ownerId) {
         memberRepository.deleteByOwnerId(ownerId);
