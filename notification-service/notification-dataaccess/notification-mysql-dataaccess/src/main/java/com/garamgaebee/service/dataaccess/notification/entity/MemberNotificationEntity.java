@@ -1,5 +1,7 @@
 package com.garamgaebee.service.dataaccess.notification.entity;
 
+import com.garamgaebee.notification.service.domain.entity.MemberNotification;
+import com.garamgaebee.notification.service.domain.entity.Notification;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,37 +15,55 @@ public class MemberNotificationEntity {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "member_id")
+    private MemberEntity member;
+
+    @ManyToOne
     @JoinColumn(name = "notification_id")
     private NotificationEntity notification;
 
-    @ManyToOne
-    @JoinColumn(name = "notification_detail_id")
-    private NotificationDetailEntity notificationDetail;
-
+    @Column(nullable = false)
     private Boolean isRead;
 
     @Builder
-    public MemberNotificationEntity(NotificationEntity notification, NotificationDetailEntity notificationDetail) {
+    public MemberNotificationEntity(MemberEntity member, NotificationEntity notification) {
+        setMember(member);
         setNotification(notification);
-        setNotificationDetail(notificationDetail);
         setIsRead(false);
     }
 
     // 연관관계 메서드
-    public void setNotification(NotificationEntity notificationEntity) {
-        this.notification = notificationEntity;
+    public void setMember(MemberEntity member) {
+        this.member = member;
 
-        if(!notificationEntity.getMemberNotificationEntityList().contains(this)) {
-            notificationEntity.addMemberNotificationEntity(this);
+        if(!member.getMemberNotificationEntityList().contains(this)) {
+            member.addMemberNotificationEntity(this);
         }
     }
 
     // 연관관계 메서드
-    public void setNotificationDetail(NotificationDetailEntity notificationDetailEntity) {
-        this.notificationDetail = notificationDetailEntity;
+    public void setNotification(NotificationEntity notification) {
+        this.notification = notification;
 
-        if(!notificationDetailEntity.getMemberNotificationEntityList().contains(this)) {
-            notificationDetailEntity.addMemberNotification(this);
+        if(!notification.getMemberNotificationEntityList().contains(this)) {
+            notification.addMemberNotification(this);
         }
+    }
+
+    // Domain entity 변환
+    public MemberNotification ofDomainEntity() {
+        return MemberNotification.builder()
+                .id(this.id)
+                .memberId(this.member.getId())
+                .notification(Notification.builder()
+                                .id(this.notification.getId())
+                                .title(this.notification.getTitle())
+                                .body(this.notification.getBody())
+                                .time(this.notification.getTime())
+                                .type(this.notification.getType())
+                                .moveTo(this.notification.getMoveTo())
+                                .build())
+                .isRead(this.isRead)
+                .build();
     }
 }
