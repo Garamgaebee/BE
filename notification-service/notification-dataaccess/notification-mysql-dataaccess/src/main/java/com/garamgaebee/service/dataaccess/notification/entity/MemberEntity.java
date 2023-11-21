@@ -56,6 +56,12 @@ public class MemberEntity {
         fcmToken.setMember(this);
     }
 
+    // fcm Token 삭제
+    public void removeFcmTokenEntity(FcmTokenEntity fcmToken) {
+        fcmTokenEntityList.remove(fcmToken);
+        fcmToken.setMember(null);
+    }
+
     // 연관관계 메서드
     public void addMemberNotificationEntity(MemberNotificationEntity memberNotification) {
         if(!memberNotificationEntityList.contains(memberNotification)) {

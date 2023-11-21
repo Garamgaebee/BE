@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,6 +40,11 @@ public class MemberPersistenceAdapter implements
     @Override
     public void deleteSingleFcmTokenByTokenValue(String token) {
         fcmTokenRepository.deleteByFcmToken(token);
+    }
+
+    @Override
+    public void deleteFcmTokenListBeforeTime(LocalDateTime time) {
+        fcmTokenRepository.deleteAllByTimeBefore(time);
     }
 
     @Transactional
@@ -112,6 +118,13 @@ public class MemberPersistenceAdapter implements
                                 .fcmToken(fcmToken.getFcmToken())
                                 .time(fcmToken.getTime())
                         .build());
+            }
+            else {
+                for(FcmTokenEntity fcmTokenEntity : memberEntity.getFcmTokenEntityList()) {
+                    if(fcmTokenEntity.getId() == fcmToken.getId()) {
+                        fcmTokenEntity.setTime(fcmToken.getTime());
+                    }
+                }
             }
         }
 

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class RegisterMemberCommand {
+public class RefreshFcmTokenCommand {
     private UUID ownerId;
     private String fcmToken;
 }

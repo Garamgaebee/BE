@@ -4,6 +4,7 @@ import com.garamgaebee.common.exception.BaseErrorCode;
 import com.garamgaebee.common.exception.BaseException;
 import com.garamgaebee.notification.service.domain.entity.FcmToken;
 import com.garamgaebee.notification.service.domain.entity.Member;
+import com.garamgaebee.notification.service.domain.port.input.command.RefreshFcmTokenCommand;
 import com.garamgaebee.notification.service.domain.port.input.command.RegisterMemberCommand;
 import com.garamgaebee.notification.service.domain.port.input.response.GetNotificationResponse;
 import com.garamgaebee.notification.service.domain.port.input.*;
@@ -11,6 +12,7 @@ import com.garamgaebee.notification.service.domain.port.output.persistence.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,7 +20,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MemberService implements
         ChangePushSettingUseCase, CreateMemberUseCase, DeleteFcmTokenListUseCase,
-        DeleteMemberUseCase, DeleteSingleFcmTokenUseCase, GetPushSettingUseCase {
+        DeleteMemberUseCase, DeleteSingleFcmTokenUseCase, GetPushSettingUseCase,
+        RefreshFcmTokenUseCase
+{
 
     private final LoadMemberPort loadMemberPort;
     private final SaveMemberPort saveMemberPort;
@@ -104,7 +108,8 @@ public class MemberService implements
 
         // fcm token 추가
         member.addFcmToken(FcmToken.create(
-                registerMemberCommand.getFcmToken(), registerMemberCommand.getFcmTokenTime())
+                registerMemberCommand.getFcmToken(),
+                LocalDateTime.now())
         );
 
         // member fcm token 저장
@@ -158,5 +163,37 @@ public class MemberService implements
                 .hotPosting(member.getPushSetting().getIsPushHotThreadEvent())
                 .posting(member.getPushSetting().getIsPushThreadEvent())
                 .build();
+    }
+
+    /**
+     * FCM Token timestamp 갱신
+     */
+    @Override
+    public Boolean refreshFcmTokenUseCase(RefreshFcmTokenCommand refreshFcmTokenCommand) {
+
+        Member member = loadMemberPort.loadMemberByOwner(refreshFcmTokenCommand.getOwnerId()).orElseThrow(
+                () -> new BaseException(BaseErrorCode.MEMBER_NOT_EXIST)
+        );
+
+        boolean isExistToken = false;
+
+        // 존재하는 토큰이면 갱신
+        for(FcmToken fcmToken : member.getFcmTokenList()) {
+            if(fcmToken.getFcmToken().equals(refreshFcmTokenCommand.getFcmToken())) {
+                fcmToken.renew(LocalDateTime.now());
+                isExistToken = true;
+            }
+        }
+
+        // 존재하지 않는 토큰이면 추가
+        if(!isExistToken) {
+            member.addFcmToken(
+                    FcmToken.create(refreshFcmTokenCommand.getFcmToken(), LocalDateTime.now())
+            );
+        }
+
+        updateMemberStatePort.updateMemberFcmTokens(member);
+
+        return true;
     }
 }
