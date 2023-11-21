@@ -68,6 +68,9 @@ jobs:
   
           sudo docker build -f ./thread-service/thread-container/Dockerfile --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/threadservice --platform linux/amd64 .
           sudo docker push ${{ secrets.DOCKER_USERNAME }}/threadservice
+          
+          sudo docker build -f ./notification-service/notification-container/Dockerfile --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_USERNAME }}/notificationservice --platform linux/amd64 .
+          sudo docker push ${{ secrets.DOCKER_USERNAME }}/notificationservice
 
       ## deploy to develop
       - name: Deploy to dev
@@ -91,6 +94,7 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/memberservice
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/teamservice
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/threadservice
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/notificationservice
             sudo docker pull redis
             sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 9000:9000 ${{ secrets.DOCKER_USERNAME }}/eureka > eureka.out 2>&1 &
             sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/gateway > gateway.out 2>&1 &
@@ -99,4 +103,5 @@ jobs:
             sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 8082:8082 ${{ secrets.DOCKER_USERNAME }}/memberservice > memberservice.out 2>&1 &
             sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 8083:8083 ${{ secrets.DOCKER_USERNAME }}/teamservice  > teamservice.out 2>&1 &
             sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 8084:8084 ${{ secrets.DOCKER_USERNAME }}/threadservice > threadservice.out 2>&1 &
+            sudo nohup docker run --add-host=host.docker.internal:host-gateway -p 8085:8085 ${{ secrets.DOCKER_USERNAME }}/notificationservice > notificationservice.out 2>&1 &
             sudo nohup docker run -d -p 6379:6379 redis > redis.out
